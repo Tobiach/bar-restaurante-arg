@@ -1,11 +1,21 @@
-<div align="center">
+# Isla Bar Cultural 🎭
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Web app oficial de Isla Bar Cultural — Venezuela 3399, Almagro, Buenos Aires.
 
-  <h1>Built with AI Studio</h2>
+## Tecnologías
+- React 18 / Vite
+- Tailwind CSS (Estilizado Premium)
+- Framer Motion (Animaciones)
+- Lucide React (Iconografía)
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Deploy
+- Plataforma: Vercel
+- Repositorio: GitHub (rama main)
+- Deploy automático en cada push.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Estructura de Assets
+- `assets/images/` — Logo, og-image, favicon (Deben subirse aquí para persistencia).
 
-</div>
+## Desarrollo local
+1. `npm install`
+2. `npm run dev`

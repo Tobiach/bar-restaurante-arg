@@ -1,0 +1,8 @@
+{
+  "name": "Isla Bar Cultural",
+  "description": "Bar restaurante con shows en vivo, karaoke, reservas online y sistema de puntos en Almagro, Buenos Aires.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
