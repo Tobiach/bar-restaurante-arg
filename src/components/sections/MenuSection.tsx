@@ -1,10 +1,27 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Plus, Minus, Utensils, X } from 'lucide-react';
+import { Search, Plus, Minus, Utensils, X, ShoppingCart, Salad, Cake, Wine, Beer, Coffee, Cookie, Flame, Star, Leaf, Zap, type LucideIcon } from 'lucide-react';
 import { ISLA_DATA, MenuItem } from '../../constants';
 import { useToast } from '../Toast';
 
 const formatPrice = (price: number) => `$${price.toLocaleString('es-AR')}`;
+
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  ENTRADAS: Salad,
+  PRINCIPALES: Utensils,
+  POSTRES: Cake,
+  TRAGOS: Wine,
+  CERVEZAS: Beer,
+  SIN_ALCOHOL: Coffee,
+  SNACKS: Cookie,
+};
+
+const BADGE_ICONS: Record<string, LucideIcon> = {
+  'MÁS PEDIDO': Flame,
+  'RECOMENDADO': Star,
+  'VEGANO': Leaf,
+  'PICANTE': Zap,
+};
 
 export default function MenuSection() {
   const { showToast } = useToast();
@@ -40,6 +57,8 @@ export default function MenuSection() {
 
   const subtotal = cart.reduce((sum, item) => sum + item.precio, 0);
 
+  const CategoryIcon = CATEGORY_ICONS[activeTab] ?? Utensils;
+
   return (
     <section id="sec-carta" className="py-20 bg-violeta-medio/30">
       <div className="max-w-7xl mx-auto px-4">
@@ -50,15 +69,19 @@ export default function MenuSection() {
 
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar pb-2">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveTab(cat)}
-                className={`flex-shrink-0 px-6 py-2 rounded-full font-display text-sm tracking-widest transition-all ${activeTab === cat ? 'bg-naranja text-white' : 'bg-violeta-card/50 text-blanco-muted hover:text-white'}`}
-              >
-                {cat.replace(/_/g, ' ')}
-              </button>
-            ))}
+            {categories.map(cat => {
+              const CatIcon = CATEGORY_ICONS[cat] ?? Utensils;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveTab(cat)}
+                  className={`flex-shrink-0 flex items-center gap-2 px-6 py-2 rounded-full font-display text-sm tracking-widest transition-all ${activeTab === cat ? 'bg-naranja text-white' : 'bg-violeta-card/50 text-blanco-muted hover:text-white'}`}
+                >
+                  <CatIcon size={14} />
+                  {cat.replace(/_/g, ' ')}
+                </button>
+              );
+            })}
           </div>
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-blanco-muted" size={18} />
@@ -83,7 +106,9 @@ export default function MenuSection() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="card-premium p-6 flex items-start gap-4"
               >
-                <div className="text-4xl">{item.emoji}</div>
+                <div className="text-naranja/70 flex-shrink-0 mt-1">
+                  <CategoryIcon size={32} strokeWidth={1.5} />
+                </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-1">
                     <h3 className="font-titulo text-lg font-bold">{item.nombre}</h3>
@@ -91,11 +116,15 @@ export default function MenuSection() {
                   </div>
                   <p className="text-sm text-blanco-muted mb-3 h-10 overflow-hidden line-clamp-2">{item.descripcion}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {item.badges?.map((b: string) => (
-                      <span key={b} className="text-[10px] uppercase tracking-tighter bg-violeta-medio px-2 py-0.5 rounded text-naranja border border-naranja/20">
-                        {b}
-                      </span>
-                    ))}
+                    {item.badges?.map((b: string) => {
+                      const BadgeIcon = BADGE_ICONS[b] ?? Star;
+                      return (
+                        <span key={b} className="flex items-center gap-1 text-[10px] uppercase tracking-tighter bg-violeta-medio px-2 py-0.5 rounded text-naranja border border-naranja/20">
+                          <BadgeIcon size={10} />
+                          {b}
+                        </span>
+                      );
+                    })}
                   </div>
                   <button onClick={() => addToCart(item)} className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-violeta-medio hover:bg-naranja hover:text-white transition-all text-sm font-bold">
                     <Plus size={16} /> AGREGAR
@@ -144,22 +173,25 @@ export default function MenuSection() {
                 <div className="flex-1 overflow-y-auto p-6 space-y-4">
                   {cart.length === 0 ? (
                     <div className="text-center py-20">
-                      <div className="text-6xl mb-4 opacity-20">🛒</div>
+                      <ShoppingCart size={48} className="mx-auto mb-4 opacity-20" />
                       <p className="text-blanco-muted italic">El carrito está vacío</p>
                     </div>
                   ) : (
-                    cart.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-4 bg-violeta-card p-3 rounded-lg border border-violeta-borde">
-                        <span className="text-2xl">{item.emoji}</span>
-                        <div className="flex-1">
-                          <h4 className="text-sm font-bold">{item.nombre}</h4>
-                          <p className="text-xs text-naranja">{formatPrice(item.precio)}</p>
+                    cart.map((item, idx) => {
+                      const ItemCatIcon = CATEGORY_ICONS[activeTab] ?? Utensils;
+                      return (
+                        <div key={idx} className="flex items-center gap-4 bg-violeta-card p-3 rounded-lg border border-violeta-borde">
+                          <div className="text-naranja/60"><ItemCatIcon size={22} strokeWidth={1.5} /></div>
+                          <div className="flex-1">
+                            <h4 className="text-sm font-bold">{item.nombre}</h4>
+                            <p className="text-xs text-naranja">{formatPrice(item.precio)}</p>
+                          </div>
+                          <button onClick={() => removeFromCart(idx)} className="text-rojo-error opacity-60 hover:opacity-100 p-1">
+                            <Minus size={16} />
+                          </button>
                         </div>
-                        <button onClick={() => removeFromCart(idx)} className="text-rojo-error opacity-60 hover:opacity-100 p-1">
-                          <Minus size={16} />
-                        </button>
-                      </div>
-                    ))
+                      );
+                    })
                   )}
                 </div>
                 <div className="p-6 bg-violeta border-t border-naranja-borde">

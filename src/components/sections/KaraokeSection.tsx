@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mic, Info } from 'lucide-react';
+import { Mic, Info, Music2 } from 'lucide-react';
 import { tenantConfig } from '../../config/tenant.config';
 import { useToast } from '../Toast';
 
@@ -21,7 +21,7 @@ export default function KaraokeSection() {
             <div className="grid grid-cols-2 gap-4 mb-8">
               {karaoke.generos.map(g => (
                 <div key={g} className="flex items-center gap-3 text-sm text-blanco-muted">
-                  <div className="w-1.5 h-1.5 rounded-full bg-naranja"></div> {g}
+                  <Music2 size={12} className="text-naranja flex-shrink-0" /> {g}
                 </div>
               ))}
             </div>

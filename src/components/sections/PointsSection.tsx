@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Award, ChevronRight } from 'lucide-react';
+import { Award, ChevronRight, User, Percent, Ticket, Calendar, Beer } from 'lucide-react';
 import { tenantConfig } from '../../config/tenant.config';
 import { USUARIO_DEMO } from '../../constants';
 
 const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
 const { club } = tenantConfig;
+
+const REWARD_ICONS = [Percent, Ticket, Calendar, Beer];
 
 export default function PointsSection() {
   const [expanded, setExpanded] = useState(false);
@@ -23,7 +25,9 @@ export default function PointsSection() {
             <div className="bg-gradient-to-br from-violeta-card to-violeta-medio p-8 rounded-3xl border border-naranja-borde/20 shadow-2xl relative">
               <Award className="absolute top-8 right-8 text-naranja/20" size={80} />
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 rounded-full bg-naranja flex items-center justify-center text-3xl">👤</div>
+                <div className="w-16 h-16 rounded-full bg-naranja flex items-center justify-center">
+                  <User size={28} strokeWidth={1.5} />
+                </div>
                 <div>
                   <h3 className="text-2xl font-bold">{club.demoUser.nombre}</h3>
                   <div className="flex items-center gap-2">
@@ -82,12 +86,20 @@ export default function PointsSection() {
 
           <div className="space-y-6">
             <h4 className="font-display tracking-[0.2em] text-sm text-naranja uppercase mb-4">¿Cómo canjear?</h4>
-            {club.recompensas.map((p, i) => (
-              <div key={i} className="flex items-center gap-4 bg-violeta-medio/40 p-4 rounded-xl border border-transparent hover:border-naranja/20 transition-all">
-                <div className="p-3 rounded-full bg-naranja/10 text-naranja font-black text-xs min-w-[60px] text-center">{p.pts} pts</div>
-                <div className="text-sm font-bold">{p.gift}</div>
-              </div>
-            ))}
+            {club.recompensas.map((p, i) => {
+              const RewardIcon = REWARD_ICONS[i % REWARD_ICONS.length];
+              return (
+                <div key={i} className="flex items-center gap-4 bg-violeta-medio/40 p-4 rounded-xl border border-transparent hover:border-naranja/20 transition-all">
+                  <div className="p-3 rounded-full bg-naranja/10 text-naranja">
+                    <RewardIcon size={18} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-[10px] text-blanco-muted font-display tracking-widest">{p.pts} pts</div>
+                    <div className="text-sm font-bold">{p.gift}</div>
+                  </div>
+                </div>
+              );
+            })}
             <button
               onClick={() => {
                 const msg = `Hola Isla! Soy ${club.demoUser.nombre} y quiero canjear mis puntos.`;

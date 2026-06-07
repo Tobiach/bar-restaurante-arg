@@ -31,15 +31,15 @@ export const tenantConfig = {
     ],
   },
 
-  // Tema visual
+  // Tema visual — Obsidiana + Ámbar dorado
   tema: {
-    primario: "#2A1559",
-    primarioMedio: "#3D2070",
-    primarioCard: "#4A2880",
-    acento: "#FD5E53",
-    acentoClaro: "#FF8078",
-    acentoOscuro: "#D93F34",
-    dorado: "#FFD166",
+    primario:      "#0D0D0D",
+    primarioMedio: "#1A1A1A",
+    primarioCard:  "#242424",
+    acento:        "#C9973A",
+    acentoClaro:   "#E5B860",
+    acentoOscuro:  "#9E7220",
+    dorado:        "#F0D080",
   },
 
   // Features habilitadas
@@ -55,30 +55,30 @@ export const tenantConfig = {
 
   // Hero
   hero: {
-    tagBadge: "🔥 PRÓXIMO SHOW",
+    tagBadge: "PRÓXIMO SHOW",
     titulo1: "El lugar donde",
     titulo2: "la noche cobra vida",
     subtitulo: "Cocina, tragos, música en vivo y shows únicos en el corazón de Almagro.",
     cta1: "VER CARTA →",
     cta2: "PRÓXIMOS SHOWS",
     stats: [
-      { valor: 3, sufijo: "+", label: "Shows semanales", emoji: "🎶" },
-      { valor: 40, sufijo: "+", label: "Platos únicos", emoji: "🍽️" },
-      { valor: 4, sufijo: ".8", label: "En Google", emoji: "⭐" },
+      { valor: 3, sufijo: "+", label: "Shows semanales", iconName: "Music" },
+      { valor: 40, sufijo: "+", label: "Platos únicos", iconName: "UtensilsCrossed" },
+      { valor: 4, sufijo: ".8", label: "En Google", iconName: "Star" },
     ],
   },
 
-  // Ticker marquee
+  // Ticker marquee — sin emojis
   ticker: [
-    "🍕 Cocina Completa",
-    "🎸 Bandas en Vivo",
-    "🎤 Karaoke",
-    "🎂 Cumpleaños",
-    "🍹 Tragos Únicos",
-    "🎧 DJ Sets",
-    "🎭 Shows Especiales",
-    "🌟 Reservas Online",
-    "🏆 Puntos Club",
+    "COCINA COMPLETA",
+    "BANDAS EN VIVO",
+    "KARAOKE",
+    "CUMPLEAÑOS",
+    "TRAGOS ÚNICOS",
+    "DJ SETS",
+    "SHOWS ESPECIALES",
+    "RESERVAS ONLINE",
+    "PUNTOS CLUB",
   ],
 
   // Club de puntos
@@ -138,11 +138,11 @@ export const tenantConfig = {
     },
   ],
 
-  // Tipos de reserva
+  // Tipos de reserva — iconName para Lucide
   tiposReserva: [
-    { id: "Salida", icon: "🪑", title: "MESA NORMAL", desc: "Para cenar o tomar algo" },
-    { id: "Show", icon: "🎭", title: "NOCHE DE SHOW", desc: "Mesa cerca del escenario" },
-    { id: "Cumpleaños", icon: "🎂", title: "CUMPLEAÑOS", desc: "Paquetes y festejos" },
+    { id: "Salida",    iconName: "Sofa",   title: "MESA NORMAL",   desc: "Para cenar o tomar algo" },
+    { id: "Show",      iconName: "Music2", title: "NOCHE DE SHOW", desc: "Mesa cerca del escenario" },
+    { id: "Cumpleaños",iconName: "Gift",   title: "CUMPLEAÑOS",    desc: "Paquetes y festejos" },
   ],
 
   // Horarios disponibles en stepper
@@ -150,7 +150,7 @@ export const tenantConfig = {
 
   // Mensaje de escasez en reservas
   reservas: {
-    mensajeEscasez: "Solo 4 mesas disponibles para este sábado. ⚡",
+    mensajeEscasez: "Solo 4 mesas disponibles para este sábado.",
   },
 
   // Karaoke

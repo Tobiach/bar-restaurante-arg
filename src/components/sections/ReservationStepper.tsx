@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, ChevronRight, MessageCircle, Minus, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MessageCircle, Minus, Plus, Sofa, Music2, Gift, Theater, type LucideIcon } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { tenantConfig } from '../../config/tenant.config';
 import { reservationStore } from '../../store/reservationStore';
@@ -8,6 +8,13 @@ import { useToast } from '../Toast';
 
 const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
 const monthNames = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+
+const TIPO_ICONS: Record<string, LucideIcon> = {
+  Sofa,
+  Music2,
+  Gift,
+  Theater,
+};
 
 export default function ReservationStepper() {
   const { showToast } = useToast();
@@ -57,7 +64,6 @@ export default function ReservationStepper() {
   const submitReservation = () => {
     if (!formData.nombre || !formData.tel) return showToast("Faltan tus datos de contacto", "aviso");
 
-    // Save to sessionStorage for AdminPanel
     const reserva = {
       id: Date.now(),
       fecha: formData.fecha,
@@ -90,7 +96,7 @@ ${formData.obs ? `Observaciones: ${formData.obs}` : ''}
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#FD5E53', '#FFD166', '#F5F0FF'],
+      colors: ['#C9973A', '#F0D080', '#F5F0E8'],
     });
   };
 
@@ -113,26 +119,31 @@ ${formData.obs ? `Observaciones: ${formData.obs}` : ''}
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} key="step1" className="space-y-6">
                 <h3 className="text-xl font-bold text-center mb-8">Paso 1: ¿Para qué querés venir?</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {tenantConfig.tiposReserva.map(tipo => (
-                    <button
-                      key={tipo.id}
-                      onClick={() => setFormData({ ...formData, tipo: tipo.id })}
-                      className={`p-6 rounded-xl border-2 transition-all flex flex-col items-center gap-2 text-center ${formData.tipo === tipo.id ? 'bg-naranja/10 border-naranja' : 'bg-violeta border-transparent border-t-violeta-borde hover:border-naranja-borde'}`}
-                    >
-                      <span className="text-4xl mb-2">{tipo.icon}</span>
-                      <span className="font-display font-bold tracking-widest">{tipo.title}</span>
-                      <span className="text-[10px] text-blanco-muted uppercase">{tipo.desc}</span>
-                    </button>
-                  ))}
+                  {tenantConfig.tiposReserva.map(tipo => {
+                    const Icon = TIPO_ICONS[tipo.iconName] ?? Sofa;
+                    return (
+                      <button
+                        key={tipo.id}
+                        onClick={() => setFormData({ ...formData, tipo: tipo.id })}
+                        className={`p-6 rounded-xl border-2 transition-all flex flex-col items-center gap-2 text-center ${formData.tipo === tipo.id ? 'bg-naranja/10 border-naranja' : 'bg-violeta border-transparent border-t-violeta-borde hover:border-naranja-borde'}`}
+                      >
+                        <div className="mb-2 text-naranja"><Icon size={36} strokeWidth={1.5} /></div>
+                        <span className="font-display font-bold tracking-widest">{tipo.title}</span>
+                        <span className="text-[10px] text-blanco-muted uppercase">{tipo.desc}</span>
+                      </button>
+                    );
+                  })}
                 </div>
                 {formData.showNombre && (
-                  <div className="bg-naranja/10 border border-naranja/30 rounded-xl p-3 text-sm text-center">
-                    🎭 Pre-seleccionado: <strong>{formData.showNombre}</strong>
+                  <div className="bg-naranja/10 border border-naranja/30 rounded-xl p-3 text-sm text-center flex items-center justify-center gap-2">
+                    <Theater size={16} className="text-naranja flex-shrink-0" />
+                    Pre-seleccionado: <strong>{formData.showNombre}</strong>
                   </div>
                 )}
                 {formData.pack && (
-                  <div className="bg-naranja/10 border border-naranja/30 rounded-xl p-3 text-sm text-center">
-                    🎂 Pack seleccionado: <strong>{formData.pack}</strong>
+                  <div className="bg-naranja/10 border border-naranja/30 rounded-xl p-3 text-sm text-center flex items-center justify-center gap-2">
+                    <Gift size={16} className="text-naranja flex-shrink-0" />
+                    Pack seleccionado: <strong>{formData.pack}</strong>
                   </div>
                 )}
                 <button onClick={nextStep} className="btn-primary w-full py-4 text-lg">CONTINUAR →</button>
@@ -159,26 +170,38 @@ ${formData.obs ? `Observaciones: ${formData.obs}` : ''}
                       {['D', 'L', 'M', 'M', 'J', 'V', 'S'].map((d, i) => (
                         <div key={i} className="text-[10px] text-blanco-muted py-2">{d}</div>
                       ))}
-                      {Array.from({ length: 28 }).map((_, i) => {
-                        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i + 1);
-                        const isOpen = openDays.includes(date.getDay());
-                        const dateStr = date.toLocaleDateString();
-                        const isSelected = formData.fecha === dateStr;
-                        const isPast = date < new Date(new Date().setHours(0, 0, 0, 0));
-                        return (
-                          <button
-                            key={i}
-                            disabled={!isOpen || isPast}
-                            onClick={() => setFormData({ ...formData, fecha: dateStr })}
-                            className={`p-2 rounded-lg text-sm font-bold transition-all relative ${(!isOpen || isPast) ? 'opacity-10 cursor-not-allowed' : 'hover:bg-naranja/20'} ${isSelected ? 'bg-naranja text-white shadow-lg shadow-naranja/40' : ''}`}
-                          >
-                            {date.getDate()}
-                            {date.getDay() === 6 && isOpen && !isPast && (
-                              <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-naranja rounded-full"></div>
-                            )}
-                          </button>
-                        );
-                      })}
+                      {(() => {
+                        const year = currentMonth.getFullYear();
+                        const month = currentMonth.getMonth();
+                        const daysInMonth = new Date(year, month + 1, 0).getDate();
+                        const firstDayOfMonth = new Date(year, month, 1).getDay();
+                        const today = new Date(new Date().setHours(0, 0, 0, 0));
+                        const cells = [];
+                        for (let i = 0; i < firstDayOfMonth; i++) {
+                          cells.push(<div key={`empty-${i}`} />);
+                        }
+                        for (let d = 1; d <= daysInMonth; d++) {
+                          const date = new Date(year, month, d);
+                          const isOpen = openDays.includes(date.getDay());
+                          const dateStr = date.toLocaleDateString();
+                          const isSelected = formData.fecha === dateStr;
+                          const isPast = date < today;
+                          cells.push(
+                            <button
+                              key={d}
+                              disabled={!isOpen || isPast}
+                              onClick={() => setFormData({ ...formData, fecha: dateStr })}
+                              className={`p-2 rounded-lg text-sm font-bold transition-all relative ${(!isOpen || isPast) ? 'opacity-10 cursor-not-allowed' : 'hover:bg-naranja/20'} ${isSelected ? 'bg-naranja text-white shadow-lg shadow-naranja/40' : ''}`}
+                            >
+                              {d}
+                              {date.getDay() === 6 && isOpen && !isPast && (
+                                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-naranja rounded-full" />
+                              )}
+                            </button>
+                          );
+                        }
+                        return cells;
+                      })()}
                     </div>
                   </div>
 

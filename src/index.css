@@ -1,62 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-titulo: 'Playfair Display', serif;
-  --font-display: 'Barlow Condensed', sans-serif;
+  --font-titulo: 'Inter', sans-serif;
+  --font-display: 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
 
-  --color-violeta: #2A1559;
-  --color-violeta-medio: #3D2070;
-  --color-violeta-card: #4A2880;
-  --color-violeta-borde: rgba(253, 94, 83, 0.25);
-  --color-naranja: #FD5E53;
-  --color-naranja-claro: #FF8078;
-  --color-naranja-oscuro: #D93F34;
-  --color-naranja-glow: rgba(253, 94, 83, 0.22);
-  --color-naranja-borde: rgba(253, 94, 83, 0.40);
-  --color-blanco-suave: #F5F0FF;
-  --color-blanco-muted: #B8A8D0;
-  --color-dorado: #FFD166;
-  --color-dorado-glow: rgba(255, 209, 102, 0.20);
-  --color-verde-ok: #06D6A0;
-  --color-rojo-error: #EF4444;
-  --color-amarillo-alerta: #FFD166;
+  --color-violeta:         #0D0D0D;
+  --color-violeta-medio:   #1A1A1A;
+  --color-violeta-card:    #242424;
+  --color-violeta-borde:   rgba(201, 151, 58, 0.25);
+  --color-naranja:         #C9973A;
+  --color-naranja-claro:   #E5B860;
+  --color-naranja-oscuro:  #9E7220;
+  --color-naranja-glow:    rgba(201, 151, 58, 0.22);
+  --color-naranja-borde:   rgba(201, 151, 58, 0.40);
+  --color-blanco-suave:    #F5F0E8;
+  --color-blanco-muted:    #A89880;
+  --color-dorado:          #F0D080;
+  --color-dorado-glow:     rgba(240, 208, 128, 0.20);
+  --color-verde-ok:        #4CAF88;
+  --color-rojo-error:      #EF4444;
+  --color-amarillo-alerta: #F0D080;
 }
 
 @layer base {
   :root {
-    --violeta: #2A1559;
-    --violeta-medio: #3D2070;
-    --violeta-card: #4A2880;
-    --violeta-borde: rgba(253, 94, 83, 0.25);
-    
-    --naranja: #FD5E53;
-    --naranja-claro: #FF8078;
-    --naranja-oscuro: #D93F34;
-    --naranja-glow: rgba(253, 94, 83, 0.22);
-    --naranja-borde: rgba(253, 94, 83, 0.40);
-    
-    --blanco: #FFFFFF;
-    --blanco-suave: #F5F0FF;
-    --blanco-muted: #B8A8D0;
-    
-    --dorado: #FFD166;
-    --dorado-glow: rgba(255, 209, 102, 0.20);
-    
-    --verde-ok: #06D6A0;
-    --rojo-error: #EF4444;
-    --amarillo-alerta: #FFD166;
+    --violeta:         #0D0D0D;
+    --violeta-medio:   #1A1A1A;
+    --violeta-card:    #242424;
+    --violeta-borde:   rgba(201, 151, 58, 0.25);
+
+    --naranja:         #C9973A;
+    --naranja-claro:   #E5B860;
+    --naranja-oscuro:  #9E7220;
+    --naranja-glow:    rgba(201, 151, 58, 0.22);
+    --naranja-borde:   rgba(201, 151, 58, 0.40);
+
+    --blanco:          #FFFFFF;
+    --blanco-suave:    #F5F0E8;
+    --blanco-muted:    #A89880;
+
+    --dorado:          #F0D080;
+    --dorado-glow:     rgba(240, 208, 128, 0.20);
+
+    --verde-ok:        #4CAF88;
+    --rojo-error:      #EF4444;
+    --amarillo-alerta: #F0D080;
   }
 
   body {
     @apply bg-violeta text-white font-body antialiased selection:bg-naranja/30;
-    background-image: radial-gradient(circle, rgba(253, 94, 83, 0.08) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(201, 151, 58, 0.06) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-titulo;
+    letter-spacing: -0.025em;
   }
 
   /* Custom scrollbar */
@@ -79,11 +79,11 @@
   .section-header {
     @apply border-l-4 border-naranja pl-4 mb-8;
   }
-  
+
   .card-premium {
     @apply bg-violeta-card border border-violeta-borde rounded-xl transition-all duration-300;
   }
-  
+
   .card-premium:hover {
     @apply -translate-y-1 border-naranja-borde shadow-[0_12px_40px_var(--naranja-glow)];
   }
@@ -108,6 +108,12 @@
   100% { transform: translateX(-50%); }
 }
 
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
 .shimmer-hover:hover {
   background: linear-gradient(90deg, var(--naranja), var(--naranja-claro), var(--naranja));
   background-size: 200% auto;
@@ -122,6 +128,5 @@
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 .watermark {
-  @apply fixed pointer-events-none select-none opacity-[0.03] font-titulo font-black text-[20vw] z-0 flex items-center justify-center inset-0 leading-none;
+  @apply fixed pointer-events-none select-none opacity-[0.05] font-titulo font-black text-[20vw] z-0 flex items-center justify-center inset-0 leading-none;
 }
-

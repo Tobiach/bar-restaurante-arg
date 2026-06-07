@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Clock } from 'lucide-react';
+import { Clock, UtensilsCrossed, Music, Mic, Cake, GlassWater, Disc3, Music2, Calendar, Trophy, type LucideIcon } from 'lucide-react';
 import { tenantConfig } from './config/tenant.config';
 import { ToastProvider } from './components/Toast';
 import StatusIndicator from './components/ui/StatusIndicator';
@@ -27,6 +27,10 @@ const IconWA = () => (
   </svg>
 );
 
+const TICKER_ICONS: LucideIcon[] = [
+  UtensilsCrossed, Music, Mic, Cake, GlassWater, Disc3, Music2, Calendar, Trophy,
+];
+
 export default function App() {
   return (
     <ToastProvider>
@@ -53,9 +57,15 @@ export default function App() {
           {/* Ticker marquee */}
           <div className="bg-naranja py-4 overflow-hidden relative border-y border-naranja-oscuro/20">
             <div className="flex gap-12 whitespace-nowrap animate-marquee px-4">
-              {[...tenantConfig.ticker, ...tenantConfig.ticker].map((text, i) => (
-                <span key={i} className="text-white font-display font-black tracking-widest text-sm italic">{text.toUpperCase()}</span>
-              ))}
+              {[...tenantConfig.ticker, ...tenantConfig.ticker].map((text, i) => {
+                const Icon = TICKER_ICONS[i % TICKER_ICONS.length];
+                return (
+                  <span key={i} className="flex items-center gap-3 text-white font-display font-black tracking-widest text-sm italic">
+                    <Icon size={16} className="opacity-80 flex-shrink-0" />
+                    {text}
+                  </span>
+                );
+              })}
             </div>
           </div>
 

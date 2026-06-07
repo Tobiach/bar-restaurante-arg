@@ -12,15 +12,14 @@ export default function ContactSection() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="card-premium h-[400px] relative overflow-hidden flex flex-col">
-            <div className="flex-1 bg-violeta-medio flex items-center justify-center p-8 text-center bg-[radial-gradient(var(--naranja-glow)_1px,transparent_1px)] bg-[size:20px_20px]">
-              <div className="relative">
-                <div className="w-12 h-12 bg-naranja rounded-full flex items-center justify-center animate-ping absolute -top-4 -left-4 opacity-40"></div>
-                <div className="w-4 h-4 bg-naranja rounded-full relative z-10 border-2 border-white"></div>
-                <div className="mt-8">
-                  <h3 className="text-2xl font-bold mb-2">{tenantConfig.direccion.split(',')[0]}</h3>
-                  <p className="text-blanco-muted">{tenantConfig.direccion.split(',').slice(1).join(',').trim()}</p>
-                </div>
-              </div>
+            <div className="flex-1 relative overflow-hidden rounded-t-xl">
+              <iframe
+                src={`https://maps.google.com/maps?q=${tenantConfig.googleMapsQuery}&output=embed`}
+                className="w-full h-full border-0"
+                loading="lazy"
+                allowFullScreen
+                title="Ubicación"
+              />
             </div>
             <a
               href={`https://maps.google.com/?q=${tenantConfig.googleMapsQuery}`}

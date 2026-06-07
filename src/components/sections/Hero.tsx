@@ -1,7 +1,14 @@
 import { motion } from 'motion/react';
+import { Music, UtensilsCrossed, Star, Zap, type LucideIcon } from 'lucide-react';
 import { tenantConfig } from '../../config/tenant.config';
 import { SHOWS } from '../../constants';
 import CountUp from '../ui/CountUp';
+
+const STAT_ICONS: Record<string, LucideIcon> = {
+  Music,
+  UtensilsCrossed,
+  Star,
+};
 
 export default function Hero() {
   const mainShow = SHOWS[0];
@@ -32,10 +39,11 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
         >
-          <div className="inline-block px-4 py-1 rounded-full border border-naranja/40 bg-naranja/10 text-naranja font-display text-xs tracking-widest mb-6 uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-naranja/40 bg-naranja/10 text-naranja font-display text-xs tracking-widest mb-6 uppercase">
+            <Zap size={12} fill="currentColor" />
             {tenantConfig.hero.tagBadge}: {mainShow.nombre}
           </div>
-          <h1 className="text-5xl md:text-8xl font-black leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-8xl font-black leading-[1.05] mb-6" style={{ letterSpacing: '-0.03em' }}>
             {tenantConfig.hero.titulo1} <br />
             <span className="text-naranja italic">{tenantConfig.hero.titulo2}</span>
           </h1>
@@ -47,14 +55,18 @@ export default function Hero() {
             <a href="#sec-shows" className="btn-secondary text-center">{tenantConfig.hero.cta2}</a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-8 border-t border-violeta-borde">
-            {tenantConfig.hero.stats.map((stat, i) => (
-              <div key={i} className={i === 2 ? 'hidden sm:block' : ''}>
-                <div className="text-naranja font-display text-2xl font-bold mb-1">
-                  {stat.emoji} <CountUp end={stat.valor} suffix={stat.sufijo} />
+            {tenantConfig.hero.stats.map((stat, i) => {
+              const Icon = STAT_ICONS[stat.iconName] ?? Star;
+              return (
+                <div key={i} className={i === 2 ? 'hidden sm:block' : ''}>
+                  <div className="text-naranja font-display text-2xl font-bold mb-1 flex items-center gap-2">
+                    <Icon size={22} className="text-naranja" />
+                    <CountUp end={stat.valor} suffix={stat.sufijo} />
+                  </div>
+                  <div className="text-xs text-blanco-muted uppercase tracking-widest">{stat.label}</div>
                 </div>
-                <div className="text-xs text-blanco-muted uppercase tracking-widest">{stat.label}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
       </div>

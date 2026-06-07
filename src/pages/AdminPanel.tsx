@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, Check, Clock, Trash2, Users, Calendar } from 'lucide-react';
+import { X, Check, Clock, Trash2, Users, Calendar, XCircle, CheckCircle } from 'lucide-react';
 import { tenantConfig } from '../config/tenant.config';
 
 type ReservaEstado = 'pendiente' | 'confirmada' | 'cancelada';
@@ -23,10 +23,16 @@ const estadoStyles: Record<ReservaEstado, string> = {
   cancelada: 'bg-rojo-error/10 text-rojo-error border-rojo-error/30',
 };
 
-const estadoLabel: Record<ReservaEstado, string> = {
-  pendiente: '⏳ Pendiente',
-  confirmada: '✅ Confirmada',
-  cancelada: '❌ Cancelada',
+const EstadoIcon = ({ estado }: { estado: ReservaEstado }) => {
+  if (estado === 'pendiente') return <Clock size={12} />;
+  if (estado === 'confirmada') return <CheckCircle size={12} />;
+  return <XCircle size={12} />;
+};
+
+const ESTADO_LABELS: Record<ReservaEstado, string> = {
+  pendiente: 'PENDIENTE',
+  confirmada: 'CONFIRMADA',
+  cancelada: 'CANCELADA',
 };
 
 export default function AdminPanel() {
@@ -240,18 +246,20 @@ export default function AdminPanel() {
                     </div>
 
                     {/* Estado toggle */}
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5 flex-shrink-0">
                       {(['pendiente', 'confirmada', 'cancelada'] as ReservaEstado[]).map(estado => (
                         <button
                           key={estado}
                           onClick={() => updateEstado(r.id, estado)}
-                          className={`px-3 py-1.5 rounded-lg border text-[10px] font-display font-black tracking-widest uppercase transition-all ${
+                          title={ESTADO_LABELS[estado]}
+                          className={`flex items-center gap-1 px-2 py-1.5 sm:px-3 rounded-lg border text-[10px] font-display font-black tracking-widest uppercase transition-all ${
                             r.estado === estado
                               ? estadoStyles[estado]
                               : 'bg-transparent border-violeta-borde text-blanco-muted/40 hover:border-blanco-muted/20 hover:text-blanco-muted/60'
                           }`}
                         >
-                          {estado === 'pendiente' ? '⏳' : estado === 'confirmada' ? '✅' : '❌'}
+                          <EstadoIcon estado={estado} />
+                          <span className="hidden sm:inline">{ESTADO_LABELS[estado]}</span>
                         </button>
                       ))}
                     </div>
@@ -275,8 +283,9 @@ export default function AdminPanel() {
                   <span className="text-naranja font-display font-black w-16">{r.hora}</span>
                   <span className="text-blanco-muted w-24 uppercase text-[10px] tracking-widest">{r.tipo}</span>
                   <span className="font-bold flex-1">{r.nombre}</span>
-                  <span className={`px-2 py-0.5 rounded border text-[10px] font-display font-black tracking-widest uppercase ${estadoStyles[r.estado]}`}>
-                    {estadoLabel[r.estado]}
+                  <span className={`flex items-center gap-1.5 px-2 py-0.5 rounded border text-[10px] font-display font-black tracking-widest uppercase flex-shrink-0 ${estadoStyles[r.estado]}`}>
+                    <EstadoIcon estado={r.estado} />
+                    <span className="hidden xs:inline">{ESTADO_LABELS[r.estado]}</span>
                   </span>
                 </div>
               ))}
