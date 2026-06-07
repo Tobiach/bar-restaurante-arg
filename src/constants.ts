@@ -28,18 +28,8 @@ export interface Show {
   imagen?: string;
 }
 
+// Menu data — content stays in constants, identity/theme goes to tenant.config.ts
 export const ISLA_DATA = {
-  nombre: "Isla Bar Cultural",
-  logo: "https://lh3.googleusercontent.com/d/1lnU5jbBog4lqleTtxfAL_mQepyhORyDE",
-  direccion: "Venezuela 3399, Almagro, Buenos Aires",
-  telefono: "+54 9 11 6789-0123",
-  instagram: "@islabarcultural",
-  whatsapp: "+54 9 11 6789-0123",
-  horarios: {
-    miercolesViernes: { abre: "20:00", cierra: "02:00" },
-    sabado: { abre: "19:00", cierra: "04:00" },
-    domingo: { abre: "19:00", cierra: "01:00" }
-  },
   menu: {
     ENTRADAS: [
       { id: "e1", nombre: "Tabla de quesos y fiambres (para 2)", precio: 3800, emoji: "🧀", descripcion: "Variedad premium", badges: ["⭐ Recomendado"] },
@@ -102,64 +92,78 @@ export const getNextDay = (dayIndex: number) => {
 
 export const SHOWS: Show[] = [
   {
-    id: "sh1", 
-    nombre: "La venganza de la guitarra acústica", 
-    genero: "Acústico / Música en vivo", 
-    fecha: getNextDay(4), 
-    horario: "21:00", 
-    entrada: 3500, 
+    id: "sh1",
+    nombre: "La venganza de la guitarra acústica",
+    genero: "Acústico / Música en vivo",
+    fecha: getNextDay(4),
+    horario: "21:00",
+    entrada: 3500,
     lugaresDisponibles: 15,
-    descripcion: "~TONGA por 1ra vez (@tongaislade) | ~LUIS ABRAHAM por 1ra vez (@luisabrahamvill) | ~NACHO FUNES por 3ra vez (@nus_tremendu @funes.el.memorioso). 21 hs Puntual.", 
-    badge: ShowBadge.DISPONIBLE, 
+    descripcion: "~TONGA por 1ra vez (@tongaislade) | ~LUIS ABRAHAM por 1ra vez (@luisabrahamvill) | ~NACHO FUNES por 3ra vez (@nus_tremendu @funes.el.memorioso). 21 hs Puntual.",
+    badge: ShowBadge.DISPONIBLE,
     emoji: "🎸",
     imagen: "https://lh3.googleusercontent.com/d/1OsM3C44jQLoTxQKLHvsdcQRm75KGiORx"
   },
   {
-    id: "sh2", 
-    nombre: "Amigos de la casa!", 
-    genero: "Varieté / DJ Set", 
-    fecha: new Date(2026, 4, 17), 
-    horario: "20:00", 
-    entrada: 4500, 
+    id: "sh2",
+    nombre: "Amigos de la casa!",
+    genero: "Varieté / DJ Set",
+    fecha: new Date(2026, 4, 17),
+    horario: "20:00",
+    entrada: 4500,
     lugaresDisponibles: 20,
-    descripcion: "Domingo 17/5. ~ GUS FERNANDEZ (@gusfernandez_ok) | ~ MASFE (@soymasfe) | ~ FER HENRY (UY) (@fer.henry.veins) | 👑 TAROT (@zoelirios). Birra, tragos, comida casera y platos calentitos para el frio!", 
-    badge: ShowBadge.DISPONIBLE, 
+    descripcion: "Domingo 17/5. ~ GUS FERNANDEZ (@gusfernandez_ok) | ~ MASFE (@soymasfe) | ~ FER HENRY (UY) (@fer.henry.veins) | 👑 TAROT (@zoelirios). Birra, tragos, comida casera y platos calentitos para el frio!",
+    badge: ShowBadge.DISPONIBLE,
     emoji: "🎧",
     imagen: "https://lh3.googleusercontent.com/d/1zN8BwEHvoG2-EWOEZ4lM2cOYG_4JJHw3"
   },
   {
-    id: "sh3", 
-    nombre: "Tango en vivo", 
-    genero: "Tango", 
-    fecha: getNextDay(6), 
-    horario: "21:00", 
-    entrada: 4200, 
+    id: "sh3",
+    nombre: "Tango en vivo",
+    genero: "Tango",
+    fecha: getNextDay(6),
+    horario: "21:00",
+    entrada: 4200,
     lugaresDisponibles: 0,
-    descripcion: "Coordina Cecilia Carballo (@la_campesina_carballo). Pareja de bailarines profesionales + bandoneón. Birra, tragos, comida casera y platos calentitos.", 
-    badge: ShowBadge.LLENO, 
+    descripcion: "Coordina Cecilia Carballo (@la_campesina_carballo). Pareja de bailarines profesionales + bandoneón. Birra, tragos, comida casera y platos calentitos.",
+    badge: ShowBadge.LLENO,
     emoji: "💃",
     imagen: "https://images.unsplash.com/photo-1516939884455-1445c8652f83?auto=format&fit=crop&q=80&w=800"
   },
   {
-    id: "sh4", 
-    nombre: "La Bicicleta con Alas", 
-    genero: "Poesía + Música", 
-    fecha: new Date(2026, 4, 15), 
-    horario: "20:00", 
-    entrada: 3000, 
+    id: "sh4",
+    nombre: "La Bicicleta con Alas",
+    genero: "Poesía + Música",
+    fecha: new Date(2026, 4, 15),
+    horario: "20:00",
+    entrada: 3000,
     lugaresDisponibles: 0,
-    descripcion: "2da Edición 📖 Viernes 15 de Mayo. Poesía + Música. Una noche mágica que ya es parte de nuestra historia. A partir de las 20 hs.", 
-    badge: ShowBadge.LLENO, 
+    descripcion: "2da Edición 📖 Viernes 15 de Mayo. Poesía + Música. Una noche mágica que ya es parte de nuestra historia. A partir de las 20 hs.",
+    badge: ShowBadge.LLENO,
     emoji: "📖",
     imagen: "https://lh3.googleusercontent.com/d/1g-T-9rd6lmVqoFhDuYRNZ1KWX4CHA-F0"
   },
   {
-    id: "sh5", nombre: "Martina V. Acoustic", genero: "Folk / Pop Acústico", fecha: new Date(getNextDay(3).getTime() + 7 * 24 * 60 * 60 * 1000), horario: "21:30", entrada: 2500, lugaresDisponibles: 12,
-    descripcion: "Una voz y una guitarra que llenan el alma. Noche íntima y especial.", badge: ShowBadge.DISPONIBLE
+    id: "sh5",
+    nombre: "Martina V. Acoustic",
+    genero: "Folk / Pop Acústico",
+    fecha: new Date(getNextDay(3).getTime() + 7 * 24 * 60 * 60 * 1000),
+    horario: "21:30",
+    entrada: 2500,
+    lugaresDisponibles: 12,
+    descripcion: "Una voz y una guitarra que llenan el alma. Noche íntima y especial.",
+    badge: ShowBadge.DISPONIBLE
   },
   {
-    id: "sh6", nombre: "Noche de Stand-Up", genero: "Humor / Stand-Up", fecha: new Date(getNextDay(4).getTime() + 7 * 24 * 60 * 60 * 1000), horario: "22:00", entrada: 4000, lugaresDisponibles: 8,
-    descripcion: "3 comediantes, 90 minutos de risa garantizada. Consumición incluida.", badge: ShowBadge.ULTIMOS_LUGARES
+    id: "sh6",
+    nombre: "Noche de Stand-Up",
+    genero: "Humor / Stand-Up",
+    fecha: new Date(getNextDay(4).getTime() + 7 * 24 * 60 * 60 * 1000),
+    horario: "22:00",
+    entrada: 4000,
+    lugaresDisponibles: 8,
+    descripcion: "3 comediantes, 90 minutos de risa garantizada. Consumición incluida.",
+    badge: ShowBadge.ULTIMOS_LUGARES
   }
 ];
 

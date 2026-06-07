@@ -103,11 +103,23 @@
   100% { background-position: 0% 50%; }
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .shimmer-hover:hover {
   background: linear-gradient(90deg, var(--naranja), var(--naranja-claro), var(--naranja));
   background-size: 200% auto;
   animation: shimmer 2s linear infinite;
 }
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 .watermark {
   @apply fixed pointer-events-none select-none opacity-[0.03] font-titulo font-black text-[20vw] z-0 flex items-center justify-center inset-0 leading-none;
