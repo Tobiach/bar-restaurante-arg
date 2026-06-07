@@ -50,8 +50,6 @@ export default function ShowSection() {
                     alt={show.nombre}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                ) : show.emoji ? (
-                  <div className="text-6xl group-hover:scale-110 transition-transform duration-500">{show.emoji}</div>
                 ) : (
                   <Music size={48} className="text-naranja/40 group-hover:scale-110 transition-transform duration-500" />
                 )}

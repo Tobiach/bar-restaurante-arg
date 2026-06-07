@@ -20,7 +20,7 @@ export default function ReviewSection() {
           <div className="flex items-center justify-center gap-1 text-dorado mb-2">
             {[1, 2, 3, 4, 5].map(s => <Star key={s} fill="#FFD166" size={20} />)}
           </div>
-          <p className="text-blanco-muted font-display tracking-widest uppercase text-xs">⭐ 4.8 / 5 — Basado en 243 opiniones reales</p>
+          <p className="text-blanco-muted font-display tracking-widest uppercase text-xs">4.8 / 5 — Basado en 243 opiniones reales</p>
         </div>
 
         <div className="relative mb-12">

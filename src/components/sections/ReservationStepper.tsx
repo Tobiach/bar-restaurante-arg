@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, MessageCircle, Minus, Plus, Sofa, Music2, Gi
 import confetti from 'canvas-confetti';
 import { tenantConfig } from '../../config/tenant.config';
 import { reservationStore } from '../../store/reservationStore';
+import { supabase } from '../../lib/supabase';
 import { useToast } from '../Toast';
 
 const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
@@ -80,6 +81,22 @@ export default function ReservationStepper() {
       reservas.push(reserva);
       sessionStorage.setItem('panel-reservas', JSON.stringify(reservas));
     } catch { /* silently ignore */ }
+
+    if (import.meta.env.VITE_SUPABASE_URL) {
+      supabase.from('reservas').insert({
+        fecha: formData.fecha,
+        hora: formData.hora,
+        tipo: formData.tipo,
+        nombre: formData.nombre,
+        telefono: formData.tel,
+        personas: formData.personas,
+        observaciones: formData.obs || null,
+        show_nombre: formData.showNombre || null,
+        pack: formData.pack || null,
+        estado: 'pendiente',
+        tenant: tenantConfig.nombre,
+      }).then(() => {});
+    }
 
     const message = `Hola Isla Bar! Quiero reservar:
 Tipo: ${formData.tipo}${formData.showNombre ? ` — ${formData.showNombre}` : ''}${formData.pack ? ` — Pack ${formData.pack}` : ''}

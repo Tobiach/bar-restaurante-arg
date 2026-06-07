@@ -31,7 +31,7 @@ export default function Hero() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10 w-full animate-on-scroll">
+      <div className="max-w-7xl mx-auto px-4 relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

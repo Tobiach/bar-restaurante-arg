@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, Check, Clock, Trash2, Users, Calendar, XCircle, CheckCircle } from 'lucide-react';
 import { tenantConfig } from '../config/tenant.config';
+import { supabase } from '../lib/supabase';
 
 type ReservaEstado = 'pendiente' | 'confirmada' | 'cancelada';
 
@@ -57,17 +58,28 @@ export default function AdminPanel() {
     }
   };
 
-  const loadReservas = () => {
+  const loadReservas = async () => {
+    if (import.meta.env.VITE_SUPABASE_URL) {
+      const { data } = await supabase
+        .from('reservas')
+        .select('*')
+        .order('hora', { ascending: true });
+      if (data) { setReservas(data); return; }
+    }
     try {
       const raw = sessionStorage.getItem('panel-reservas');
       setReservas(raw ? JSON.parse(raw) : []);
     } catch { setReservas([]); }
   };
 
-  const updateEstado = (id: number, estado: ReservaEstado) => {
+  const updateEstado = async (id: number, estado: ReservaEstado) => {
     const updated = reservas.map(r => r.id === id ? { ...r, estado } : r);
     setReservas(updated);
-    sessionStorage.setItem('panel-reservas', JSON.stringify(updated));
+    if (import.meta.env.VITE_SUPABASE_URL) {
+      await supabase.from('reservas').update({ estado }).eq('id', id);
+    } else {
+      sessionStorage.setItem('panel-reservas', JSON.stringify(updated));
+    }
   };
 
   const clearDay = () => {
