@@ -4,6 +4,8 @@ import { Mic, Info, Music2 } from 'lucide-react';
 import { tenantConfig } from '../../config/tenant.config';
 import { useToast } from '../Toast';
 
+const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
+
 export default function KaraokeSection() {
   const { showToast } = useToast();
   const [name, setName] = useState('');
@@ -66,7 +68,9 @@ export default function KaraokeSection() {
               <button
                 onClick={() => {
                   if (!name || !song) return showToast("Completá tu nombre y canción", "aviso");
-                  showToast("¡Agendado! Nos vemos el miércoles.", "exito");
+                  const msg = `Hola! Me anoto para el Karaoke:\nNombre: ${name}\nCanción: ${song}\n¡Nos vemos!`;
+                  window.open(`${WA_URL}?text=${encodeURIComponent(msg)}`, '_blank');
+                  showToast("¡Agendado! Te esperamos.", "exito");
                   setName(''); setSong('');
                 }}
                 className="btn-primary w-full py-4 shimmer-hover"

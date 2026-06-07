@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star } from 'lucide-react';
 import { RESENAS } from '../../constants';
+import { tenantConfig } from '../../config/tenant.config';
 import { useToast } from '../Toast';
+
+const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
 
 export default function ReviewSection() {
   const { showToast } = useToast();
@@ -87,6 +90,8 @@ export default function ReviewSection() {
                 <button
                   onClick={() => {
                     if (!newReview.nombre || !newReview.texto) return showToast("Por favor completa los campos", "aviso");
+                    const msg = `Nueva reseña de ${newReview.nombre} (${newReview.rating}★):\n"${newReview.texto}"`;
+                    window.open(`${WA_URL}?text=${encodeURIComponent(msg)}`, '_blank');
                     showToast("¡Gracias por tu reseña!", "exito");
                     setModalOpen(false);
                     setNewReview({ nombre: '', texto: '', rating: 5 });
