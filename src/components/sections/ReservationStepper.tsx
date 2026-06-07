@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, MessageCircle, Minus, Plus, Sofa, Music2, Gi
 import confetti from 'canvas-confetti';
 import { tenantConfig } from '../../config/tenant.config';
 import { reservationStore } from '../../store/reservationStore';
-import { supabase } from '../../lib/supabase';
+import { supabase, supabaseEnabled } from '../../lib/supabase';
 import { useToast } from '../Toast';
 
 const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
@@ -82,7 +82,7 @@ export default function ReservationStepper() {
       sessionStorage.setItem('panel-reservas', JSON.stringify(reservas));
     } catch { /* silently ignore */ }
 
-    if (import.meta.env.VITE_SUPABASE_URL) {
+    if (supabaseEnabled && supabase) {
       supabase.from('reservas').insert({
         fecha: formData.fecha,
         hora: formData.hora,

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, Check, Clock, Trash2, Users, Calendar, XCircle, CheckCircle } from 'lucide-react';
 import { tenantConfig } from '../config/tenant.config';
-import { supabase } from '../lib/supabase';
+import { supabase, supabaseEnabled } from '../lib/supabase';
 
 type ReservaEstado = 'pendiente' | 'confirmada' | 'cancelada';
 
@@ -59,7 +59,7 @@ export default function AdminPanel() {
   };
 
   const loadReservas = async () => {
-    if (import.meta.env.VITE_SUPABASE_URL) {
+    if (supabaseEnabled && supabase) {
       const { data } = await supabase
         .from('reservas')
         .select('*')
@@ -75,7 +75,7 @@ export default function AdminPanel() {
   const updateEstado = async (id: number, estado: ReservaEstado) => {
     const updated = reservas.map(r => r.id === id ? { ...r, estado } : r);
     setReservas(updated);
-    if (import.meta.env.VITE_SUPABASE_URL) {
+    if (supabaseEnabled && supabase) {
       await supabase.from('reservas').update({ estado }).eq('id', id);
     } else {
       sessionStorage.setItem('panel-reservas', JSON.stringify(updated));
