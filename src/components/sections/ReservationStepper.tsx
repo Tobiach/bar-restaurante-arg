@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, MessageCircle, Minus, Plus, Sofa, Music2, Gift, Theater, type LucideIcon } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig } from '../../config/active';
 import { reservationStore } from '../../store/reservationStore';
 import { supabase, supabaseEnabled } from '../../lib/supabase';
 import { useToast } from '../Toast';
 
-const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
 const monthNames = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
 
 const TIPO_ICONS: Record<string, LucideIcon> = {
@@ -18,6 +17,8 @@ const TIPO_ICONS: Record<string, LucideIcon> = {
 };
 
 export default function ReservationStepper() {
+  const tenantConfig = getConfig();
+  const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
   const { showToast } = useToast();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig } from '../../config/active';
 
 export default function StatusIndicator() {
+  const tenantConfig = getConfig();
   const [status, setStatus] = useState({ open: false, message: '' });
 
   useEffect(() => {

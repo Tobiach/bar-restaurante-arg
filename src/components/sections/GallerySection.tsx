@@ -1,28 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
-
-const galleryItems = [
-  { title: "Energía en Vivo", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1LtW01EH0wUQ4VYrY_nR6oa8O1ugBj4XB", color: "from-violeta/80 to-naranja/20" },
-  { title: "Rincón Isla", cat: "AMBIENTE", img: "https://lh3.googleusercontent.com/d/1KnOZWJi34Ht1POToYlkTjkqtjzDiLMud", color: "from-violeta/80 to-violeta-card" },
-  { title: "La Venganza de la Guitarra", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1OsM3C44jQLoTxQKLHvsdcQRm75KGiORx", color: "from-violeta/80 to-naranja/20" },
-  { title: "Barra Especial", cat: "AMBIENTE", img: "https://lh3.googleusercontent.com/d/1NaGwJ9P0xwMZnLZmvojs1itVIc5ZfxZe", color: "from-violeta/80 to-blue-800/20" },
-  { title: "Momento Show", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1DauAVjVawQ_B_xREDuzZCHV0og0kqXai", color: "from-violeta/80 to-purple-800/20" },
-  { title: "Luces de Noche", cat: "AMBIENTE", img: "https://lh3.googleusercontent.com/d/1_6Uyr016Rvz1r-o9yT5qI3wuAbjDSFx6", color: "from-violeta/80 to-yellow-800/20" },
-  { title: "Pasión en Escena", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1fJSlevbs0gAn3YvOH2gCXYr649N6QiOO", color: "from-violeta/80 to-red-900/20" },
-  { title: "Detalles que Suman", cat: "AMBIENTE", img: "https://lh3.googleusercontent.com/d/1HOdELTJLn5FRrgjnbuoeK6ONfJucqDNQ", color: "from-violeta/80 to-green-900/20" },
-  { title: "Nuestra Esencia", cat: "AMBIENTE", img: "https://lh3.googleusercontent.com/d/1TyVRj_0N5QSbK4dJzdNf0EyQ2bXc0IUn", color: "from-violeta/80 to-emerald-900/20" },
-  { title: "Bandas Invitadas", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1bkogJSouxVfvwRtLyTQuVpHz8MJxtMF-", color: "from-violeta/80 to-cyan-900/20" },
-  { title: "La Bicicleta con Alas", cat: "AMBIENTE", img: "https://lh3.googleusercontent.com/d/1g-T-9rd6lmVqoFhDuYRNZ1KWX4CHA-F0", color: "from-violeta/80 to-amber-900/20" },
-  { title: "Escenario Abierto", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1khMynTX9CT3KQYmFyHwnXS1u1fGp2hHl", color: "from-violeta/80 to-indigo-900/20" },
-  { title: "Shows Inolvidables", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1yVu0xwdi1GDqpxnsFUwLXbfGJwWqWfh_", color: "from-violeta/80 to-rose-900/20" },
-  { title: "Noches de Ritmo", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/1RYv_G9J-VgMmaXtiYFK42kxi3UJ3M_2f", color: "from-violeta/80 to-sky-900/20" },
-  { title: "Cultura en Almagro", cat: "SHOWS", img: "https://lh3.googleusercontent.com/d/16vFERwmM2S0Xuud5RJ2HmyfLp7hhDflk", color: "from-violeta/80 to-violeta-card" },
-];
-
-const categories = ['TODOS', 'SHOWS', 'AMBIENTE', 'KARAOKE', 'CUMPLEAÑOS'];
+import { getConfig, getActiveData } from '../../config/active';
 
 export default function GallerySection() {
+  const tenantConfig = getConfig();
+  const data = getActiveData();
+  const galeria: any[] = data?.galeria || [];
+  const labels = tenantConfig.labels || {};
+
+  const allCats = ['TODOS', ...Array.from(new Set(galeria.map((i: any) => i.cat as string)))];
+
   const [filter, setFilter] = useState('TODOS');
   const [showAll, setShowAll] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -32,21 +20,25 @@ export default function GallerySection() {
     return () => { document.body.style.overflow = ''; };
   }, [selectedImage]);
 
-  const filtered = filter === 'TODOS' ? galleryItems : galleryItems.filter(i => i.cat === filter);
+  const filtered = filter === 'TODOS' ? galeria : galeria.filter((i: any) => i.cat === filter);
   const visible = showAll ? filtered : filtered.slice(0, 6);
+
+  const getImgSrc = (item: any) => item.src || item.img || '';
+  const getImgAlt = (item: any) => item.alt || item.title || '';
+  const getImgTitle = (item: any) => item.title || item.alt || '';
 
   return (
     <section id="sec-galeria" className="py-20 bg-violeta">
       <div className="max-w-7xl mx-auto px-4">
         <div className="section-header">
-          <h2 className="text-4xl md:text-5xl font-bold mb-2">Así Son Nuestras Noches</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-2">{labels.galeria || 'Galería'}</h2>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-12">
-          {categories.map(c => (
+          {allCats.map(c => (
             <button
               key={c}
-              onClick={() => setFilter(c)}
+              onClick={() => { setFilter(c); setShowAll(false); }}
               className={`px-6 py-2 rounded-full font-display text-xs tracking-widest transition-all ${filter === c ? 'bg-naranja text-white' : 'bg-violeta-card/50 text-blanco-muted hover:text-white'}`}
             >
               {c}
@@ -56,9 +48,9 @@ export default function GallerySection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
-            {visible.map((item, idx) => (
+            {visible.map((item: any, idx: number) => (
               <motion.div
-                key={item.title}
+                key={item.id || idx}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -66,23 +58,23 @@ export default function GallerySection() {
                 onClick={() => setSelectedImage(idx)}
                 className="group relative h-64 rounded-2xl overflow-hidden cursor-pointer border border-violeta-borde"
               >
-                {item.img ? (
+                {getImgSrc(item) ? (
                   <img
-                    src={item.img}
-                    alt={item.title}
+                    src={getImgSrc(item)}
+                    alt={getImgAlt(item)}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                 ) : (
-                  <div className={`absolute inset-0 bg-gradient-to-br ${item.color} transition-transform duration-500 group-hover:scale-110`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${item.color || 'from-violeta-card to-violeta'} transition-transform duration-500 group-hover:scale-110`}></div>
                 )}
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
-                {!item.img && (
+                {!getImgSrc(item) && (
                   <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
                     <ImageOff size={48} className="text-naranja" />
                   </div>
                 )}
                 <div className="absolute inset-0 bg-violeta/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-6 text-center backdrop-blur-sm">
-                  <h3 className="font-titulo text-2xl font-bold mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{item.title}</h3>
+                  <h3 className="font-titulo text-2xl font-bold mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{getImgTitle(item)}</h3>
                   <span className="bg-naranja px-3 py-1 rounded text-[10px] font-display font-bold tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{item.cat}</span>
                 </div>
               </motion.div>
@@ -93,7 +85,7 @@ export default function GallerySection() {
         {filtered.length > 6 && (
           <div className="mt-12 text-center">
             <button onClick={() => setShowAll(!showAll)} className="text-naranja font-display text-sm tracking-widest uppercase hover:underline">
-              {showAll ? 'Ver menos' : 'Ver más noches →'}
+              {showAll ? 'Ver menos' : 'Ver más →'}
             </button>
           </div>
         )}
@@ -114,22 +106,22 @@ export default function GallerySection() {
                 onClick={() => setSelectedImage(null)}
               ><X /></button>
 
-              {visible[selectedImage].img ? (
+              {getImgSrc(visible[selectedImage]) ? (
                 <img
-                  src={visible[selectedImage].img}
-                  alt={visible[selectedImage].title}
+                  src={getImgSrc(visible[selectedImage])}
+                  alt={getImgAlt(visible[selectedImage])}
                   className="w-full h-full object-contain"
                 />
               ) : (
                 <div className="text-center">
                   <ImageOff size={80} className="mx-auto mb-8 text-naranja/40" />
-                  <h3 className="text-4xl font-bold mb-4">{visible[selectedImage].title}</h3>
+                  <h3 className="text-4xl font-bold mb-4">{getImgTitle(visible[selectedImage])}</h3>
                   <span className="text-naranja font-display tracking-[0.2em]">{visible[selectedImage].cat}</span>
                 </div>
               )}
 
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
-                <h3 className="text-2xl font-bold">{visible[selectedImage].title}</h3>
+                <h3 className="text-2xl font-bold">{getImgTitle(visible[selectedImage])}</h3>
                 <span className="text-naranja font-display text-xs tracking-widest">{visible[selectedImage].cat}</span>
               </div>
 

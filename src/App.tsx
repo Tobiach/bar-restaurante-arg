@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock, UtensilsCrossed, Music, Mic, Cake, GlassWater, Disc3, Music2, Calendar, Trophy, type LucideIcon } from 'lucide-react';
-import { tenantConfig } from './config/tenant.config';
+import { getConfig } from './config/active';
 import { ToastProvider } from './components/Toast';
 import StatusIndicator from './components/ui/StatusIndicator';
 import Navbar from './components/ui/Navbar';
@@ -32,6 +32,7 @@ const TICKER_ICONS: LucideIcon[] = [
 ];
 
 export default function App() {
+  const tenantConfig = getConfig();
   return (
     <ToastProvider>
       <div className="relative min-h-screen bg-violeta overflow-x-hidden">

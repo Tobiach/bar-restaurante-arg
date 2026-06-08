@@ -1,23 +1,30 @@
 import { motion } from 'motion/react';
-import { Music, UtensilsCrossed, Star, Zap, type LucideIcon } from 'lucide-react';
-import { tenantConfig } from '../../config/tenant.config';
-import { SHOWS } from '../../constants';
+import { Music, UtensilsCrossed, Star, Zap, Beer, FlaskConical, Building2, GlassWater, Crown, type LucideIcon } from 'lucide-react';
+import { getConfig, getActiveData } from '../../config/active';
 import CountUp from '../ui/CountUp';
 
 const STAT_ICONS: Record<string, LucideIcon> = {
   Music,
   UtensilsCrossed,
   Star,
+  Beer,
+  FlaskConical,
+  Building2,
+  GlassWater,
+  Crown,
 };
 
 export default function Hero() {
-  const mainShow = SHOWS[0];
+  const tenantConfig = getConfig();
+  const data = getActiveData();
+  const mainShow = data?.shows?.[0];
+  const watermark = tenantConfig.nombre.split(' ')[0].toUpperCase();
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-20">
-      <div className="watermark">ISLA</div>
+      <div className="watermark">{watermark}</div>
 
-      {mainShow.imagen && (
+      {mainShow?.imagen && (
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-violeta via-violeta/90 to-transparent z-10"></div>
           <motion.img
@@ -41,7 +48,7 @@ export default function Hero() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-naranja/40 bg-naranja/10 text-naranja font-display text-xs tracking-widest mb-6 uppercase">
             <Zap size={12} fill="currentColor" />
-            {tenantConfig.hero.tagBadge}: {mainShow.nombre}
+            {tenantConfig.hero.tagBadge}{mainShow ? `: ${mainShow.nombre}` : ''}
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-8xl font-black leading-[1.05] mb-6" style={{ letterSpacing: '-0.03em' }}>
             {tenantConfig.hero.titulo1} <br />
@@ -51,11 +58,11 @@ export default function Hero() {
             {tenantConfig.hero.subtitulo}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <a href="#sec-carta" className="btn-primary shimmer-hover text-center">{tenantConfig.hero.cta1}</a>
-            <a href="#sec-shows" className="btn-secondary text-center">{tenantConfig.hero.cta2}</a>
+            <a href={tenantConfig.hero.cta1Href || '#sec-carta'} className="btn-primary shimmer-hover text-center">{tenantConfig.hero.cta1}</a>
+            <a href={tenantConfig.hero.cta2Href || '#sec-shows'} className="btn-secondary text-center">{tenantConfig.hero.cta2}</a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-8 border-t border-violeta-borde">
-            {tenantConfig.hero.stats.map((stat, i) => {
+            {(tenantConfig.stats || tenantConfig.hero?.stats || []).map((stat: any, i: number) => {
               const Icon = STAT_ICONS[stat.iconName] ?? Star;
               return (
                 <div key={i} className={i === 2 ? 'hidden sm:block' : ''}>

@@ -1,10 +1,11 @@
 import { Clock, Phone, Instagram, MessageCircle } from 'lucide-react';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig } from '../../config/active';
 import { useToast } from '../Toast';
 
-const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
-
 export default function ContactSection() {
+  const tenantConfig = getConfig();
+  const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
+  const labels = tenantConfig.labels || {};
   const { showToast } = useToast();
 
   return (
@@ -32,14 +33,14 @@ export default function ContactSection() {
 
           <div className="space-y-8">
             <div>
-              <h2 className="text-4xl font-bold mb-6">Vení a Vivir la Isla</h2>
+              <h2 className="text-4xl font-bold mb-6">{labels.contacto || 'Cómo Llegar'}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
                     <Clock className="text-naranja mt-1" size={20} />
                     <div className="text-sm">
                       <h4 className="font-bold text-naranja uppercase text-[10px] tracking-widest mb-2">Horarios</h4>
-                      {tenantConfig.horarios.detalle.map((d, i) => (
+                      {tenantConfig.horarios.detalle.map((d: string, i: number) => (
                         <p key={i} className="text-blanco-muted">{d}</p>
                       ))}
                     </div>

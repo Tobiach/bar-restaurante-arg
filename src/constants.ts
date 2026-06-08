@@ -188,3 +188,30 @@ export const USUARIO_DEMO = {
     { fecha: "08/02/2025", desc: "Festejo cumpleaños (Paquete Festivo)", puntos: 300 }
   ]
 };
+
+// Flat-array format for multi-tenant data switching
+export const islaData = {
+  menu: Object.entries(ISLA_DATA.menu).flatMap(([cat, items]) =>
+    items.map(item => ({ ...item, cat, desc: item.descripcion }))
+  ),
+  shows: SHOWS,
+  resenas: RESENAS,
+  galeria: [
+    { id: "g1",  cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1LtW01EH0wUQ4VYrY_nR6oa8O1ugBj4XB", alt: "Energía en Vivo",                title: "Energía en Vivo" },
+    { id: "g2",  cat: "AMBIENTE",  src: "https://lh3.googleusercontent.com/d/1KnOZWJi34Ht1POToYlkTjkqtjzDiLMud", alt: "Rincón Isla",                    title: "Rincón Isla" },
+    { id: "g3",  cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1OsM3C44jQLoTxQKLHvsdcQRm75KGiORx", alt: "La Venganza de la Guitarra",     title: "La Venganza de la Guitarra" },
+    { id: "g4",  cat: "AMBIENTE",  src: "https://lh3.googleusercontent.com/d/1NaGwJ9P0xwMZnLZmvojs1itVIc5ZfxZe", alt: "Barra Especial",                 title: "Barra Especial" },
+    { id: "g5",  cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1DauAVjVawQ_B_xREDuzZCHV0og0kqXai", alt: "Momento Show",                   title: "Momento Show" },
+    { id: "g6",  cat: "AMBIENTE",  src: "https://lh3.googleusercontent.com/d/1_6Uyr016Rvz1r-o9yT5qI3wuAbjDSFx6", alt: "Luces de Noche",                 title: "Luces de Noche" },
+    { id: "g7",  cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1fJSlevbs0gAn3YvOH2gCXYr649N6QiOO", alt: "Pasión en Escena",               title: "Pasión en Escena" },
+    { id: "g8",  cat: "AMBIENTE",  src: "https://lh3.googleusercontent.com/d/1HOdELTJLn5FRrgjnbuoeK6ONfJucqDNQ", alt: "Detalles que Suman",             title: "Detalles que Suman" },
+    { id: "g9",  cat: "AMBIENTE",  src: "https://lh3.googleusercontent.com/d/1TyVRj_0N5QSbK4dJzdNf0EyQ2bXc0IUn", alt: "Nuestra Esencia",               title: "Nuestra Esencia" },
+    { id: "g10", cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1bkogJSouxVfvwRtLyTQuVpHz8MJxtMF-", alt: "Bandas Invitadas",              title: "Bandas Invitadas" },
+    { id: "g11", cat: "AMBIENTE",  src: "https://lh3.googleusercontent.com/d/1g-T-9rd6lmVqoFhDuYRNZ1KWX4CHA-F0", alt: "La Bicicleta con Alas",        title: "La Bicicleta con Alas" },
+    { id: "g12", cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1khMynTX9CT3KQYmFyHwnXS1u1fGp2hHl", alt: "Escenario Abierto",            title: "Escenario Abierto" },
+    { id: "g13", cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1yVu0xwdi1GDqpxnsFUwLXbfGJwWqWfh_", alt: "Shows Inolvidables",          title: "Shows Inolvidables" },
+    { id: "g14", cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/1RYv_G9J-VgMmaXtiYFK42kxi3UJ3M_2f", alt: "Noches de Ritmo",             title: "Noches de Ritmo" },
+    { id: "g15", cat: "SHOWS",     src: "https://lh3.googleusercontent.com/d/16vFERwmM2S0Xuud5RJ2HmyfLp7hhDflk", alt: "Cultura en Almagro",         title: "Cultura en Almagro" },
+  ],
+  usuario: USUARIO_DEMO,
+};

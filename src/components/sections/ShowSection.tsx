@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Clock, Utensils, Music } from 'lucide-react';
-import { SHOWS, ShowBadge } from '../../constants';
+import { ShowBadge } from '../../constants';
+import { getConfig, getActiveData } from '../../config/active';
 import { reservationStore } from '../../store/reservationStore';
 
-const formatPrice = (price: number) => `$${price.toLocaleString('es-AR')}`;
+const formatPrice = (price: number) =>
+  price === 0 ? 'GRATIS' : `$${price.toLocaleString('es-AR')}`;
 
 const getBadgeColor = (badge?: ShowBadge) => {
   switch (badge) {
@@ -16,8 +18,12 @@ const getBadgeColor = (badge?: ShowBadge) => {
 };
 
 export default function ShowSection() {
+  const tenantConfig = getConfig();
+  const data = getActiveData();
+  const shows = data?.shows || [];
   const [showAll, setShowAll] = useState(false);
-  const visibleShows = showAll ? SHOWS : SHOWS.slice(0, 3);
+  const visibleShows = showAll ? shows : shows.slice(0, 3);
+  const labels = tenantConfig.labels || {};
 
   const handleReservar = (showNombre: string) => {
     reservationStore.set({ tipo: 'Show', showNombre });
@@ -29,13 +35,13 @@ export default function ShowSection() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="section-header flex items-center justify-between mb-12">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-2">Próximos Shows</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-2">{labels.shows || 'Próximos Shows'}</h2>
             <div className="inline-block px-3 py-0.5 rounded bg-naranja text-white font-display text-[10px] tracking-widest uppercase">ESTA SEMANA</div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {visibleShows.map((show) => (
+          {visibleShows.map((show: any) => (
             <motion.div
               key={show.id}
               initial={{ opacity: 0, y: 20 }}
@@ -71,8 +77,14 @@ export default function ShowSection() {
               <div className="p-6">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="text-center bg-violeta-medio p-2 rounded-lg border border-naranja/20 min-w-[60px]">
-                    <div className="text-naranja font-display text-xl font-black leading-none">{show.fecha.getDate()}</div>
-                    <div className="text-[10px] uppercase text-blanco-muted">{show.fecha.toLocaleDateString('es-AR', { weekday: 'short' })}</div>
+                    <div className="text-naranja font-display text-xl font-black leading-none">
+                      {show.fecha instanceof Date ? show.fecha.getDate() : new Date(show.fecha).getDate()}
+                    </div>
+                    <div className="text-[10px] uppercase text-blanco-muted">
+                      {show.fecha instanceof Date
+                        ? show.fecha.toLocaleDateString('es-AR', { weekday: 'short' })
+                        : new Date(show.fecha).toLocaleDateString('es-AR', { weekday: 'short' })}
+                    </div>
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold leading-tight">{show.nombre}</h3>
@@ -100,14 +112,16 @@ export default function ShowSection() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="text-naranja font-display text-sm tracking-[0.2em] uppercase hover:text-naranja-claro transition-all flex items-center gap-2 mx-auto"
-          >
-            {showAll ? 'Ver menos -' : 'Ver todos los shows +'}
-          </button>
-        </div>
+        {shows.length > 3 && (
+          <div className="mt-12 text-center">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="text-naranja font-display text-sm tracking-[0.2em] uppercase hover:text-naranja-claro transition-all flex items-center gap-2 mx-auto"
+            >
+              {showAll ? 'Ver menos -' : 'Ver todos +'}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

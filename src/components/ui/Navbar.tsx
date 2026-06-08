@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ChevronRight, Calendar, Phone, MapPin, Instagram } from 'lucide-react';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig } from '../../config/active';
 import StatusIndicator from './StatusIndicator';
 
 const IconWA = () => (
@@ -21,8 +21,6 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
-
 const ALL_LINKS = [
   { name: 'Carta', href: '#sec-carta', always: true },
   { name: 'Shows', href: '#sec-shows', feature: 'shows' as const },
@@ -33,9 +31,12 @@ const ALL_LINKS = [
 ];
 
 export default function Navbar() {
+  const tenantConfig = getConfig();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const isMobile = useIsMobile();
+
+  const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
 
   const links = ALL_LINKS.filter(
     l => l.always || tenantConfig.features[l.feature!]
@@ -60,16 +61,24 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [links]);
 
+  const LogoArea = ({ size = 'lg' }: { size?: 'lg' | 'sm' }) => (
+    <div className="flex items-center gap-3">
+      {tenantConfig.logo ? (
+        <img src={tenantConfig.logo} alt={tenantConfig.nombre} className={`${size === 'lg' ? 'h-12' : 'h-10'} w-auto object-contain`} />
+      ) : (
+        <div className="flex flex-col leading-none">
+          <span className={`font-titulo font-black tracking-tighter text-white ${size === 'lg' ? 'text-xl' : 'text-lg'}`}>
+            {tenantConfig.nombre.toUpperCase()}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <nav className="sticky top-0 z-50 bg-violeta/95 backdrop-blur-md border-b border-naranja-borde">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-3">
-          <img src={tenantConfig.logo} alt={tenantConfig.nombre} className="h-12 w-auto object-contain" />
-          <div className="flex flex-col leading-none">
-            <span className="font-titulo text-xl font-black tracking-tighter text-white">ISLA</span>
-            <span className="font-display text-[8px] tracking-[0.2em] text-naranja">BAR CULTURAL</span>
-          </div>
-        </a>
+        <a href="#"><LogoArea size="lg" /></a>
 
         {!isMobile && (
           <div className="flex items-center gap-8">
@@ -82,7 +91,7 @@ export default function Navbar() {
                 {link.name.toUpperCase()}
               </a>
             ))}
-            <a href="#sec-reservas" className="btn-primary py-2 px-6">RESERVAR MESA →</a>
+            <a href="#sec-reservas" className="btn-primary py-2 px-6">RESERVAR →</a>
           </div>
         )}
 
@@ -102,13 +111,7 @@ export default function Navbar() {
             className="fixed inset-0 bg-violeta z-[60] flex flex-col p-6 h-screen"
           >
             <div className="flex justify-between items-center mb-10">
-              <div className="flex items-center gap-3 leading-none">
-                <img src={tenantConfig.logo} alt="Logo" className="h-10 w-auto" />
-                <div className="flex flex-col">
-                  <span className="font-titulo text-lg font-black text-white">ISLA</span>
-                  <span className="font-display text-[8px] tracking-widest text-naranja">BAR CULTURAL</span>
-                </div>
-              </div>
+              <LogoArea size="sm" />
               <button onClick={() => setIsOpen(false)} className="text-white p-2 bg-violeta-card rounded-full border border-white/10">
                 <X size={24} />
               </button>
@@ -140,7 +143,7 @@ export default function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className="btn-primary w-full text-center py-4 flex items-center justify-center gap-2"
                 >
-                  <Calendar size={20} /> RESERVAR MESA
+                  <Calendar size={20} /> RESERVAR
                 </a>
                 <a
                   href={WA_URL}

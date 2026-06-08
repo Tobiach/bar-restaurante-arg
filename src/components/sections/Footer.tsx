@@ -1,31 +1,37 @@
 import { ChevronRight, Phone, Calendar, MessageCircle, Instagram } from 'lucide-react';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig } from '../../config/active';
 import { useToast } from '../Toast';
 
-const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
-
 export default function Footer() {
+  const tenantConfig = getConfig();
+  const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
   const { showToast } = useToast();
+
+  const LogoArea = () => (
+    <div className="flex items-center gap-4 mb-6">
+      {tenantConfig.logo ? (
+        <img src={tenantConfig.logo} alt={tenantConfig.nombre} className="h-14 w-auto" />
+      ) : (
+        <div className="h-14 flex items-center">
+          <span className="font-titulo text-2xl font-black tracking-tighter text-white">{tenantConfig.nombre.toUpperCase()}</span>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <footer className="bg-violeta-medio py-20 border-t border-naranja-borde/20">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
-            <a href="#" className="flex items-center gap-4 mb-6">
-              <img src={tenantConfig.logo} alt={tenantConfig.nombre} className="h-14 w-auto" />
-              <div className="flex flex-col leading-none">
-                <span className="font-titulo text-2xl font-black tracking-tighter text-white">ISLA</span>
-                <span className="font-display text-[10px] tracking-[0.2em] text-naranja">BAR CULTURAL</span>
-              </div>
-            </a>
+            <a href="#"><LogoArea /></a>
             <p className="text-sm text-blanco-muted leading-relaxed">{tenantConfig.footer.descripcion}</p>
           </div>
 
           <div>
             <h4 className="font-display tracking-widest text-xs uppercase text-naranja mb-6">Explorá</h4>
             <div className="flex flex-col gap-3 text-sm text-blanco-muted">
-              {tenantConfig.footer.links.explorar.map(link => (
+              {tenantConfig.footer.links.explorar.map((link: any) => (
                 <a key={link.label} href={link.href} className="hover:text-white transition-colors">{link.label}</a>
               ))}
             </div>
@@ -34,7 +40,7 @@ export default function Footer() {
           <div>
             <h4 className="font-display tracking-widest text-xs uppercase text-naranja mb-6">Festejos</h4>
             <div className="flex flex-col gap-3 text-sm text-blanco-muted">
-              {tenantConfig.footer.links.festejos.map(link => (
+              {tenantConfig.footer.links.festejos.map((link: any) => (
                 <a key={link.label} href={link.href} className="hover:text-white transition-colors">{link.label}</a>
               ))}
               <button onClick={() => showToast("Muy pronto: Comprá online tu Gift Card", "info")} className="text-left hover:text-white transition-colors">Gift Cards</button>
@@ -43,7 +49,7 @@ export default function Footer() {
 
           {tenantConfig.features.newsletter && (
             <div>
-              <h4 className="font-display tracking-widest text-xs uppercase text-naranja mb-6">Isla News</h4>
+              <h4 className="font-display tracking-widest text-xs uppercase text-naranja mb-6">Noticias</h4>
               <p className="text-xs text-blanco-muted mb-4 leading-relaxed">Sumate para enterarte de los shows sorpresa.</p>
               <form
                 className="flex gap-2"

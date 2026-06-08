@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mic, Info, Music2 } from 'lucide-react';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig } from '../../config/active';
 import { useToast } from '../Toast';
 
-const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
-
 export default function KaraokeSection() {
+  const tenantConfig = getConfig();
+  const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
+  const { karaoke } = tenantConfig;
   const { showToast } = useToast();
   const [name, setName] = useState('');
   const [song, setSong] = useState('');
-  const { karaoke } = tenantConfig;
 
   return (
     <section id="sec-karaoke" className="py-20 bg-violeta-medio/10">
@@ -21,7 +21,7 @@ export default function KaraokeSection() {
             <h2 className="text-5xl md:text-7xl font-bold mb-6">{karaoke.titulo}</h2>
             <p className="text-xl text-blanco-suave mb-8" style={{ whiteSpace: 'pre-line' }}>{karaoke.descripcion}</p>
             <div className="grid grid-cols-2 gap-4 mb-8">
-              {karaoke.generos.map(g => (
+              {karaoke.generos.map((g: string) => (
                 <div key={g} className="flex items-center gap-3 text-sm text-blanco-muted">
                   <Music2 size={12} className="text-naranja flex-shrink-0" /> {g}
                 </div>
@@ -32,7 +32,7 @@ export default function KaraokeSection() {
               <ol className="space-y-3 text-sm text-blanco-muted">
                 <li className="flex gap-3"><span className="text-naranja font-bold">01.</span> Te anotás con nuestro equipo o en el form de aquí al lado.</li>
                 <li className="flex gap-3"><span className="text-naranja font-bold">02.</span> Te llamamos al escenario cuando llegue tu turno.</li>
-                <li className="flex gap-3"><span className="text-naranja font-bold">03.</span> ¡Cantás, te divertís y sumás {karaoke.puntosGanados} puntos Isla Club!</li>
+                <li className="flex gap-3"><span className="text-naranja font-bold">03.</span> ¡Cantás, te divertís y sumás {karaoke.puntosGanados} puntos!</li>
               </ol>
             </div>
           </motion.div>

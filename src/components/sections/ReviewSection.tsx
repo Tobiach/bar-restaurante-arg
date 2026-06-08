@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star } from 'lucide-react';
-import { RESENAS } from '../../constants';
-import { tenantConfig } from '../../config/tenant.config';
+import { getConfig, getActiveData } from '../../config/active';
 import { useToast } from '../Toast';
 
-const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
-
 export default function ReviewSection() {
+  const tenantConfig = getConfig();
+  const data = getActiveData();
+  const WA_URL = `https://wa.me/${tenantConfig.whatsapp}`;
+  const resenas: any[] = data?.resenas || [];
+  const labels = tenantConfig.labels || {};
   const { showToast } = useToast();
   const [modalOpen, setModalOpen] = useState(false);
   const [newReview, setNewReview] = useState({ nombre: '', texto: '', rating: 5 });
@@ -16,7 +18,7 @@ export default function ReviewSection() {
     <section id="sec-resenas" className="py-20 bg-violeta-medio/10">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">La Tribu Habla</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">{labels.resenas || 'Lo Que Dicen'}</h2>
           <div className="flex items-center justify-center gap-1 text-dorado mb-2">
             {[1, 2, 3, 4, 5].map(s => <Star key={s} fill="#FFD166" size={20} />)}
           </div>
@@ -25,13 +27,15 @@ export default function ReviewSection() {
 
         <div className="relative mb-12">
           <div className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth" id="review-carrusel">
-            {RESENAS.map((res, i) => (
+            {resenas.map((res: any, i: number) => (
               <div key={i} className="min-w-full md:min-w-[400px] snap-center">
                 <div className="card-premium p-8 h-64 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <span className="font-bold">{res.nombre}</span>
-                      <span className="text-[10px] uppercase text-naranja bg-naranja/10 px-2 py-0.5 rounded">{res.servicio}</span>
+                      <span className="text-[10px] uppercase text-naranja bg-naranja/10 px-2 py-0.5 rounded">
+                        {res.servicio || res.fecha || ''}
+                      </span>
                     </div>
                     <p className="text-blanco-suave italic text-sm leading-relaxed">"{res.texto}"</p>
                   </div>
@@ -43,7 +47,7 @@ export default function ReviewSection() {
             ))}
           </div>
           <div className="flex justify-center gap-2 mt-8">
-            {RESENAS.map((_, i) => (
+            {resenas.map((_: any, i: number) => (
               <button
                 key={i}
                 onClick={() => {

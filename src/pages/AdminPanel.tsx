@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, Check, Clock, Trash2, Users, Calendar, XCircle, CheckCircle } from 'lucide-react';
-import { tenantConfig } from '../config/tenant.config';
+import { getConfig } from '../config/active';
 import { supabase, supabaseEnabled } from '../lib/supabase';
 
 type ReservaEstado = 'pendiente' | 'confirmada' | 'cancelada';
@@ -37,6 +37,7 @@ const ESTADO_LABELS: Record<ReservaEstado, string> = {
 };
 
 export default function AdminPanel() {
+  const tenantConfig = getConfig();
   const [pin, setPin] = useState('');
   const [authed, setAuthed] = useState(false);
   const [error, setError] = useState(false);

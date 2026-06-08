@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Plus, Minus, Utensils, X, ShoppingCart, Salad, Cake, Wine, Beer, Coffee, Cookie, Flame, Star, Leaf, Zap, type LucideIcon } from 'lucide-react';
-import { ISLA_DATA, MenuItem } from '../../constants';
+import { getConfig, getActiveData } from '../../config/active';
 import { useToast } from '../Toast';
 
 const formatPrice = (price: number) => `$${price.toLocaleString('es-AR')}`;
@@ -14,6 +14,12 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   CERVEZAS: Beer,
   SIN_ALCOHOL: Coffee,
   SNACKS: Cookie,
+  CANILLAS: Beer,
+  PICADAS: Salad,
+  'DE LA COCINA': Utensils,
+  COCKTAILS: Wine,
+  VINOS: Wine,
+  TAPAS: Salad,
 };
 
 const BADGE_ICONS: Record<string, LucideIcon> = {
@@ -21,13 +27,27 @@ const BADGE_ICONS: Record<string, LucideIcon> = {
   'RECOMENDADO': Star,
   'VEGANO': Leaf,
   'PICANTE': Zap,
+  'CANILLA DEL DÍA': Star,
 };
 
+interface CartItem {
+  id: string;
+  nombre: string;
+  precio: number;
+  cat?: string;
+}
+
 export default function MenuSection() {
+  const tenantConfig = getConfig();
+  const data = getActiveData();
   const { showToast } = useToast();
-  const [activeTab, setActiveTab] = useState('ENTRADAS');
+
+  const allItems: any[] = data?.menu || [];
+  const categories = [...new Set(allItems.map((i: any) => i.cat as string))];
+
+  const [activeTab, setActiveTab] = useState(categories[0] || '');
   const [searchTerm, setSearchTerm] = useState('');
-  const [cart, setCart] = useState<MenuItem[]>(() => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = sessionStorage.getItem('carta-carrito');
       return saved ? JSON.parse(saved) : [];
@@ -39,12 +59,11 @@ export default function MenuSection() {
     sessionStorage.setItem('carta-carrito', JSON.stringify(cart));
   }, [cart]);
 
-  const categories = Object.keys(ISLA_DATA.menu);
-  const items = (ISLA_DATA.menu as any)[activeTab].filter((i: any) =>
-    i.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  const items = allItems.filter((i: any) =>
+    i.cat === activeTab && i.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const addToCart = (item: MenuItem) => {
+  const addToCart = (item: CartItem) => {
     setCart([...cart, item]);
     showToast(`Agregado: ${item.nombre}`, 'exito');
   };
@@ -56,14 +75,14 @@ export default function MenuSection() {
   };
 
   const subtotal = cart.reduce((sum, item) => sum + item.precio, 0);
-
   const CategoryIcon = CATEGORY_ICONS[activeTab] ?? Utensils;
+  const labels = tenantConfig.labels || {};
 
   return (
     <section id="sec-carta" className="py-20 bg-violeta-medio/30">
       <div className="max-w-7xl mx-auto px-4">
         <div className="section-header">
-          <h2 className="text-4xl md:text-5xl font-bold mb-2">Nuestra Carta</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-2">{labels.menu || 'Nuestra Carta'}</h2>
           <p className="text-blanco-muted">Cocina completa, tragos artesanales y más</p>
         </div>
 
@@ -87,7 +106,7 @@ export default function MenuSection() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-blanco-muted" size={18} />
             <input
               type="text"
-              placeholder="Buscar platos..."
+              placeholder="Buscar..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-violeta-card border border-violeta-borde rounded-full pl-12 pr-6 py-2 text-sm w-full md:w-64 focus:border-naranja outline-none transition-all"
@@ -114,7 +133,7 @@ export default function MenuSection() {
                     <h3 className="font-titulo text-lg font-bold">{item.nombre}</h3>
                     <span className="text-naranja font-display font-bold">{formatPrice(item.precio)}</span>
                   </div>
-                  <p className="text-sm text-blanco-muted mb-3 h-10 overflow-hidden line-clamp-2">{item.descripcion}</p>
+                  <p className="text-sm text-blanco-muted mb-3 h-10 overflow-hidden line-clamp-2">{item.desc || item.descripcion || ''}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {item.badges?.map((b: string) => {
                       const BadgeIcon = BADGE_ICONS[b] ?? Star;
@@ -178,7 +197,7 @@ export default function MenuSection() {
                     </div>
                   ) : (
                     cart.map((item, idx) => {
-                      const ItemCatIcon = CATEGORY_ICONS[activeTab] ?? Utensils;
+                      const ItemCatIcon = CATEGORY_ICONS[item.cat || ''] ?? Utensils;
                       return (
                         <div key={idx} className="flex items-center gap-4 bg-violeta-card p-3 rounded-lg border border-violeta-borde">
                           <div className="text-naranja/60"><ItemCatIcon size={22} strokeWidth={1.5} /></div>
