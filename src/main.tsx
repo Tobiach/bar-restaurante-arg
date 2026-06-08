@@ -51,6 +51,17 @@ root.style.setProperty('--naranja-borde',   `${tema.acento}66`);
 root.style.setProperty('--violeta-borde',   `${tema.acento}40`);
 root.style.setProperty('--dorado',          tema.dorado);
 
+// Optional blanco vars (cielo overrides warm tones)
+const temaAny = tema as any;
+if (temaAny.blancoSuave) {
+  root.style.setProperty('--color-blanco-suave', temaAny.blancoSuave);
+  root.style.setProperty('--blanco-suave', temaAny.blancoSuave);
+}
+if (temaAny.blancoMuted) {
+  root.style.setProperty('--color-blanco-muted', temaAny.blancoMuted);
+  root.style.setProperty('--blanco-muted', temaAny.blancoMuted);
+}
+
 // Font vars per tenant
 const fc = tenantConfig as any;
 root.style.setProperty('--font-titulo',  fc.fontTitulo  || "'Inter', sans-serif");

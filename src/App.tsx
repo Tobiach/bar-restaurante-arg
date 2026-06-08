@@ -4,6 +4,7 @@ import { getConfig } from './config/active';
 import { ToastProvider } from './components/Toast';
 import StatusIndicator from './components/ui/StatusIndicator';
 import Navbar from './components/ui/Navbar';
+import NavbarCielo from './components/ui/NavbarCielo';
 import Hero from './components/sections/Hero';
 import ShowSection from './components/sections/ShowSection';
 import MenuSection from './components/sections/MenuSection';
@@ -15,6 +16,19 @@ import PointsSection from './components/sections/PointsSection';
 import ReviewSection from './components/sections/ReviewSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/sections/Footer';
+
+// Cielo-specific components
+import CieloHero from './components/sections/cielo/CieloHero';
+import CieloIntro from './components/sections/cielo/CieloIntro';
+import CieloServicios from './components/sections/cielo/CieloServicios';
+import CieloStats from './components/sections/cielo/CieloStats';
+import CieloClub from './components/sections/cielo/CieloClub';
+import CieloResenas from './components/sections/cielo/CieloResenas';
+import CieloEventos from './components/sections/cielo/CieloEventos';
+import CieloGaleria from './components/sections/cielo/CieloGaleria';
+import CieloFooter from './components/sections/cielo/CieloFooter';
+import CieloMenu from './components/sections/cielo/CieloMenu';
+import CieloReservas from './components/sections/cielo/CieloReservas';
 
 const IconPin = () => (
   <svg className="inline w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,6 +47,31 @@ const TICKER_ICONS: LucideIcon[] = [
 
 export default function App() {
   const tenantConfig = getConfig();
+  const tenantId = new URLSearchParams(window.location.search).get('t') || 'isla';
+
+  // Render Cielo-specific layout
+  if (tenantId === 'cielo') {
+    return (
+      <ToastProvider>
+        <div className="relative min-h-screen overflow-x-hidden" style={{ background: '#0E0C09' }}>
+          <NavbarCielo />
+          <CieloHero />
+          <CieloIntro />
+          <CieloServicios />
+          <CieloStats />
+          <CieloMenu />
+          <CieloReservas />
+          <CieloClub />
+          <CieloResenas />
+          <CieloEventos />
+          <CieloGaleria />
+          <CieloFooter />
+        </div>
+      </ToastProvider>
+    );
+  }
+
+  // Default layout for isla + cuarta
   return (
     <ToastProvider>
       <div className="relative min-h-screen bg-violeta overflow-x-hidden">

@@ -22,13 +22,15 @@ export const cieloConfig = {
   },
 
   tema: {
-    primario:      "#050508",
-    primarioMedio: "#0A0A14",
-    primarioCard:  "#10101E",
-    acento:        "#C9A84C",
-    acentoClaro:   "#E8CC80",
-    acentoOscuro:  "#8B6914",
-    dorado:        "#F5E6C0",
+    primario:      "#0E0C09",
+    primarioMedio: "#161310",
+    primarioCard:  "#1E1A14",
+    acento:        "#B8966E",
+    acentoClaro:   "#D4B896",
+    acentoOscuro:  "#8B6E4E",
+    dorado:        "#EDE0CC",
+    blancoSuave:   "#EDE0CC",
+    blancoMuted:   "#9E8E7A",
   },
 
   fontTitulo: "'Cormorant Garamond', serif",
