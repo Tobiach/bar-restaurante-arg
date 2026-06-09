@@ -2,6 +2,7 @@ import React from 'react';
 import { Clock, UtensilsCrossed, Music, Mic, Cake, GlassWater, Disc3, Music2, Calendar, Trophy, type LucideIcon } from 'lucide-react';
 import { getConfig } from './config/active';
 import { ToastProvider } from './components/Toast';
+import BaseLayout from './components/ui/BaseLayout';
 import StatusIndicator from './components/ui/StatusIndicator';
 import Navbar from './components/ui/Navbar';
 import NavbarCielo from './components/ui/NavbarCielo';
@@ -30,6 +31,20 @@ import CieloFooter from './components/sections/cielo/CieloFooter';
 import CieloMenu from './components/sections/cielo/CieloMenu';
 import CieloReservas from './components/sections/cielo/CieloReservas';
 
+// Cuarta-specific components
+import NavbarCuarta from './components/ui/NavbarCuarta';
+import CuartaHero from './components/sections/cuarta/CuartaHero';
+import CuartaBeerSpotlight from './components/sections/cuarta/CuartaBeerSpotlight';
+import CuartaMenu from './components/sections/cuarta/CuartaMenu';
+import CuartaReservas from './components/sections/cuarta/CuartaReservas';
+import CuartaKaraoke from './components/sections/cuarta/CuartaKaraoke';
+import CuartaCumple from './components/sections/cuarta/CuartaCumple';
+import CuartaPuntos from './components/sections/cuarta/CuartaPuntos';
+import CuartaGaleria from './components/sections/cuarta/CuartaGaleria';
+import CuartaResenas from './components/sections/cuarta/CuartaResenas';
+import CuartaContacto from './components/sections/cuarta/CuartaContacto';
+import CuartaFooter from './components/sections/cuarta/CuartaFooter';
+
 const IconPin = () => (
   <svg className="inline w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" />
@@ -49,11 +64,33 @@ export default function App() {
   const tenantConfig = getConfig();
   const tenantId = new URLSearchParams(window.location.search).get('t') || 'isla';
 
+  // Render Cuarta-specific layout
+  if (tenantId === 'cuarta') {
+    return (
+      <ToastProvider>
+        <BaseLayout>
+          <NavbarCuarta />
+          <CuartaHero />
+          <CuartaBeerSpotlight />
+          <CuartaMenu />
+          <CuartaReservas />
+          <CuartaKaraoke />
+          <CuartaCumple />
+          <CuartaPuntos />
+          <CuartaGaleria />
+          <CuartaResenas />
+          <CuartaContacto />
+          <CuartaFooter />
+        </BaseLayout>
+      </ToastProvider>
+    );
+  }
+
   // Render Cielo-specific layout
   if (tenantId === 'cielo') {
     return (
       <ToastProvider>
-        <div className="relative min-h-screen overflow-x-hidden" style={{ background: '#0E0C09' }}>
+        <BaseLayout>
           <NavbarCielo />
           <CieloHero />
           <CieloIntro />
@@ -66,15 +103,15 @@ export default function App() {
           <CieloEventos />
           <CieloGaleria />
           <CieloFooter />
-        </div>
+        </BaseLayout>
       </ToastProvider>
     );
   }
 
-  // Default layout for isla + cuarta
+  // Default layout for isla
   return (
     <ToastProvider>
-      <div className="relative min-h-screen bg-violeta overflow-x-hidden">
+      <BaseLayout>
         {/* Top info bar — desktop only */}
         <div className="bg-violeta-medio py-2 border-b border-white/5 hidden md:block">
           <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-display tracking-[0.2em] text-blanco-muted uppercase">
@@ -121,7 +158,7 @@ export default function App() {
         </main>
 
         <Footer />
-      </div>
+      </BaseLayout>
     </ToastProvider>
   );
 }

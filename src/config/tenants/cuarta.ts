@@ -22,13 +22,15 @@ export const cuartaConfig = {
   },
 
   tema: {
-    primario:      "#0F0A00",
-    primarioMedio: "#1C1200",
-    primarioCard:  "#2A1E00",
-    acento:        "#F5A623",
-    acentoClaro:   "#FFD166",
-    acentoOscuro:  "#C47D0E",
-    dorado:        "#FFE08A",
+    primario:      "#080507",
+    primarioMedio: "#110D03",
+    primarioCard:  "#1C1508",
+    acento:        "#C8921C",
+    acentoClaro:   "#E5AE38",
+    acentoOscuro:  "#8B6010",
+    dorado:        "#F0E2BF",
+    blancoSuave:   "#F0E2BF",
+    blancoMuted:   "#9E8050",
   },
 
   fontTitulo: "'Bebas Neue', sans-serif",

@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Control.Evo — Hospitality Engine · Strategy Docs</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #09080C;
+    --bg2: #111018;
+    --bg3: #1A1825;
+    --border: rgba(255,255,255,0.07);
+    --accent: #C8921C;
+    --accent2: #E5AE38;
+    --cream: #F0E2BF;
+    --muted: #7A7490;
+    --green: #4CAF88;
+    --red: #EF5350;
+    --text: #E8E4F0;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  /* ── Header ── */
+  .header {
+    padding: 28px 40px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+  }
+  .header-left h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-left span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2px;
+  }
+  .badge {
+    background: rgba(200,146,28,0.15);
+    border: 1px solid rgba(200,146,28,0.3);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+  }
+  /* ── Tabs ── */
+  .tabs-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 2px;
+    padding: 0 40px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn:hover { color: var(--cream); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  /* ── Content ── */
+  .content { padding: 40px; max-width: 1100px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  /* ── Typography ── */
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin: 28px 0 12px;
+  }
+  p { color: var(--muted); margin-bottom: 12px; }
+  p strong { color: var(--cream); font-weight: 600; }
+  /* ── Cards ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .card p { margin: 0; font-size: 13px; }
+  /* ── Grid ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  /* ── Table ── */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  /* ── Tags ── */
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+  }
+  .tag-green  { background: rgba(76,175,136,0.15); color: var(--green); }
+  .tag-amber  { background: rgba(200,146,28,0.15);  color: var(--accent); }
+  .tag-red    { background: rgba(239,83,80,0.15);   color: var(--red); }
+  .tag-muted  { background: rgba(255,255,255,0.06); color: var(--muted); }
+  /* ── List ── */
+  ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  ul li { font-size: 13px; color: var(--muted); padding-left: 16px; position: relative; }
+  ul li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+  ul li strong { color: var(--cream); }
+  /* ── Timeline ── */
+  .week {
+    border-left: 2px solid rgba(200,146,28,0.25);
+    padding-left: 24px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .week::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .week-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .week-goal {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  /* ── Objection cards ── */
+  .obj-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 600px) { .obj-card { grid-template-columns: 1fr; } }
+  .obj-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+  .obj-q { color: var(--red); }
+  .obj-a { color: var(--green); }
+  .obj-card p { font-size: 13px; margin: 0; color: var(--text); }
+  /* ── Divider ── */
+  .divider { height: 1px; background: var(--border); margin: 28px 0; }
+  /* ── Lede ── */
+  .lede { font-size: 15px; color: var(--muted); margin-bottom: 28px; line-height: 1.5; max-width: 680px; }
+  .lede strong { color: var(--cream); }
+  /* ── Highlight box ── */
+  .highlight {
+    background: rgba(200,146,28,0.07);
+    border: 1px solid rgba(200,146,28,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin: 16px 0 20px;
+    font-size: 13px;
+    color: var(--cream);
+  }
+  /* ── Number list ── */
+  ol { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 10px; }
+  ol li {
+    counter-increment: steps;
+    font-size: 13px;
+    color: var(--muted);
+    padding-left: 36px;
+    position: relative;
+    line-height: 1.5;
+  }
+  ol li::before {
+    content: counter(steps);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    background: rgba(200,146,28,0.12);
+    border: 1px solid rgba(200,146,28,0.25);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ol li strong { color: var(--cream); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Control.Evo · Hospitality Engine</h1>
+    <span>Strategy & Commercial Docs — Junio 2026</span>
+  </div>
+  <span class="badge">Interno</span>
+</div>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="show('diagnostico')">Diagnóstico</button>
+  <button class="tab-btn" onclick="show('demo')">Demo 3 min</button>
+  <button class="tab-btn" onclick="show('pricing')">Pricing</button>
+  <button class="tab-btn" onclick="show('objeciones')">Objeciones</button>
+  <button class="tab-btn" onclick="show('wow')">Efecto WOW</button>
+  <button class="tab-btn" onclick="show('upsells')">Upsells</button>
+  <button class="tab-btn" onclick="show('roadmap')">Roadmap</button>
+  <button class="tab-btn" onclick="show('sistema')">Sistema Op.</button>
+</div>
+
+<div class="content">
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 1 — DIAGNÓSTICO
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-diagnostico">
+    <h2>Diagnóstico Ejecutivo</h2>
+    <p class="lede">No estamos vendiendo webs. Estamos vendiendo <strong>sistemas para aumentar reservas, mejorar experiencia digital y generar clientes recurrentes.</strong></p>
+
+    <h3>Estado del sistema</h3>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">/?t=isla</div>
+        <p>Componentes genéricos compartidos. La más adaptable. Identidad menos definida. Harder sell sin personalización previa.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">/?t=cuarta</div>
+        <p>Cervecería artesanal. Identidad fuerte. BeerSpotlight + Loyalty Card. Cierra emocional. Ideal primer demo.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">/?t=cielo</div>
+        <p>Rooftop premium. Cormorant + bronze. El dueño ya gasta $500 en una silla — $390 le parece barato.</p>
+      </div>
+    </div>
+
+    <h3>Riesgos críticos</h3>
+    <table>
+      <thead><tr><th>Riesgo</th><th>Impacto</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>3 codebases en paralelo — cada fix se hace 3 veces</td><td>Mata escalabilidad en cliente #5</td><td><span class="tag tag-red">Crítico</span></td></tr>
+        <tr><td>Sin cliente real pagando todavía</td><td>Todo es demo sin validación</td><td><span class="tag tag-red">Urgente</span></td></tr>
+        <tr><td>Background de Cuarta hardcodeado en App.tsx</td><td>Config no sincronizada</td><td><span class="tag tag-amber">Medio</span></td></tr>
+        <tr><td>Admin Panel existe sin uso</td><td>Superficie muerta</td><td><span class="tag tag-muted">Bajo</span></td></tr>
+        <tr><td>Supabase no activo — reservas no persisten</td><td>Feature prometida sin backend</td><td><span class="tag tag-amber">Medio</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Clasificación de funcionalidades</h3>
+    <table>
+      <thead><tr><th>Funcionalidad</th><th>Vende</th><th>Prioridad</th></tr></thead>
+      <tbody>
+        <tr><td>Stepper de reservas + WhatsApp deeplink</td><td><span class="tag tag-green">Hoy</span></td><td>Core del producto</td></tr>
+        <tr><td>Menú / carta digital</td><td><span class="tag tag-green">Hoy</span></td><td>Visible y tangible</td></tr>
+        <tr><td>Packs cumpleaños / grupos</td><td><span class="tag tag-green">Hoy</span></td><td>Genera revenue al cliente</td></tr>
+        <tr><td>WhatsApp deeplinks en todo</td><td><span class="tag tag-green">Hoy</span></td><td>Conversión directa</td></tr>
+        <tr><td>Hero visual premium</td><td><span class="tag tag-green">Hoy</span></td><td>Primera impresión</td></tr>
+        <tr><td>Club de puntos / loyalty</td><td><span class="tag tag-amber">Upsell</span></td><td>+$20/mes</td></tr>
+        <tr><td>Galería</td><td><span class="tag tag-amber">Después</span></td><td>Activa objeción de contenido</td></tr>
+        <tr><td>Reseñas demo</td><td><span class="tag tag-red">Eliminar del pitch</span></td><td>Datos falsos bajan credibilidad</td></tr>
+        <tr><td>Admin Panel</td><td><span class="tag tag-muted">No mostrar</span></td><td>Solo si cliente lo pide</td></tr>
+        <tr><td>Supabase backend</td><td><span class="tag tag-muted">No mencionar</span></td><td>El cliente no lo ve</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Lo que NO debería mencionarse en ventas</h3>
+    <ul>
+      <li>Tecnología: React, Vite, Supabase, TypeScript</li>
+      <li>"Multi-tenant" — nadie compra infraestructura</li>
+      <li>Número de secciones o componentes</li>
+      <li>Admin Panel hasta que lo pidan</li>
+      <li>Galería como feature principal</li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 2 — DEMO 3 MINUTOS
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-demo">
+    <h2>Script: Demo Presencial de 3 Minutos</h2>
+    <p class="lede">Se muestra en el <strong>celular del dueño</strong>, no en pantalla. Mobile-first. El local ya está configurado con su nombre, teléfono y colores.</p>
+
+    <div class="highlight">
+      Frase de apertura: <strong>"Esto es lo que ven tus clientes cuando buscan tu local."</strong>
+    </div>
+
+    <h3>Secuencia</h3>
+    <table>
+      <thead><tr><th>Tiempo</th><th>Qué mostrás</th><th>Qué decís</th></tr></thead>
+      <tbody>
+        <tr><td>0:00 – 0:30</td><td>Hero full-screen con nombre del local</td><td>"Esta es la primera impresión. Tarda menos de 1 segundo en cargar."</td></tr>
+        <tr><td>0:30 – 1:00</td><td>Stepper de reservas completo (3 pasos)</td><td>"El cliente reserva solo. Vos recibís el WhatsApp con todos los datos."</td></tr>
+        <tr><td>1:00 – 1:30</td><td>Menú / carta con categorías</td><td>"Sin PDF, sin imagen borrosa. Lo actualizamos cuando querés."</td></tr>
+        <tr><td>1:30 – 2:00</td><td>Packs cumpleaños o eventos</td><td>"Esto te trae grupos. Los grupos gastan 3 veces más que una mesa normal."</td></tr>
+        <tr><td>2:00 – 2:30</td><td>Club de puntos / tarjeta membresía</td><td>"Esto fideliza. Un cliente que acumula puntos vuelve solo."</td></tr>
+        <tr><td>2:30 – 3:00</td><td>CTA directo al dueño</td><td>"¿Querés que lo armemos con tus datos esta semana?"</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Reglas de la demo</h3>
+    <ul>
+      <li><strong>No mostrés galería</strong> — activa la objeción "¿quién carga las fotos?"</li>
+      <li><strong>No mostrés reseñas demo</strong> — el dueño detecta los datos falsos</li>
+      <li><strong>No mostrés mapa ni contacto</strong> — eso lo ven solos después</li>
+      <li><strong>Mostrá en mobile</strong> — donde el 80% de sus clientes van a verlo</li>
+      <li><strong>Pre-cargá con datos del local</strong> — el nombre, teléfono y dirección del prospecto</li>
+    </ul>
+
+    <h3>Por tipo de cliente</h3>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">🍺 Cervecería</div>
+        <p>Mostrá Cuarta. Arrancá con BeerSpotlight. El orgullo por el producto propio cierra emocionalmente rápido.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🍽️ Bar Gastronómico</div>
+        <p>Mostrá Isla. Enfatizá el menú y el stepper. El problema que resolvés: las llamadas que interrumpen el servicio.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🌃 Rooftop</div>
+        <p>Mostrá Cielo. Ni hablar de precio hasta que vean la tipografía. El silencio de 5 segundos lo hace solo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 3 — PRICING
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-pricing">
+    <h2>Estructura de Precios</h2>
+    <p class="lede">Tres tiers de setup + mensualidad. El argumento central siempre es <strong>una mesa reservada extra por semana paga todo en el primer mes.</strong></p>
+
+    <h3>Setup (pago único)</h3>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">Base — USD 150</div>
+        <ul>
+          <li>Landing mobile-first con identidad visual</li>
+          <li>Menú/carta digital</li>
+          <li>WhatsApp directo</li>
+          <li>Mapa y horarios</li>
+          <li>Footer completo</li>
+        </ul>
+        <div style="margin-top:14px;">
+          <p><em>El dueño lo compara con lo que pagó por su logo. $150 es barato.</em></p>
+        </div>
+      </div>
+      <div class="card" style="border-color: rgba(200,146,28,0.3);">
+        <div class="card-title" style="color: var(--accent);">Estándar — USD 250 ⭐</div>
+        <ul>
+          <li>Todo Base</li>
+          <li>Stepper de reservas + WhatsApp deeplink</li>
+          <li>Packs cumpleaños / grupos</li>
+          <li>Galería básica</li>
+          <li>Ticker / banner de destacados</li>
+        </ul>
+        <div style="margin-top:14px;">
+          <p><em>El stepper solo justifica el precio. "¿Cuántas reservas perdiste este mes?"</em></p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Premium — USD 390</div>
+        <ul>
+          <li>Todo Estándar</li>
+          <li>Club de puntos con loyalty card</li>
+          <li>Sección de eventos/shows</li>
+          <li>Formulario eventos corporativos</li>
+          <li>Dominio propio configurado</li>
+        </ul>
+        <div style="margin-top:14px;">
+          <p><em>Rooftop, cervecería artesanal con identidad, bar con base de clientes — pagan sin negociar.</em></p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Mensualidad base (todos los tiers)</h3>
+    <table>
+      <thead><tr><th>Tier</th><th>Mensual</th><th>Incluye</th></tr></thead>
+      <tbody>
+        <tr><td>Base</td><td>USD 25</td><td>Hosting + soporte básico</td></tr>
+        <tr><td>Estándar</td><td>USD 35</td><td>Hosting + 2 actualizaciones de contenido/mes</td></tr>
+        <tr><td>Premium</td><td>USD 60</td><td>Hosting + actualizaciones ilimitadas + prioridad</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Argumento de cierre por precio</h3>
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"Es caro para lo que es."</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>¿Una mesa de cumpleaños de 10 personas cuánto te deja? ¿$80.000? Una reserva extra por semana paga esto en un mes.</p>
+      </div>
+    </div>
+
+    <h3>Regla de presentación de precio</h3>
+    <div class="highlight">
+      Nunca mencionar el precio antes de terminar la demo. El precio siempre va después del efecto WOW. Si lo pregunta antes, decí: "Depende de lo que necesitás — te cuento al final."
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 4 — OBJECIONES
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-objeciones">
+    <h2>Mapa de Objeciones y Respuestas</h2>
+    <p class="lede">Cada objeción es una señal de interés mal encauzado. <strong>No argumentes — redirigí al resultado.</strong></p>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"Ya tengo Instagram y Google."</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>Instagram no tiene stepper de reservas. No aparece en Google Maps optimizado. Instagram informa — esto convierte. Son herramientas distintas.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"¿Quién carga el contenido?"</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>Nosotros. Eso está incluido en la mensualidad. Vos nos mandás los cambios por WhatsApp y en 24hs está actualizado.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"Me llaman para reservar, no necesito esto."</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>¿A las 2AM también te llaman? El sistema captura reservas cuando estás durmiendo. El cliente reserva, vos recibís el WhatsApp cuando te levantás.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"¿Cuánta gente va a entrar a la página?"</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>No te vendemos tráfico — te vendemos conversión. El que ya te busca en Google o en IG, ahora reserva en vez de rebotar a la competencia.</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"Lo puede hacer un sobrino / un amigo."</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>El sobrino lo arranca. Nosotros lo mantenemos, actualizamos y mejoramos cada mes. ¿Cuántas veces lo llamaste el último mes cuando algo salió mal?</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"Necesito pensarlo."</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>Entendido. ¿Qué es lo que te genera duda — el precio, el tiempo, o no estás convencido del valor? (Esperar respuesta, no hablar.)</p>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div>
+        <div class="obj-label obj-q">Objeción</div>
+        <p>"No tengo fotos buenas del local."</p>
+      </div>
+      <div>
+        <div class="obj-label obj-a">Respuesta</div>
+        <p>Arrancamos sin galería — la agregamos después. Lo que vende primero son las reservas, no las fotos. Las fotos son upsell.</p>
+      </div>
+    </div>
+
+    <h3>Señales de compra que no se ven</h3>
+    <ul>
+      <li>Pregunta por el precio antes de terminar la demo → interés real</li>
+      <li>Pide ver cómo se vería con su nombre → listo para cerrar</li>
+      <li>Pregunta "¿cuánto tardaría en estar listo?" → ya se imaginó con el producto</li>
+      <li>Muestra la demo a otro (pareja, socio) → quiere validación, no información</li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 5 — EFECTO WOW
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-wow">
+    <h2>Mapa de Efecto WOW</h2>
+    <p class="lede">Lo que genera silencio de 5 segundos en la demo. <strong>Estas son las funcionalidades que justifican el precio aunque sean simples de implementar.</strong></p>
+
+    <h3>WOW por variante</h3>
+    <table>
+      <thead><tr><th>Variante</th><th>Momento WOW</th><th>Reacción esperada</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cuarta</strong></td><td>BeerSpotlight con número 01 gigante y precio</td><td>"Parece una revista alemana de craft beer"</td></tr>
+        <tr><td><strong>Cuarta</strong></td><td>Loyalty card con nombre, nivel y barra animada</td><td>"¿Eso lo puedo tener yo?"</td></tr>
+        <tr><td><strong>Cuarta</strong></td><td>Stepper que termina en WA con pedido completo</td><td>"¿Esto llega al celu así?"</td></tr>
+        <tr><td><strong>Cielo</strong></td><td>Cormorant Garamond en 128px, sola, pantalla negra</td><td>Silencio. 5 segundos.</td></tr>
+        <tr><td><strong>Cielo</strong></td><td>Tarjeta de membresía CSS con gradiente</td><td>"¿Esto es una página web?"</td></tr>
+        <tr><td><strong>Cielo</strong></td><td>Formulario de eventos corporativos</td><td>"Esto reemplaza mis DMs de Instagram"</td></tr>
+        <tr><td><strong>Isla</strong></td><td>Ticker marquee naranja en movimiento</td><td>"Eso lo vi en webs de afuera"</td></tr>
+        <tr><td><strong>Isla</strong></td><td>Funciona perfecto en mobile</td><td>"La mía se ve horrible en el celu"</td></tr>
+        <tr><td><strong>Todos</strong></td><td>WhatsApp deeplink con texto pre-armado</td><td>"¿Eso lo hace solo?"</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Funcionalidades que parecen caras pero son simples</h3>
+    <table>
+      <thead><tr><th>Funcionalidad</th><th>Percepción del dueño</th><th>Realidad técnica</th></tr></thead>
+      <tbody>
+        <tr><td>Loyalty card con barra de progreso animada</td><td>Sistema de fidelización complejo</td><td>CSS + datos en config. 2hs de trabajo.</td></tr>
+        <tr><td>Stepper multi-paso + WhatsApp deeplink</td><td>Integración avanzada con el celu</td><td>URL encode con texto pre-armado</td></tr>
+        <tr><td>Ticker marquee con íconos</td><td>Diseño de agencia</td><td>CSS animation, 15 líneas</td></tr>
+        <tr><td>Formulario de eventos → WhatsApp</td><td>CRM integrado</td><td>Mismo patrón: URL encode</td></tr>
+        <tr><td>Calendario con días habilitados</td><td>Reservas sincronizadas</td><td>Array de días en config</td></tr>
+        <tr><td>Hero full-screen con animación</td><td>Motion design caro</td><td>Framer Motion, 30 líneas</td></tr>
+        <tr><td>Packs con badge "Más elegido"</td><td>Diseño de agencia premium</td><td>Un div posicionado, border naranja</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Orden de impacto en demo</h3>
+    <ol>
+      <li><strong>Hero personalizado</strong> — "Este es tu local"</li>
+      <li><strong>Stepper de reservas</strong> — "Esto genera plata"</li>
+      <li><strong>WhatsApp deeplink al final del stepper</strong> — "¿Eso llega al celu?"</li>
+      <li><strong>Packs / cumpleaños</strong> — "Grupos = plata"</li>
+      <li><strong>Loyalty card</strong> — "Volvé siempre"</li>
+    </ol>
+
+    <div class="highlight">
+      Regla: el efecto WOW siempre es en mobile. El 80% de los clientes de un bar abren desde el celu. Si en mobile se ve mal, no hay venta.
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 6 — UPSELLS
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-upsells">
+    <h2>Mapa de Upsells Mensuales</h2>
+    <p class="lede">No vendás todo desde el inicio. El setup cierra la puerta. Los upsells construyen <strong>LTV real.</strong></p>
+
+    <h3>Módulos upsell (post-cierre)</h3>
+    <table>
+      <thead><tr><th>Módulo</th><th>Precio/mes</th><th>Argumento de venta</th><th>Timing ideal</th></tr></thead>
+      <tbody>
+        <tr><td>Club de puntos activo (Supabase real)</td><td>+USD 20</td><td>"Los puntos se acumulan de verdad. Tus clientes tienen historial."</td><td>Mes 2</td></tr>
+        <tr><td>Panel admin básico (ver reservas)</td><td>+USD 15</td><td>"Ves las reservas del mes sin pedirle nada a nadie."</td><td>Mes 2</td></tr>
+        <tr><td>Actualizaciones de menú (ilimitadas)</td><td>+USD 10</td><td>"Cuando cambiás los precios, lo cambiamos en menos de 24hs."</td><td>Mes 1</td></tr>
+        <tr><td>Sección de eventos editable</td><td>+USD 15</td><td>"Publicás tu próximo show en 2 minutos."</td><td>Mes 1-2</td></tr>
+        <tr><td>WhatsApp automático post-reserva</td><td>+USD 25</td><td>"El cliente recibe confirmación automática. Vos no hacés nada."</td><td>Mes 3</td></tr>
+        <tr><td>Galería actualizable</td><td>+USD 10</td><td>"Cargamos tus fotos nuevas cada semana."</td><td>Mes 2</td></tr>
+        <tr><td>SEO local (Google Maps)</td><td>+USD 30</td><td>"Aparecer primero en Google cuando buscan 'bar en [barrio]'."</td><td>Mes 3+</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Stack de upsell por tier</h3>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">Cliente Base ($25/mes)</div>
+        <ul>
+          <li>Mes 2: actualizaciones menú +$10</li>
+          <li>Mes 3: eventos editable +$15</li>
+          <li>Mes 4: panel básico +$15</li>
+        </ul>
+        <p style="margin-top:12px; color: var(--accent);">Potencial: $65/mes</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Cliente Estándar ($35/mes)</div>
+        <ul>
+          <li>Mes 2: club de puntos +$20</li>
+          <li>Mes 3: panel admin +$15</li>
+          <li>Mes 4: WA automático +$25</li>
+        </ul>
+        <p style="margin-top:12px; color: var(--accent);">Potencial: $95/mes</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Cliente Premium ($60/mes)</div>
+        <ul>
+          <li>Mes 2: SEO local +$30</li>
+          <li>Mes 3: WA automático +$25</li>
+          <li>Mes 4: agente IA (Control.Evo) +$60+</li>
+        </ul>
+        <p style="margin-top:12px; color: var(--accent);">Potencial: $175/mes</p>
+      </div>
+    </div>
+
+    <h3>Regla de upsell</h3>
+    <div class="highlight">
+      No propongas un upsell hasta el 2do mes. El cliente necesita ver que lo básico funciona. El momento ideal: cuando pregunta "¿se puede agregar X?" — ahí cerrás el upsell sin presión.
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 7 — ROADMAP
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-roadmap">
+    <h2>Roadmap 30 / 90 Días</h2>
+    <p class="lede">Para alguien que desarrolla solo. <strong>Impacto comercial > complejidad técnica.</strong></p>
+
+    <h3>Próximas 30 días</h3>
+
+    <div class="week">
+      <div class="week-label">Semana 1</div>
+      <div class="week-goal">Cerrar un cliente</div>
+      <ul>
+        <li>Llamar al prospecto más caliente con link de demo</li>
+        <li>Pre-cargar la demo con nombre, teléfono y colores del prospecto</li>
+        <li>Reunión presencial: 3 minutos de demo, 5 de preguntas, cierre</li>
+        <li>Propuesta de 1 página: qué incluye, qué cuesta, qué pasa el mes siguiente</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>Meta:</strong> 1 cliente pagado. Sin cliente, no hay producto.</p>
+      <p><strong>Horas de código:</strong> 0. Horas de ventas: 5-8.</p>
+    </div>
+
+    <div class="week">
+      <div class="week-label">Semana 2</div>
+      <div class="week-goal">Corregir arquitectura base</div>
+      <ul>
+        <li>Corregir hardcode <code>#0F0A00</code> en App.tsx → que venga del tenant config</li>
+        <li>Crear BaseLayout.tsx compartido (Navbar + Footer + wrapper)</li>
+        <li>Extraer ReservationStepper como componente 100% configurable</li>
+        <li>Extraer MenuSection como componente configurable</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>Meta:</strong> Agregar tenant #4 en 4 horas, no 15.</p>
+      <p><strong>Horas:</strong> 8-10h</p>
+    </div>
+
+    <div class="week">
+      <div class="week-label">Semana 3</div>
+      <div class="week-goal">Activar conversión</div>
+      <ul>
+        <li>CTA fijo mobile en los 3 tenants (llamar / WA / reservar)</li>
+        <li>Stepper visible desde el primer fold en mobile</li>
+        <li>Demo URL con datos del prospecto pre-cargados para ventas</li>
+        <li>Eliminar reseñas con datos falsos de la demo pública</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>Horas:</strong> 4-6h</p>
+    </div>
+
+    <div class="week">
+      <div class="week-label">Semana 4</div>
+      <div class="week-goal">Preparar template #4</div>
+      <ul>
+        <li>Identificar próximo prospecto (sports bar o restaurante)</li>
+        <li>Crear tenant con el engine refactorizado</li>
+        <li>Validar que tardó ≤4 horas</li>
+        <li>Activar Supabase para reservas reales del primer cliente</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>Horas:</strong> 4-6h si el refactor está bien hecho</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>Roadmap 90 días</h3>
+    <table>
+      <thead><tr><th>Mes</th><th>Objetivo</th><th>Hitos</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Mes 1</strong></td><td>1er cliente pagando</td><td>Demo → cierre → onboarding → live en 48hs</td></tr>
+        <tr><td><strong>Mes 2</strong></td><td>3 clientes pagando</td><td>Supabase activo, panel básico, primer upsell vendido</td></tr>
+        <tr><td><strong>Mes 3</strong></td><td>Sistema escalable</td><td>Template #4, pricing diferenciado, MRR > USD 300</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Lo que NO hacés hasta tener 3 clientes pagando</h3>
+    <ul>
+      <li>Login complejo o roles de usuario</li>
+      <li>Dashboard analytics para el cliente</li>
+      <li>IA avanzada o chatbots</li>
+      <li>Exportar a NPM o monorepo</li>
+      <li>Documentación extensa del sistema</li>
+      <li>Template #5 o #6</li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 8 — SISTEMA OPERATIVO
+  ══════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-sistema">
+    <h2>Sistema Operativo del Proyecto</h2>
+    <p class="lede">Cómo tomar decisiones rápido sin quemar tiempo ni energía en lo que no mueve ventas.</p>
+
+    <h3>Filtro de decisión (en orden)</h3>
+    <ol>
+      <li><strong>¿Esto ayuda a cerrar un cliente esta semana?</strong> → Si sí, hacelo primero.</li>
+      <li><strong>¿Esto aumenta el valor percibido sin agregar complejidad?</strong> → Hacelo.</li>
+      <li><strong>¿Esto reduce tiempo de onboarding de un cliente nuevo?</strong> → Alta prioridad.</li>
+      <li><strong>¿Esto aumenta margen o LTV?</strong> → Planificalo para el mes que viene.</li>
+      <li><strong>Si la respuesta a todo fue no:</strong> ignoralo.</li>
+    </ol>
+
+    <h3>Qué se ejecuta directo (sin análisis)</h3>
+    <ul>
+      <li>Correcciones de bugs visibles en demo</li>
+      <li>Actualizar colores o fuentes del tenant</li>
+      <li>Agregar/editar items del menú en el config</li>
+      <li>Deploy de cambios ya aprobados</li>
+      <li>Preparar demo con datos del prospecto</li>
+    </ul>
+
+    <h3>Qué requiere aprobación antes de ejecutar</h3>
+    <ul>
+      <li>Agregar un nuevo módulo o sección no planificada</li>
+      <li>Cambiar la arquitectura base (componentes compartidos)</li>
+      <li>Integrar un servicio externo nuevo (pago, CRM, email)</li>
+      <li>Crear un tenant nuevo desde cero</li>
+    </ul>
+
+    <h3>Clasificación permanente de tareas</h3>
+    <table>
+      <thead><tr><th>Clasificación</th><th>Acción</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-green">Vende hoy</span></td><td>Ejecutar primero, bloquear tiempo, no negociar prioridad</td></tr>
+        <tr><td><span class="tag tag-amber">Vende después</span></td><td>Planificar para el mes siguiente o convertir en upsell</td></tr>
+        <tr><td><span class="tag tag-muted">No vende</span></td><td>Pausar. Justificar ROI antes de tocar.</td></tr>
+        <tr><td><span class="tag tag-red">Complica la venta</span></td><td>Eliminar del discurso. No mostrar en demo.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Métricas que importan (hoy)</h3>
+    <ul>
+      <li><strong>Demos realizadas por semana</strong> — objetivo: 2+</li>
+      <li><strong>Tasa de cierre</strong> — objetivo: 1 de cada 3 demos</li>
+      <li><strong>MRR (Monthly Recurring Revenue)</strong> — objetivo mes 2: USD 150+</li>
+      <li><strong>Tiempo de onboarding por cliente</strong> — objetivo: ≤4 horas</li>
+      <li><strong>Upsells vendidos</strong> — objetivo mes 3: al menos 1 por cliente activo</li>
+    </ul>
+
+    <h3>Próximas 10 acciones (en orden)</h3>
+    <ol>
+      <li><strong>Llamar al prospecto más caliente hoy con link de demo</strong></li>
+      <li>Pre-cargar la demo con nombre y datos del prospecto antes de la reunión</li>
+      <li>Reunión presencial: 3 min demo + propuesta de 1 página</li>
+      <li>Corregir hardcode del background en App.tsx → venir del tenant config</li>
+      <li>Crear BaseLayout.tsx compartido</li>
+      <li>Extraer ReservationStepper como componente reutilizable</li>
+      <li>CTA mobile fijo en los 3 tenants</li>
+      <li>Demo URL con nombre del prospecto pre-configurado</li>
+      <li>Activar Supabase para el primer cliente real</li>
+      <li>Armar pricing page interna con tiers y upsells</li>
+    </ol>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+function show(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
