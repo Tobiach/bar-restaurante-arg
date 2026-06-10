@@ -4,6 +4,7 @@ import { getConfig } from '../config/active';
 import { reservationStore } from '../store/reservationStore';
 import { supabase, supabaseEnabled } from '../lib/supabase';
 import { useToast } from '../components/Toast';
+import { puntosService } from '../lib/puntosService';
 
 export interface ReservationForm {
   tipo: string;
@@ -65,11 +66,12 @@ export function useReservation(confettiColors?: string[]) {
       timestamp: new Date().toISOString(),
     };
 
-    // Persist to sessionStorage for admin panel
+    // Persist to localStorage for admin panel (survives page reloads)
     try {
-      const rs = JSON.parse(sessionStorage.getItem('panel-reservas') || '[]');
-      rs.push(reserva);
-      sessionStorage.setItem('panel-reservas', JSON.stringify(rs));
+      const KEY = `panel-reservas-${tc.nombre}`;
+      const rs = JSON.parse(localStorage.getItem(KEY) || '[]');
+      rs.push({ ...reserva, telefono: form.tel });
+      localStorage.setItem(KEY, JSON.stringify(rs));
     } catch { /* skip */ }
 
     // Supabase insert if enabled
@@ -81,6 +83,11 @@ export function useReservation(confettiColors?: string[]) {
         show_nombre: form.showNombre || null,
         tenant: tc.nombre,
       }).then(() => {});
+    }
+
+    // Points — 50pts per reservation
+    if (form.tel) {
+      puntosService.addPuntos(form.tel, form.nombre, `Reserva: ${form.tipo}`, 50);
     }
 
     // WhatsApp deeplink
