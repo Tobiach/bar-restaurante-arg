@@ -22,19 +22,19 @@ export const cuartaConfig = {
   },
 
   tema: {
-    primario:      "#080507",
-    primarioMedio: "#110D03",
-    primarioCard:  "#1C1508",
-    acento:        "#C8921C",
-    acentoClaro:   "#E5AE38",
-    acentoOscuro:  "#8B6010",
-    dorado:        "#F0E2BF",
-    blancoSuave:   "#F0E2BF",
-    blancoMuted:   "#9E8050",
+    primario:      "#0D1A0D",
+    primarioMedio: "#152B15",
+    primarioCard:  "#1A3A1A",
+    acento:        "#C8A96E",
+    acentoClaro:   "#DFC28A",
+    acentoOscuro:  "#9A7A45",
+    dorado:        "#E8DCC8",
+    blancoSuave:   "#E8DCC8",
+    blancoMuted:   "#9E8E7A",
   },
 
-  fontTitulo: "'Bebas Neue', sans-serif",
-  fontDisplay: "'Barlow Condensed', sans-serif",
+  fontTitulo: "'Libre Baskerville', serif",
+  fontDisplay: "'Oswald', sans-serif",
 
   features: {
     shows: false,

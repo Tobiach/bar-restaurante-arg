@@ -139,10 +139,10 @@ export default function AdminPanel() {
   const confirmadas = filteredReservas.filter(r => r.estado === 'confirmada').length;
 
   // Analytics
-  const tiposCount = filteredReservas.reduce((acc, r) => { acc[r.tipo] = (acc[r.tipo] || 0) + 1; return acc; }, {} as Record<string, number>);
-  const horasCount = filteredReservas.reduce((acc, r) => { if (r.hora) acc[r.hora] = (acc[r.hora] || 0) + 1; return acc; }, {} as Record<string, number>);
-  const maxTipo = Math.max(1, ...Object.values(tiposCount));
-  const maxHora = Math.max(1, ...Object.values(horasCount));
+  const tiposCount = filteredReservas.reduce<Record<string, number>>((acc, r) => { acc[r.tipo] = (acc[r.tipo] || 0) + 1; return acc; }, {});
+  const horasCount = filteredReservas.reduce<Record<string, number>>((acc, r) => { if (r.hora) acc[r.hora] = (acc[r.hora] || 0) + 1; return acc; }, {});
+  const maxTipo = Math.max(1, ...(Object.values(tiposCount) as number[]));
+  const maxHora = Math.max(1, ...(Object.values(horasCount) as number[]));
 
   const handlePinInput = (digit: string) => {
     const next = pin + digit;
@@ -273,7 +273,7 @@ export default function AdminPanel() {
               <div>
                 <p className="text-[10px] text-blanco-muted uppercase tracking-widest mb-3 font-display">Por tipo de visita</p>
                 <div className="space-y-3">
-                  {Object.entries(tiposCount).sort((a, b) => b[1] - a[1]).map(([tipo, count]) => (
+                  {(Object.entries(tiposCount) as [string, number][]).sort((a, b) => b[1] - a[1]).map(([tipo, count]) => (
                     <div key={tipo}>
                       <div className="flex justify-between text-xs mb-1">
                         <span className="font-semibold">{tipo}</span>
@@ -291,7 +291,7 @@ export default function AdminPanel() {
               <div>
                 <p className="text-[10px] text-blanco-muted uppercase tracking-widest mb-3 font-display">Horarios más pedidos</p>
                 <div className="space-y-3">
-                  {Object.entries(horasCount).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([hora, count]) => (
+                  {(Object.entries(horasCount) as [string, number][]).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([hora, count]) => (
                     <div key={hora}>
                       <div className="flex justify-between text-xs mb-1">
                         <span className="font-semibold">{hora} hs</span>
