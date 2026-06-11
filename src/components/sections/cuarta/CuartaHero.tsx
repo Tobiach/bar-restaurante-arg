@@ -9,7 +9,7 @@ export default function CuartaHero() {
   const tc = getConfig();
 
   return (
-    <section style={{ position: 'relative', minHeight: '100vh', background: '#080507', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', minHeight: '100vh', background: '#0D1A0D', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden' }}>
       {/* Background */}
       <div style={{ position: 'absolute', inset: 0 }}>
         <img
@@ -17,16 +17,16 @@ export default function CuartaHero() {
           alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.28) saturate(1.3)' }}
         />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #080507 25%, rgba(8,5,7,0.65) 60%, rgba(8,5,7,0.2) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0D1A0D 25%, rgba(13,26,13,0.65) 60%, rgba(13,26,13,0.2) 100%)' }} />
         {/* Warm amber side glow */}
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 40% at 80% 50%, rgba(200,146,28,0.06) 0%, transparent 70%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 40% at 80% 50%, rgba(200,169,110,0.06) 0%, transparent 70%)' }} />
       </div>
 
       {/* Ticker strip top */}
-      <div style={{ position: 'absolute', top: '64px', left: 0, right: 0, overflow: 'hidden', height: '36px', display: 'flex', alignItems: 'center', borderBottom: '1px solid rgba(200,146,28,0.08)' }}>
+      <div style={{ position: 'absolute', top: '64px', left: 0, right: 0, overflow: 'hidden', height: '36px', display: 'flex', alignItems: 'center', borderBottom: '1px solid rgba(200,169,110,0.08)' }}>
         <div className="animate-marquee" style={{ display: 'flex', gap: '48px', whiteSpace: 'nowrap', paddingLeft: '48px' }}>
           {[...tc.ticker, ...tc.ticker].map((t: string, i: number) => (
-            <span key={i} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: 'rgba(200,146,28,0.4)', textTransform: 'uppercase' }}>
+            <span key={i} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: 'rgba(200,169,110,0.4)', textTransform: 'uppercase' }}>
               ◆ {t}
             </span>
           ))}
@@ -43,8 +43,8 @@ export default function CuartaHero() {
           transition={{ duration: 0.7 }}
           style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}
         >
-          <div style={{ width: '40px', height: '1px', background: '#C8921C' }} />
-          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8921C', textTransform: 'uppercase' }}>
+          <div style={{ width: '40px', height: '1px', background: '#C8A96E' }} />
+          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8A96E', textTransform: 'uppercase' }}>
             CERVECERÍA ARTESANAL · BUENOS AIRES
           </span>
         </motion.div>
@@ -55,7 +55,7 @@ export default function CuartaHero() {
             initial={{ y: '110%' }}
             animate={{ y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(76px, 13vw, 168px)', lineHeight: 0.88, letterSpacing: '0.02em', color: '#F0E2BF' }}
+            style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(76px, 13vw, 168px)', lineHeight: 0.88, letterSpacing: '0.02em', color: '#E8DCC8' }}
           >
             NOS TRAJO
           </motion.div>
@@ -65,7 +65,7 @@ export default function CuartaHero() {
             initial={{ y: '110%' }}
             animate={{ y: 0 }}
             transition={{ duration: 0.9, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(76px, 13vw, 168px)', lineHeight: 0.88, letterSpacing: '0.02em', color: '#C8921C' }}
+            style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(76px, 13vw, 168px)', lineHeight: 0.88, letterSpacing: '0.02em', color: '#C8A96E' }}
           >
             LA CUARTA
           </motion.div>
@@ -76,7 +76,7 @@ export default function CuartaHero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.38 }}
-          style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(16px, 2.2vw, 24px)', color: '#9E8050', maxWidth: '520px', marginBottom: '40px', lineHeight: 1.4 }}
+          style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(16px, 2.2vw, 24px)', color: '#9E8E7A', maxWidth: '520px', marginBottom: '40px', lineHeight: 1.4 }}
         >
           {tc.tagline}
         </motion.p>
@@ -91,30 +91,30 @@ export default function CuartaHero() {
           <a
             href="#cuarta-menu"
             style={{
-              background: '#C8921C', color: '#080507',
+              background: '#C8A96E', color: '#0D1A0D',
               padding: '15px 40px',
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: '13px', letterSpacing: '0.28em', fontWeight: 700,
               textDecoration: 'none', textTransform: 'uppercase',
               transition: 'background 0.2s', display: 'inline-block',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#E5AE38'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#C8921C'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#DFC28A'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#C8A96E'; }}
           >
             {tc.hero.cta1}
           </a>
           <a
             href="#cuarta-reservas"
             style={{
-              border: '1px solid rgba(200,146,28,0.35)', color: '#F0E2BF',
+              border: '1px solid rgba(200,169,110,0.35)', color: '#E8DCC8',
               padding: '15px 40px',
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: '13px', letterSpacing: '0.28em', fontWeight: 700,
               textDecoration: 'none', textTransform: 'uppercase',
               transition: 'all 0.2s', display: 'inline-block',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#C8921C'; (e.currentTarget as HTMLElement).style.color = '#C8921C'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,146,28,0.35)'; (e.currentTarget as HTMLElement).style.color = '#F0E2BF'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#C8A96E'; (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,169,110,0.35)'; (e.currentTarget as HTMLElement).style.color = '#E8DCC8'; }}
           >
             {tc.hero.cta2}
           </a>
@@ -125,18 +125,18 @@ export default function CuartaHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          style={{ display: 'flex', flexWrap: 'wrap', gap: '36px', paddingTop: '28px', borderTop: '1px solid rgba(200,146,28,0.1)' }}
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '36px', paddingTop: '28px', borderTop: '1px solid rgba(200,169,110,0.1)' }}
         >
           {(tc.stats || []).map((stat: any, i: number) => {
             const Icon = STAT_ICONS[i] || Beer;
             return (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Icon size={20} style={{ color: '#C8921C', flexShrink: 0 }} />
+                <Icon size={20} style={{ color: '#C8A96E', flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '34px', color: '#E5AE38', lineHeight: 1 }}>
+                  <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '34px', color: '#DFC28A', lineHeight: 1 }}>
                     <CountUp end={stat.valor} suffix={stat.sufijo} />
                   </div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.22em', color: '#9E8050', textTransform: 'uppercase' }}>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.22em', color: '#9E8E7A', textTransform: 'uppercase' }}>
                     {stat.label}
                   </div>
                 </div>
@@ -150,7 +150,7 @@ export default function CuartaHero() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2.2 }}
-        style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', color: '#C8921C', opacity: 0.4 }}
+        style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', color: '#C8A96E', opacity: 0.4 }}
       >
         <ChevronDown size={28} />
       </motion.div>

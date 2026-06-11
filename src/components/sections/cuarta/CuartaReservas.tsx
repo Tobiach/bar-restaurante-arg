@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, MessageCircle, Minus, Plus, Sofa, Users, Gift } from 'lucide-react';
 import { useReservation } from '../../../hooks/useReservation';
@@ -21,7 +21,7 @@ export default function CuartaReservas() {
           <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(48px, 6vw, 80px)', letterSpacing: '0.02em', color: tc.tema.dorado, margin: '0 0 8px', lineHeight: 0.9 }}>
             ASEGURÁ TU MESA
           </h2>
-          <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '17px', color: tc.tema.blancoMuted ?? '#9E8050' }}>
+          <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '17px', color: tc.tema.blancoMuted ?? '#9E8E7A' }}>
             {tc.reservas.mensajeEscasez}
           </p>
         </motion.div>
@@ -49,11 +49,11 @@ export default function CuartaReservas() {
                     background: done ? tc.tema.acento : active ? `rgba(${hexToRgb(tc.tema.acento)},0.15)` : 'transparent',
                     border: `1px solid ${done || active ? tc.tema.acento : `rgba(${hexToRgb(tc.tema.acento)},0.2)`}`,
                     fontFamily: "'Bebas Neue', cursive", fontSize: '14px',
-                    color: done ? tc.tema.primario : active ? tc.tema.acento : (tc.tema.blancoMuted ?? '#9E8050'),
+                    color: done ? tc.tema.primario : active ? tc.tema.acento : (tc.tema.blancoMuted ?? '#9E8E7A'),
                   }}>
                     {done ? '✓' : s}
                   </div>
-                  <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.25em', color: active ? tc.tema.dorado : (tc.tema.blancoMuted ?? '#9E8050'), textTransform: 'uppercase' }}>
+                  <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.25em', color: active ? tc.tema.dorado : (tc.tema.blancoMuted ?? '#9E8E7A'), textTransform: 'uppercase' }}>
                     {label}
                   </span>
                 </div>
@@ -65,7 +65,7 @@ export default function CuartaReservas() {
             {/* STEP 1 */}
             {step === 1 && (
               <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '14px', letterSpacing: '0.2em', color: tc.tema.blancoMuted ?? '#9E8050', textTransform: 'uppercase', marginBottom: '24px', textAlign: 'center' }}>
+                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '14px', letterSpacing: '0.2em', color: tc.tema.blancoMuted ?? '#9E8E7A', textTransform: 'uppercase', marginBottom: '24px', textAlign: 'center' }}>
                   ¿Para qué vas a venir?
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', marginBottom: '28px' }}>
@@ -80,11 +80,11 @@ export default function CuartaReservas() {
                           border: `1px solid ${sel ? tc.tema.acento : `rgba(${hexToRgb(tc.tema.acento)},0.12)`}`,
                           cursor: 'pointer', transition: 'all 0.2s',
                         }}>
-                        <Icon size={32} style={{ color: sel ? tc.tema.acento : (tc.tema.blancoMuted ?? '#9E8050') }} strokeWidth={1.3} />
-                        <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '14px', letterSpacing: '0.15em', textTransform: 'uppercase', color: sel ? tc.tema.dorado : (tc.tema.blancoMuted ?? '#9E8050'), fontWeight: 600 }}>
+                        <Icon size={32} style={{ color: sel ? tc.tema.acento : (tc.tema.blancoMuted ?? '#9E8E7A') }} strokeWidth={1.3} />
+                        <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '14px', letterSpacing: '0.15em', textTransform: 'uppercase', color: sel ? tc.tema.dorado : (tc.tema.blancoMuted ?? '#9E8E7A'), fontWeight: 600 }}>
                           {tipo.title}
                         </span>
-                        <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', color: tc.tema.blancoMuted ?? '#9E8050' }}>{tipo.desc}</span>
+                        <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', color: tc.tema.blancoMuted ?? '#9E8E7A' }}>{tipo.desc}</span>
                       </button>
                     );
                   })}
@@ -104,13 +104,13 @@ export default function CuartaReservas() {
                         {MONTH_NAMES[currentMonth.getMonth()]}
                       </span>
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: tc.tema.blancoMuted ?? '#9E8050' }}><ChevronLeft size={16} /></button>
-                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: tc.tema.blancoMuted ?? '#9E8050' }}><ChevronRight size={16} /></button>
+                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: tc.tema.blancoMuted ?? '#9E8E7A' }}><ChevronLeft size={16} /></button>
+                        <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: tc.tema.blancoMuted ?? '#9E8E7A' }}><ChevronRight size={16} /></button>
                       </div>
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px', textAlign: 'center' }}>
                       {['D','L','M','M','J','V','S'].map((d, i) => (
-                        <div key={i} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: tc.tema.blancoMuted ?? '#9E8050', padding: '6px 0', letterSpacing: '0.1em' }}>{d}</div>
+                        <div key={i} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: tc.tema.blancoMuted ?? '#9E8E7A', padding: '6px 0', letterSpacing: '0.1em' }}>{d}</div>
                       ))}
                       {(() => {
                         const yr = currentMonth.getFullYear(), mo = currentMonth.getMonth();
@@ -158,7 +158,7 @@ export default function CuartaReservas() {
                           style={{
                             padding: '8px', fontFamily: "'Bebas Neue', cursive", fontSize: '16px', letterSpacing: '0.06em',
                             background: form.hora === h ? tc.tema.acento : 'transparent',
-                            color: form.hora === h ? tc.tema.primario : (tc.tema.blancoMuted ?? '#9E8050'),
+                            color: form.hora === h ? tc.tema.primario : (tc.tema.blancoMuted ?? '#9E8E7A'),
                             border: `1px solid ${form.hora === h ? tc.tema.acento : `rgba(${hexToRgb(tc.tema.acento)},0.15)`}`,
                             cursor: 'pointer', transition: 'all 0.15s',
                           }}
@@ -251,7 +251,7 @@ function BtnPrimary({ tc, onClick, children, style = {} }: any) {
 
 function BtnBack({ tc, onClick }: any) {
   return (
-    <button onClick={onClick} style={{ padding: '14px 20px', background: 'transparent', border: `1px solid rgba(${hexToRgb(tc.tema.acento)},0.2)`, color: tc.tema.blancoMuted ?? '#9E8050', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', letterSpacing: '0.2em' }}>
+    <button onClick={onClick} style={{ padding: '14px 20px', background: 'transparent', border: `1px solid rgba(${hexToRgb(tc.tema.acento)},0.2)`, color: tc.tema.blancoMuted ?? '#9E8E7A', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', letterSpacing: '0.2em' }}>
       ← VOLVER
     </button>
   );

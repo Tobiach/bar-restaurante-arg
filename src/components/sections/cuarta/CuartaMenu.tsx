@@ -41,7 +41,7 @@ export default function CuartaMenu() {
   const CatIcon = CAT_ICONS[tab] || Utensils;
 
   return (
-    <section id="cuarta-menu" style={{ background: '#1C1508', padding: '96px 0 80px' }}>
+    <section id="cuarta-menu" style={{ background: '#1A3A1A', padding: '96px 0 80px' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
@@ -54,12 +54,12 @@ export default function CuartaMenu() {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-              <div style={{ width: '40px', height: '1px', background: '#C8921C' }} />
-              <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8921C', textTransform: 'uppercase' }}>
+              <div style={{ width: '40px', height: '1px', background: '#C8A96E' }} />
+              <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8A96E', textTransform: 'uppercase' }}>
                 {tc.labels?.menu || 'CANILLAS & COCINA'}
               </span>
             </div>
-            <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(48px, 6vw, 88px)', letterSpacing: '0.02em', color: '#F0E2BF', lineHeight: 0.9, margin: 0 }}>
+            <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(48px, 6vw, 88px)', letterSpacing: '0.02em', color: '#E8DCC8', lineHeight: 0.9, margin: 0 }}>
               NUESTRA CARTA
             </h2>
           </div>
@@ -68,18 +68,18 @@ export default function CuartaMenu() {
           <button
             onClick={() => setCartOpen(true)}
             style={{
-              position: 'relative', background: '#221A08', border: '1px solid rgba(200,146,28,0.2)',
-              color: '#F0E2BF', padding: '12px 20px', cursor: 'pointer',
+              position: 'relative', background: '#152B15', border: '1px solid rgba(200,169,110,0.2)',
+              color: '#E8DCC8', padding: '12px 20px', cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: '8px',
               fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#C8921C'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,146,28,0.2)'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#C8A96E'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,169,110,0.2)'; }}
           >
-            <ShoppingCart size={16} style={{ color: '#C8921C' }} />
+            <ShoppingCart size={16} style={{ color: '#C8A96E' }} />
             MI PEDIDO
             {cart.length > 0 && (
-              <span style={{ background: '#C8921C', color: '#080507', fontSize: '10px', fontWeight: 700, width: '18px', height: '18px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: '-6px', right: '-6px' }}>
+              <span style={{ background: '#C8A96E', color: '#0D1A0D', fontSize: '10px', fontWeight: 700, width: '18px', height: '18px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: '-6px', right: '-6px' }}>
                 {cart.length}
               </span>
             )}
@@ -98,9 +98,9 @@ export default function CuartaMenu() {
                 style={{
                   flexShrink: 0,
                   padding: '10px 20px',
-                  background: active ? '#C8921C' : 'rgba(42,30,0,0.6)',
-                  color: active ? '#080507' : '#9E8050',
-                  border: `1px solid ${active ? '#C8921C' : 'rgba(200,146,28,0.12)'}`,
+                  background: active ? '#C8A96E' : 'rgba(21,43,21,0.6)',
+                  color: active ? '#0D1A0D' : '#9E8E7A',
+                  border: `1px solid ${active ? '#C8A96E' : 'rgba(200,169,110,0.12)'}`,
                   fontFamily: "'Barlow Condensed', sans-serif",
                   fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase',
                   cursor: 'pointer', transition: 'all 0.2s',
@@ -127,28 +127,28 @@ export default function CuartaMenu() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 style={{
-                  background: '#221A08',
-                  border: '1px solid rgba(200,146,28,0.08)',
+                  background: '#152B15',
+                  border: '1px solid rgba(200,169,110,0.08)',
                   padding: '24px',
                   transition: 'border-color 0.2s',
                   cursor: 'default',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,146,28,0.25)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,146,28,0.08)'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,169,110,0.25)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,169,110,0.08)'; }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                    <CatIcon size={18} style={{ color: 'rgba(200,146,28,0.4)', flexShrink: 0 }} strokeWidth={1.5} />
-                    <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '19px', letterSpacing: '0.03em', color: '#F0E2BF', margin: 0, fontWeight: 600 }}>
+                    <CatIcon size={18} style={{ color: 'rgba(200,169,110,0.4)', flexShrink: 0 }} strokeWidth={1.5} />
+                    <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '19px', letterSpacing: '0.03em', color: '#E8DCC8', margin: 0, fontWeight: 600 }}>
                       {item.nombre}
                     </h3>
                   </div>
-                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '20px', color: '#C8921C', letterSpacing: '0.04em', flexShrink: 0, marginLeft: '12px' }}>
+                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '20px', color: '#C8A96E', letterSpacing: '0.04em', flexShrink: 0, marginLeft: '12px' }}>
                     {formatPrice(item.precio)}
                   </span>
                 </div>
 
-                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', color: '#9E8050', marginBottom: '16px', lineHeight: 1.5, minHeight: '42px' }}>
+                <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', color: '#9E8E7A', marginBottom: '16px', lineHeight: 1.5, minHeight: '42px' }}>
                   {item.desc || item.descripcion || ''}
                 </p>
 
@@ -156,7 +156,7 @@ export default function CuartaMenu() {
                 {item.badges?.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
                     {item.badges.map((b: string) => (
-                      <span key={b} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', background: 'rgba(200,146,28,0.12)', color: '#C8921C', padding: '3px 8px', border: '1px solid rgba(200,146,28,0.2)' }}>
+                      <span key={b} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', background: 'rgba(200,169,110,0.12)', color: '#C8A96E', padding: '3px 8px', border: '1px solid rgba(200,169,110,0.2)' }}>
                         {b === 'MÁS PEDIDO' ? <Flame size={9} /> : <Star size={9} />}
                         {b}
                       </span>
@@ -168,13 +168,13 @@ export default function CuartaMenu() {
                   onClick={() => { setCart(c => [...c, item]); showToast(`Agregado: ${item.nombre}`, 'exito'); }}
                   style={{
                     width: '100%', padding: '10px', background: 'transparent',
-                    border: '1px solid rgba(200,146,28,0.2)', color: '#C8921C',
+                    border: '1px solid rgba(200,169,110,0.2)', color: '#C8A96E',
                     fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
                     cursor: 'pointer', transition: 'all 0.2s',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                   }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#C8921C'; (e.currentTarget as HTMLElement).style.color = '#080507'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#C8921C'; }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#C8A96E'; (e.currentTarget as HTMLElement).style.color = '#0D1A0D'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
                 >
                   <Plus size={13} /> AGREGAR
                 </button>
@@ -189,16 +189,16 @@ export default function CuartaMenu() {
         <button
           onClick={() => setCartOpen(true)}
           style={{
-            background: '#C8921C', color: '#080507',
+            background: '#C8A96E', color: '#0D1A0D',
             width: '56px', height: '56px', borderRadius: '50%',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', border: 'none', position: 'relative',
-            boxShadow: '0 8px 30px rgba(200,146,28,0.35)',
+            boxShadow: '0 8px 30px rgba(200,169,110,0.35)',
           }}
         >
           <ShoppingCart size={22} />
           {cart.length > 0 && (
-            <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#080507', color: '#C8921C', fontSize: '10px', fontWeight: 700, width: '18px', height: '18px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #C8921C' }}>
+            <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#0D1A0D', color: '#C8A96E', fontSize: '10px', fontWeight: 700, width: '18px', height: '18px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #C8A96E' }}>
               {cart.length}
             </span>
           )}
@@ -219,16 +219,16 @@ export default function CuartaMenu() {
               transition={{ type: 'spring', damping: 28, stiffness: 300 }}
               style={{
                 position: 'fixed', top: 0, right: 0, height: '100%', width: '100%', maxWidth: '380px',
-                background: '#1C1508', borderLeft: '1px solid rgba(200,146,28,0.15)', zIndex: 201,
+                background: '#1A3A1A', borderLeft: '1px solid rgba(200,169,110,0.15)', zIndex: 201,
                 display: 'flex', flexDirection: 'column',
               }}
             >
-              <div style={{ padding: '24px', borderBottom: '1px solid rgba(200,146,28,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ padding: '24px', borderBottom: '1px solid rgba(200,169,110,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <ShoppingCart size={20} style={{ color: '#C8921C' }} />
-                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '24px', color: '#F0E2BF', letterSpacing: '0.06em' }}>TU PEDIDO</span>
+                  <ShoppingCart size={20} style={{ color: '#C8A96E' }} />
+                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '24px', color: '#E8DCC8', letterSpacing: '0.06em' }}>TU PEDIDO</span>
                 </div>
-                <button onClick={() => setCartOpen(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9E8050' }}>
+                <button onClick={() => setCartOpen(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9E8E7A' }}>
                   <X size={22} />
                 </button>
               </div>
@@ -236,20 +236,20 @@ export default function CuartaMenu() {
               <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
                 {cart.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '60px 0' }}>
-                    <ShoppingCart size={40} style={{ color: 'rgba(200,146,28,0.15)', margin: '0 auto 12px' }} />
-                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", color: '#9E8050', letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '13px' }}>El pedido está vacío</p>
+                    <ShoppingCart size={40} style={{ color: 'rgba(200,169,110,0.15)', margin: '0 auto 12px' }} />
+                    <p style={{ fontFamily: "'Barlow Condensed', sans-serif", color: '#9E8E7A', letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '13px' }}>El pedido está vacío</p>
                   </div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {cart.map((item, idx) => (
-                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#221A08', padding: '12px', border: '1px solid rgba(200,146,28,0.08)' }}>
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#152B15', padding: '12px', border: '1px solid rgba(200,169,110,0.08)' }}>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', color: '#F0E2BF', fontWeight: 600 }}>{item.nombre}</div>
-                          <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '16px', color: '#C8921C' }}>{formatPrice(item.precio)}</div>
+                          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', color: '#E8DCC8', fontWeight: 600 }}>{item.nombre}</div>
+                          <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '16px', color: '#C8A96E' }}>{formatPrice(item.precio)}</div>
                         </div>
                         <button
                           onClick={() => setCart(c => { const n = [...c]; n.splice(idx, 1); return n; })}
-                          style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9E8050', padding: '4px' }}
+                          style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9E8E7A', padding: '4px' }}
                         >
                           <Minus size={14} />
                         </button>
@@ -259,18 +259,18 @@ export default function CuartaMenu() {
                 )}
               </div>
 
-              <div style={{ padding: '24px', borderTop: '1px solid rgba(200,146,28,0.1)' }}>
+              <div style={{ padding: '24px', borderTop: '1px solid rgba(200,169,110,0.1)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                  <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '13px', color: '#9E8050', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Subtotal</span>
-                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '24px', color: '#C8921C' }}>{formatPrice(subtotal)}</span>
+                  <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '13px', color: '#9E8E7A', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Subtotal</span>
+                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '24px', color: '#C8A96E' }}>{formatPrice(subtotal)}</span>
                 </div>
                 <button
                   disabled={cart.length === 0}
                   onClick={() => { showToast('¡Mostrá esto al mozo!', 'info'); setCartOpen(false); }}
                   style={{
                     width: '100%', padding: '14px',
-                    background: cart.length > 0 ? '#C8921C' : 'rgba(200,146,28,0.2)',
-                    color: cart.length > 0 ? '#080507' : '#9E8050',
+                    background: cart.length > 0 ? '#C8A96E' : 'rgba(200,169,110,0.2)',
+                    color: cart.length > 0 ? '#0D1A0D' : '#9E8E7A',
                     border: 'none', cursor: cart.length > 0 ? 'pointer' : 'not-allowed',
                     fontFamily: "'Barlow Condensed', sans-serif", fontSize: '13px', letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
                   }}

@@ -7,18 +7,18 @@ export default function CuartaContacto() {
   const WA_URL = `https://wa.me/${tc.whatsapp}`;
 
   return (
-    <section id="cuarta-contacto" style={{ background: '#1C1508', padding: '96px 0' }}>
+    <section id="cuarta-contacto" style={{ background: '#1A3A1A', padding: '96px 0' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} style={{ marginBottom: '56px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-            <div style={{ width: '40px', height: '1px', background: '#C8921C' }} />
-            <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8921C', textTransform: 'uppercase' }}>
+            <div style={{ width: '40px', height: '1px', background: '#C8A96E' }} />
+            <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8A96E', textTransform: 'uppercase' }}>
               {tc.labels?.contacto || 'CÓMO LLEGAR'}
             </span>
           </div>
-          <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(52px, 7vw, 96px)', letterSpacing: '0.02em', color: '#F0E2BF', lineHeight: 0.9, margin: 0 }}>
+          <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(52px, 7vw, 96px)', letterSpacing: '0.02em', color: '#E8DCC8', lineHeight: 0.9, margin: 0 }}>
             ENCONTRANOS
           </h2>
         </motion.div>
@@ -28,7 +28,7 @@ export default function CuartaContacto() {
           {/* Map */}
           <motion.div
             initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-            style={{ height: '400px', overflow: 'hidden', border: '1px solid rgba(200,146,28,0.1)' }}
+            style={{ height: '400px', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.1)' }}
           >
             <iframe
               src={`https://maps.google.com/maps?q=${tc.googleMapsQuery}&output=embed`}
@@ -49,10 +49,10 @@ export default function CuartaContacto() {
             {/* Address */}
             <div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <MapPin size={18} style={{ color: '#C8921C', marginTop: '3px', flexShrink: 0 }} />
+                <MapPin size={18} style={{ color: '#C8A96E', marginTop: '3px', flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8921C', textTransform: 'uppercase', marginBottom: '4px' }}>DIRECCIÓN</div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#F0E2BF' }}>{tc.direccion}</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8A96E', textTransform: 'uppercase', marginBottom: '4px' }}>DIRECCIÓN</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#E8DCC8' }}>{tc.direccion}</div>
                 </div>
               </div>
             </div>
@@ -60,11 +60,11 @@ export default function CuartaContacto() {
             {/* Hours */}
             <div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <Clock size={18} style={{ color: '#C8921C', marginTop: '3px', flexShrink: 0 }} />
+                <Clock size={18} style={{ color: '#C8A96E', marginTop: '3px', flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8921C', textTransform: 'uppercase', marginBottom: '8px' }}>HORARIOS</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8A96E', textTransform: 'uppercase', marginBottom: '8px' }}>HORARIOS</div>
                   {tc.horarios.detalle.map((d: string, i: number) => (
-                    <div key={i} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '17px', color: '#9E8050', marginBottom: '4px' }}>{d}</div>
+                    <div key={i} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '17px', color: '#9E8E7A', marginBottom: '4px' }}>{d}</div>
                   ))}
                 </div>
               </div>
@@ -73,10 +73,10 @@ export default function CuartaContacto() {
             {/* Phone */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Phone size={18} style={{ color: '#C8921C', flexShrink: 0 }} />
+                <Phone size={18} style={{ color: '#C8A96E', flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8921C', textTransform: 'uppercase', marginBottom: '4px' }}>TELÉFONO</div>
-                  <a href={`tel:${tc.telefono}`} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#F0E2BF', textDecoration: 'none' }}>{tc.telefono}</a>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8A96E', textTransform: 'uppercase', marginBottom: '4px' }}>TELÉFONO</div>
+                  <a href={`tel:${tc.telefono}`} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#E8DCC8', textDecoration: 'none' }}>{tc.telefono}</a>
                 </div>
               </div>
             </div>
@@ -84,12 +84,12 @@ export default function CuartaContacto() {
             {/* Instagram */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Instagram size={18} style={{ color: '#C8921C', flexShrink: 0 }} />
+                <Instagram size={18} style={{ color: '#C8A96E', flexShrink: 0 }} />
                 <div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8921C', textTransform: 'uppercase', marginBottom: '4px' }}>INSTAGRAM</div>
-                  <a href={`https://instagram.com/${tc.instagram}`} target="_blank" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#F0E2BF', textDecoration: 'none', transition: 'color 0.2s' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8921C'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#F0E2BF'; }}
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.3em', color: '#C8A96E', textTransform: 'uppercase', marginBottom: '4px' }}>INSTAGRAM</div>
+                  <a href={`https://instagram.com/${tc.instagram}`} target="_blank" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#E8DCC8', textDecoration: 'none', transition: 'color 0.2s' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#E8DCC8'; }}
                   >
                     @{tc.instagram}
                   </a>
@@ -103,12 +103,12 @@ export default function CuartaContacto() {
                 href={`https://maps.google.com/?q=${tc.googleMapsQuery}`}
                 target="_blank"
                 style={{
-                  background: '#C8921C', color: '#080507', padding: '13px 24px',
+                  background: '#C8A96E', color: '#0D1A0D', padding: '13px 24px',
                   fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
                   textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', transition: 'background 0.2s',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#E5AE38'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#C8921C'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#DFC28A'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#C8A96E'; }}
               >
                 <MapPin size={14} /> CÓMO LLEGAR
               </a>
@@ -116,12 +116,12 @@ export default function CuartaContacto() {
                 href={WA_URL}
                 target="_blank"
                 style={{
-                  border: '1px solid rgba(200,146,28,0.3)', color: '#F0E2BF', padding: '13px 24px', background: 'transparent',
+                  border: '1px solid rgba(200,169,110,0.3)', color: '#E8DCC8', padding: '13px 24px', background: 'transparent',
                   fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
                   textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#C8921C'; (e.currentTarget as HTMLElement).style.color = '#C8921C'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,146,28,0.3)'; (e.currentTarget as HTMLElement).style.color = '#F0E2BF'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#C8A96E'; (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,169,110,0.3)'; (e.currentTarget as HTMLElement).style.color = '#E8DCC8'; }}
               >
                 <MessageCircle size={14} /> WHATSAPP
               </a>

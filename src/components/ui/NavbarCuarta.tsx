@@ -28,18 +28,18 @@ export default function NavbarCuarta() {
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
           transition: 'all 0.4s ease',
-          background: scrolled ? 'rgba(8,5,7,0.97)' : 'transparent',
+          background: scrolled ? 'rgba(13,26,13,0.97)' : 'transparent',
           backdropFilter: scrolled ? 'blur(16px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(200,146,28,0.12)' : '1px solid transparent',
+          borderBottom: scrolled ? '1px solid rgba(200,169,110,0.12)' : '1px solid transparent',
         }}
       >
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Logo */}
           <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-            <Beer size={22} style={{ color: '#C8921C' }} />
+            <Beer size={22} style={{ color: '#C8A96E' }} />
             <div>
-              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '0.35em', color: '#9E8050', lineHeight: 1, textTransform: 'uppercase' }}>NOS TRAJO</div>
-              <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '22px', letterSpacing: '0.1em', color: '#F0E2BF', lineHeight: 1 }}>LA CUARTA</div>
+              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '0.35em', color: '#9E8E7A', lineHeight: 1, textTransform: 'uppercase' }}>NOS TRAJO</div>
+              <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '22px', letterSpacing: '0.1em', color: '#E8DCC8', lineHeight: 1 }}>LA CUARTA</div>
             </div>
           </a>
 
@@ -49,9 +49,9 @@ export default function NavbarCuarta() {
               <a
                 key={l.label}
                 href={l.href}
-                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '0.22em', color: '#9E8050', textDecoration: 'none', transition: 'color 0.2s', textTransform: 'uppercase' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8921C'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9E8050'; }}
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '0.22em', color: '#9E8E7A', textDecoration: 'none', transition: 'color 0.2s', textTransform: 'uppercase' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9E8E7A'; }}
               >
                 {l.label}
               </a>
@@ -64,22 +64,22 @@ export default function NavbarCuarta() {
               href="#cuarta-reservas"
               className="hidden md:inline-flex"
               style={{
-                background: '#C8921C', color: '#080507',
+                background: '#C8A96E', color: '#0D1A0D',
                 padding: '8px 20px',
                 fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: '11px', letterSpacing: '0.22em', fontWeight: 700,
                 textDecoration: 'none', textTransform: 'uppercase',
                 transition: 'background 0.2s',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#E5AE38'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#C8921C'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#DFC28A'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#C8A96E'; }}
             >
               RESERVAR
             </a>
             <button
               onClick={() => setOpen(!open)}
               className="md:hidden"
-              style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#F0E2BF', padding: '4px' }}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#E8DCC8', padding: '4px' }}
             >
               {open ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -97,7 +97,7 @@ export default function NavbarCuarta() {
             transition={{ duration: 0.25 }}
             style={{
               position: 'fixed', inset: 0, zIndex: 90,
-              background: 'rgba(8,5,7,0.98)',
+              background: 'rgba(13,26,13,0.98)',
               backdropFilter: 'blur(20px)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '32px',
             }}
@@ -112,10 +112,10 @@ export default function NavbarCuarta() {
                 onClick={() => setOpen(false)}
                 style={{
                   fontFamily: "'Bebas Neue', cursive", fontSize: '52px', letterSpacing: '0.08em',
-                  color: '#F0E2BF', textDecoration: 'none', transition: 'color 0.2s',
+                  color: '#E8DCC8', textDecoration: 'none', transition: 'color 0.2s',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8921C'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#F0E2BF'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#E8DCC8'; }}
               >
                 {l.label}
               </motion.a>
@@ -125,7 +125,7 @@ export default function NavbarCuarta() {
                 href="#cuarta-reservas"
                 onClick={() => setOpen(false)}
                 style={{
-                  background: '#C8921C', color: '#080507',
+                  background: '#C8A96E', color: '#0D1A0D',
                   padding: '14px 40px',
                   fontFamily: "'Barlow Condensed', sans-serif",
                   fontSize: '13px', letterSpacing: '0.25em', fontWeight: 700,
