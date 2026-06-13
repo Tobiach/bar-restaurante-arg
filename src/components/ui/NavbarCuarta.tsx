@@ -18,7 +18,7 @@ export default function NavbarCuarta() {
   const links = [
     { label: 'CANILLAS', href: '#cuarta-menu' },
     { label: 'KARAOKE', href: '#cuarta-karaoke' },
-    { label: 'CLUB LA CUARTA', href: '#cuarta-puntos' },
+    { label: 'CLUB LA TERCERA', href: '#cuarta-puntos' },
     { label: 'GALERÍA', href: '#cuarta-galeria' },
   ];
 
@@ -39,7 +39,7 @@ export default function NavbarCuarta() {
             <Beer size={22} style={{ color: '#C8A96E' }} />
             <div>
               <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '0.35em', color: '#9E8E7A', lineHeight: 1, textTransform: 'uppercase' }}>NOS TRAJO</div>
-              <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '22px', letterSpacing: '0.1em', color: '#E8DCC8', lineHeight: 1 }}>LA CUARTA</div>
+              <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '22px', letterSpacing: '0.1em', color: '#E8DCC8', lineHeight: 1 }}>LA TERCERA</div>
             </div>
           </a>
 

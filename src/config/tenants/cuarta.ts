@@ -1,5 +1,5 @@
-export const cuartaConfig = {
-  nombre: "Nos Trajo la Cuarta",
+﻿export const cuartaConfig = {
+  nombre: "Nos Trajo la Tercera",
   tagline: "Cerveza artesanal. Buena charla. Sin apuro.",
   logo: "",
   adminPin: "4444",
@@ -49,7 +49,7 @@ export const cuartaConfig = {
   hero: {
     tagBadge: "CANILLAS ABIERTAS",
     titulo1: "La cerveza que",
-    titulo2: "nos trajo la cuarta",
+    titulo2: "nos trajo la tercera",
     subtitulo: "Artesanal, de autor, tirada. Con picada, sin pretensiones y con todas las ganas.",
     cta1: "VER CANILLAS →",
     cta1Href: "#sec-carta",
@@ -75,7 +75,7 @@ export const cuartaConfig = {
   ],
 
   club: {
-    nombre: "Club La Cuarta",
+    nombre: "Club La Tercera",
     descripcion: "Cada jarra suma. Acumulá y tomá gratis.",
     recompensas: [
       { pts: 50,  gift: "Porción de papas gratis" },
@@ -86,7 +86,7 @@ export const cuartaConfig = {
     demoUser: {
       nombre: "Rodrigo M.",
       puntos: 310,
-      nivel: "CUARTERA",
+      nivel: "TERCERA",
       proximoNivel: "BARRICERA",
       faltanPuntos: 190,
       meta: 500,
@@ -101,7 +101,7 @@ export const cuartaConfig = {
       featured: false,
     },
     {
-      title: "CUMPLE EN LA CUARTA",
+      title: "CUMPLE EN LA TERCERA",
       items: ["Mesa para hasta 12 personas", "2 jarras de autor", "Picada completa", "Torta de la casa"],
       price: "$38.000",
       featured: true,
@@ -139,7 +139,7 @@ export const cuartaConfig = {
     menu:      "CANILLAS & COCINA",
     reservas:  "RESERVAR MESA",
     cumpleanos:"FESTEJOS",
-    puntos:    "CLUB LA CUARTA",
+    puntos:    "CLUB LA TERCERA",
     karaoke:   "KARAOKE",
     galeria:   "GALERÍA",
     resenas:   "LO QUE DICEN",
@@ -148,12 +148,12 @@ export const cuartaConfig = {
 
   footer: {
     descripcion: "Cervecería artesanal en el corazón de Buenos Aires. Canillas rotativas, picadas caseras y todo el ambiente que necesitás.",
-    copyright: "© 2025 Nos Trajo la Cuarta — Av. Corrientes 3800, CABA",
+    copyright: "© 2025 Nos Trajo la Tercera — Av. Corrientes 3800, CABA",
     links: {
       explorar: [
         { label: "Canillas de Hoy", href: "#sec-carta" },
         { label: "Karaoke Martes", href: "#sec-karaoke" },
-        { label: "Club La Cuarta", href: "#sec-puntos" },
+        { label: "Club La Tercera", href: "#sec-puntos" },
         { label: "Reservas", href: "#sec-reservas" },
       ],
       festejos: [

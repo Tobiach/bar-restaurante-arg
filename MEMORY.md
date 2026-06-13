@@ -1,7 +1,13 @@
 # MEMORY — Control.Evo Hospitality Engine (sistema replicable)
 
+## [PROD_URL]
+https://bar-restaurante-arg.vercel.app
+- `/?t=isla` → Isla Bar Cultural
+- `/?t=cuarta` → Nos Trajo la Tercera
+- `/?t=cielo` → Cielo Rooftop
+
 ## Última actualización
-2026-06-07
+2026-06-11
 
 ## Quién soy
 Tobias Maldonado — Control.Evo. Vendo sistemas para bares, cervecerías y rooftops en Argentina.

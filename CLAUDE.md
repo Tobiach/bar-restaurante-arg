@@ -1,5 +1,11 @@
 # CLAUDE.md — Control.Evo Hospitality Engine
 
+## [PROD_URL]
+https://bar-restaurante-arg.vercel.app
+- `/?t=isla` → Isla Bar Cultural
+- `/?t=cuarta` → Nos Trajo la Tercera (tenant key: cuarta)
+- `/?t=cielo` → Cielo Rooftop
+
 > Este archivo es leído automáticamente por Claude Code al iniciar cada sesión.
 > Contiene todo lo necesario para trabajar sin preguntas innecesarias.
 

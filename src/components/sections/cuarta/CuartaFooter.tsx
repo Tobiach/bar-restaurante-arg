@@ -16,7 +16,7 @@ export default function CuartaFooter() {
               <Beer size={20} style={{ color: '#C8A96E' }} />
               <div>
                 <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '0.35em', color: '#9E8E7A', lineHeight: 1, textTransform: 'uppercase' }}>NOS TRAJO</div>
-                <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '20px', letterSpacing: '0.08em', color: '#E8DCC8', lineHeight: 1 }}>LA CUARTA</div>
+                <div style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '20px', letterSpacing: '0.08em', color: '#E8DCC8', lineHeight: 1 }}>LA TERCERA</div>
               </div>
             </div>
             <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', color: '#9E8E7A', lineHeight: 1.6, marginBottom: '20px', maxWidth: '260px' }}>

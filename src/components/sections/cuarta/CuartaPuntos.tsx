@@ -23,7 +23,7 @@ export default function CuartaPuntos() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
             <div style={{ width: '40px', height: '1px', background: '#C8A96E' }} />
             <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.5em', color: '#C8A96E', textTransform: 'uppercase' }}>
-              {tc.labels?.puntos || 'CLUB LA CUARTA'}
+              {tc.labels?.puntos || 'CLUB LA TERCERA'}
             </span>
           </div>
           <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(52px, 7vw, 96px)', letterSpacing: '0.02em', color: '#E8DCC8', lineHeight: 0.9, margin: '0 0 16px' }}>
@@ -143,7 +143,7 @@ export default function CuartaPuntos() {
             {/* Canjes CTA */}
             <button
               onClick={() => {
-                const msg = `Hola! Soy ${usuario.nombre} y quiero canjear mis ${usuario.puntos} puntos del Club La Cuarta.`;
+                const msg = `Hola! Soy ${usuario.nombre} y quiero canjear mis ${usuario.puntos} puntos del Club La Tercera.`;
                 window.open(`${WA_URL}?text=${encodeURIComponent(msg)}`, '_blank');
               }}
               style={{

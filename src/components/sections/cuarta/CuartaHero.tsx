@@ -67,7 +67,7 @@ export default function CuartaHero() {
             transition={{ duration: 0.9, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(76px, 13vw, 168px)', lineHeight: 0.88, letterSpacing: '0.02em', color: '#C8A96E' }}
           >
-            LA CUARTA
+            LA TERCERA
           </motion.div>
         </div>
 

@@ -29,7 +29,7 @@ export default function CuartaCumple() {
             CELEBRÁ EN
           </h2>
           <h2 style={{ fontFamily: "'Bebas Neue', cursive", fontSize: 'clamp(52px, 7vw, 96px)', letterSpacing: '0.02em', color: '#C8A96E', lineHeight: 0.9, margin: 0 }}>
-            LA CUARTA
+            LA TERCERA
           </h2>
           <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', color: '#9E8E7A', marginTop: '20px', maxWidth: '520px' }}>
             Cumpleaños, grupos, eventos privados. Armamos el festejo que se merezca.
