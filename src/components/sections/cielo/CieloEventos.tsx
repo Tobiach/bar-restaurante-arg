@@ -57,8 +57,8 @@ export default function CieloEventos() {
             style={{ height: '600px', border: '1px solid rgba(184,150,110,0.1)' }}
           >
             <img
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=85"
-              alt="Evento privado Cielo Rooftop"
+              src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&q=85"
+              alt="Evento privado en rooftop exclusivo"
               className="w-full h-full object-cover"
               style={{ filter: 'brightness(0.75) saturate(0.85)' }}
             />

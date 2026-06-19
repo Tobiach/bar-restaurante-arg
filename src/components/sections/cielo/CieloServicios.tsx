@@ -7,7 +7,7 @@ const CARDS = [
     descripcion: 'Nuestros livings de cuero negro y madera oscura están diseñados para grupos que quieren algo más que una mesa. Vista garantizada. Privacidad real.',
     cta: 'RESERVAR LIVING →',
     href: '#cielo-reservas',
-    imagen: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1200&q=85',
+    imagen: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=85',
     invertir: false,
   },
   {
@@ -15,7 +15,7 @@ const CARDS = [
     descripcion: 'Una carta pensada por bartenders con historia. Desde el Buenos Aires Sour hasta el Cielo Negroni, cada trago lleva el nombre de la ciudad.',
     cta: 'VER LA CARTA →',
     href: '#cielo-carta',
-    imagen: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=1200&q=85',
+    imagen: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200&q=85',
     invertir: true,
   },
   {
@@ -23,7 +23,7 @@ const CARDS = [
     descripcion: 'Desde cumpleaños exclusivos hasta lanzamientos corporativos. El rooftop entero disponible para experiencias que no se olvidan.',
     cta: 'CONSULTAR DISPONIBILIDAD →',
     href: '#cielo-eventos',
-    imagen: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=85',
+    imagen: 'https://images.unsplash.com/photo-1540575467537-61b5a31acef2?w=1200&q=85',
     invertir: false,
   },
 ];

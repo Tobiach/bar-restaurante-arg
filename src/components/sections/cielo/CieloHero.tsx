@@ -21,8 +21,8 @@ export default function CieloHero() {
         style={{ transform: `translateY(${scrollY * 0.35}px)` }}
       >
         <img
-          src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&q=90"
-          alt="Buenos Aires rooftop"
+          src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=90"
+          alt="Rooftop con vista a Buenos Aires"
           className="w-full h-full object-cover scale-110"
         />
       </div>

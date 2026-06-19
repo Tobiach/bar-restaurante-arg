@@ -36,8 +36,8 @@ export default function CieloIntro() {
               style={{ border: '1px solid rgba(184,150,110,0.15)' }}
             >
               <img
-                src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&q=85"
-                alt="Cocktail de autor"
+                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=85"
+                alt="Cocktail de autor Cielo Rooftop"
                 className="w-full h-full object-cover"
                 style={{ filter: 'brightness(0.85) saturate(0.9)' }}
               />
