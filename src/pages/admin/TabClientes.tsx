@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Crown, ChevronDown, ChevronUp, Phone, Mail, X } from 'lucide-react';
-import { mockClientes } from '../../data/mockClientes';
+import { getMockData } from '../../data/mockIndex';
 import { Cliente } from '../../types/admin.types';
 
 const NIVEL_STYLES: Record<Cliente['nivel'], { bg: string; text: string; border: string }> = {
@@ -97,15 +97,17 @@ export default function TabClientes() {
   const [selected, setSelected] = useState<Cliente | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const filtered = mockClientes.filter(c =>
+  const clientes = getMockData().clientes;
+
+  const filtered = clientes.filter(c =>
     c.nombre.toLowerCase().includes(query.toLowerCase()) ||
     c.telefono.includes(query)
   );
 
-  const totales = mockClientes.length;
-  const vips     = mockClientes.filter(c => c.nivel === 'VIP').length;
+  const totales = clientes.length;
+  const vips     = clientes.filter(c => c.nivel === 'VIP').length;
   const ticketProm = Math.round(
-    mockClientes.reduce((s, c) => s + c.ticketPromedio, 0) / mockClientes.length
+    clientes.reduce((s, c) => s + c.ticketPromedio, 0) / clientes.length
   );
 
   return (

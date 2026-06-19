@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CalendarDays, Users, DollarSign, LogOut } from 'lucide-react';
+import { CalendarDays, Users, DollarSign, LogOut, Sparkles } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { AdminRol } from '../../types/admin.types';
 import TabReservas from './TabReservas';
 import TabClientes from './TabClientes';
 import TabCaja from './TabCaja';
+import TabResumenIA from './TabResumenIA';
 
-type Tab = 'reservas' | 'clientes' | 'caja';
+type Tab = 'reservas' | 'clientes' | 'caja' | 'resumen';
 
 type IconComponent = (props: { size?: number; className?: string }) => React.ReactElement | null;
 
@@ -15,6 +16,7 @@ const TABS: { id: Tab; label: string; Icon: IconComponent }[] = [
   { id: 'reservas', label: 'Reservas', Icon: CalendarDays },
   { id: 'clientes', label: 'Clientes', Icon: Users },
   { id: 'caja',     label: 'Caja',     Icon: DollarSign },
+  { id: 'resumen',  label: 'IA',       Icon: Sparkles },
 ];
 
 interface Props {
@@ -33,6 +35,7 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
     reservas: <TabReservas />,
     clientes: <TabClientes />,
     caja:     <TabCaja />,
+    resumen:  <TabResumenIA />,
   };
 
   return (

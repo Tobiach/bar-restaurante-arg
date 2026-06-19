@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Calendar, Users, CheckCircle, Clock, XCircle, Check, X, TrendingUp, TrendingDown, RefreshCcw, Trash2 } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { supabase, supabaseEnabled } from '../../lib/supabase';
+import { getMockData } from '../../data/mockIndex';
 import { Reserva, ReservaEstado, DateFilter } from '../../types/admin.types';
 
 const ESTADO_STYLES: Record<ReservaEstado, string> = {
@@ -68,7 +69,7 @@ function KpiCard({ label, value, sub, trend }: { label: string; value: string | 
 
 export default function TabReservas() {
   const tc = getConfig();
-  const [reservas, setReservas] = useState<Reserva[]>([]);
+  const [reservas, setReservas] = useState<Reserva[]>(() => getMockData().reservas);
   const [dateFilter, setDateFilter] = useState<DateFilter>('hoy');
   const LOCAL_KEY = `panel-reservas-${tc.nombre}`;
 
@@ -80,8 +81,9 @@ export default function TabReservas() {
     }
     try {
       const raw = localStorage.getItem(LOCAL_KEY);
-      setReservas(raw ? JSON.parse(raw) : []);
-    } catch { setReservas([]); }
+      const local: Reserva[] = raw ? JSON.parse(raw) : [];
+      setReservas(local.length > 0 ? local : getMockData().reservas);
+    } catch { setReservas(getMockData().reservas); }
   };
 
   const updateEstado = async (id: number, estado: ReservaEstado) => {

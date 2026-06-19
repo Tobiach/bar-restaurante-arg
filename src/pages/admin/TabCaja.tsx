@@ -7,7 +7,7 @@ import {
   Wine, Calendar, Package, Users, Plus, X, TrendingUp, TrendingDown,
   CreditCard, Banknote, ArrowUpRight,
 } from 'lucide-react';
-import { mockMovimientosCaja } from '../../data/mockMovimientosCaja';
+import { getMockData } from '../../data/mockIndex';
 import { MovimientoCaja, TipoMovimiento, MetodoPago } from '../../types/admin.types';
 
 type Periodo = 'hoy' | 'semana' | 'mes';
@@ -93,7 +93,7 @@ const FORM_INIT: FormNuevo = { tipo: 'ingreso', categoria: 'Reservas', descripci
 
 export default function TabCaja() {
   const [periodo, setPeriodo] = useState<Periodo>('semana');
-  const [movimientos, setMovimientos] = useState<MovimientoCaja[]>(mockMovimientosCaja);
+  const [movimientos, setMovimientos] = useState<MovimientoCaja[]>(() => getMockData().movimientos);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<FormNuevo>(FORM_INIT);
 
