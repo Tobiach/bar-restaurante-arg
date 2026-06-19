@@ -9,14 +9,13 @@ import TabCaja from './TabCaja';
 import TabResumenIA from './TabResumenIA';
 
 type Tab = 'reservas' | 'clientes' | 'caja' | 'resumen';
+type IconEl = (props: { size?: number; className?: string }) => React.ReactElement | null;
 
-type IconComponent = (props: { size?: number; className?: string }) => React.ReactElement | null;
-
-const TABS: { id: Tab; label: string; Icon: IconComponent }[] = [
-  { id: 'reservas', label: 'Reservas', Icon: CalendarDays },
-  { id: 'clientes', label: 'Clientes', Icon: Users },
-  { id: 'caja',     label: 'Caja',     Icon: DollarSign },
-  { id: 'resumen',  label: 'IA',       Icon: Sparkles },
+const TABS: { id: Tab; label: string; emoji: string; Icon: IconEl }[] = [
+  { id: 'reservas', label: 'Reservas', emoji: '📅', Icon: CalendarDays },
+  { id: 'clientes', label: 'Clientes', emoji: '👥', Icon: Users },
+  { id: 'caja',     label: 'Caja',     emoji: '💰', Icon: DollarSign },
+  { id: 'resumen',  label: 'IA',       emoji: '🧠', Icon: Sparkles },
 ];
 
 interface Props {
@@ -31,99 +30,140 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
 
   const visibleTabs = rol === 'dueno' ? TABS : TABS.filter(t => t.id === 'reservas');
 
-  const tabContent = {
+  const tabContent: Record<Tab, React.ReactElement> = {
     reservas: <TabReservas />,
     clientes: <TabClientes />,
     caja:     <TabCaja />,
     resumen:  <TabResumenIA />,
   };
 
+  const now = new Date();
+  const hora = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+  const diaCompleto = now.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+
   return (
-    <div className="min-h-screen bg-violeta flex flex-col">
-      {/* Header */}
-      <header className="bg-violeta-medio border-b border-violeta-borde px-4 md:px-8 py-4 flex-shrink-0">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-violeta)' }}>
+
+      {/* ═══ HEADER ═══ */}
+      <header className="flex-shrink-0 relative" style={{ background: 'var(--color-violeta-medio)', borderBottom: '1px solid var(--color-violeta-borde)' }}>
+        {/* Naranja accent line top */}
+        <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, transparent, var(--color-naranja), transparent)' }} />
+
+        <div className="max-w-6xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between gap-4">
+
+          {/* Left: logo + name */}
           <div className="flex items-center gap-3">
-            {tc.logo && <img src={tc.logo} alt="Logo" className="h-9 w-auto opacity-80 hidden sm:block" />}
+            {tc.logo && <img src={tc.logo} alt="" className="h-8 w-auto opacity-90 hidden sm:block" />}
             <div>
-              <span className="font-display text-sm font-black tracking-[0.2em] text-naranja uppercase">{tc.nombre}</span>
-              <div className="text-[10px] text-blanco-muted font-display tracking-widest uppercase">
-                {new Date().toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
+              <div className="font-display text-xs font-black tracking-[0.25em] uppercase" style={{ color: 'var(--color-naranja)' }}>
+                {tc.nombre}
+              </div>
+              <div className="text-[10px] capitalize" style={{ color: 'var(--color-blanco-muted)' }}>
+                {diaCompleto} · {hora}
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-right hidden sm:block">
-              <div className="text-[10px] text-blanco-muted font-display tracking-widest uppercase">Sesión activa</div>
-              <div className="text-xs font-semibold text-blanco-suave">{nombre}</div>
+          {/* Right: user + logout */}
+          <div className="flex items-center gap-2">
+            {/* Avatar */}
+            <div className="hidden sm:flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center text-sm font-black"
+                style={{ background: 'var(--color-naranja)20', color: 'var(--color-naranja)', border: '1px solid var(--color-naranja)35' }}>
+                {nombre.charAt(0).toUpperCase()}
+              </div>
+              <div className="text-right">
+                <div className="text-xs font-semibold leading-none mb-1" style={{ color: 'var(--color-blanco-suave)' }}>{nombre}</div>
+                <span className="text-[9px] font-display font-black tracking-widest uppercase px-1.5 py-0.5 rounded-md"
+                  style={{
+                    background: rol === 'dueno' ? 'var(--color-naranja)18' : 'var(--color-verde-ok)15',
+                    color: rol === 'dueno' ? 'var(--color-naranja)' : 'var(--color-verde-ok)',
+                    border: rol === 'dueno' ? '1px solid var(--color-naranja)30' : '1px solid var(--color-verde-ok)25',
+                  }}>
+                  {rol === 'dueno' ? '👑 Dueño' : '🔑 Empleado'}
+                </span>
+              </div>
             </div>
-            <span className={`px-2 py-1 rounded text-[9px] font-display font-black tracking-widest uppercase ${
-              rol === 'dueno' ? 'bg-naranja/20 text-naranja' : 'bg-verde-ok/20 text-verde-ok'
-            }`}>
-              {rol === 'dueno' ? 'DUEÑO' : 'EMPLEADO'}
-            </span>
-            <button
-              onClick={onLogout}
-              className="p-2 rounded-lg text-blanco-muted hover:text-rojo-error hover:bg-rojo-error/10 transition-all"
-              title="Cerrar sesión"
-            >
-              <LogOut size={16} />
+
+            <button onClick={onLogout}
+              className="p-2 rounded-xl transition-all"
+              style={{ color: 'var(--color-blanco-muted)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-rojo-error)'; (e.currentTarget as HTMLElement).style.background = 'var(--color-rojo-error)12'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-muted)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              title="Cerrar sesión">
+              <LogOut size={15} />
             </button>
           </div>
         </div>
+
+        {/* ── Desktop tabs (dueño only) ── */}
+        {rol === 'dueno' && (
+          <div className="max-w-6xl mx-auto px-8 hidden md:flex gap-1 pb-0">
+            {TABS.map(({ id, label, emoji }) => {
+              const active = activeTab === id;
+              return (
+                <button key={id} onClick={() => setActiveTab(id)}
+                  className="relative px-5 py-3 font-display text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-200"
+                  style={{ color: active ? 'var(--color-naranja)' : 'var(--color-blanco-muted)' }}
+                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-suave)'; }}
+                  onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-muted)'; }}
+                >
+                  <span className="mr-1.5">{emoji}</span>{label}
+                  {active && (
+                    <motion.div layoutId="tab-indicator" className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
+                      style={{ background: 'var(--color-naranja)' }} />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Empleado: solo muestra qué tab está activa */}
+        {rol === 'empleado' && (
+          <div className="max-w-6xl mx-auto px-8 hidden md:flex pb-0">
+            <div className="px-5 py-3 font-display text-[11px] font-black tracking-[0.2em] uppercase relative"
+              style={{ color: 'var(--color-naranja)' }}>
+              📅 Reservas
+              <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ background: 'var(--color-naranja)' }} />
+            </div>
+          </div>
+        )}
       </header>
 
-      {/* Desktop tabs */}
-      {rol === 'dueno' && (
-        <div className="bg-violeta-medio border-b border-violeta-borde hidden md:block flex-shrink-0">
-          <div className="max-w-6xl mx-auto px-8 flex gap-1">
-            {TABS.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                onClick={() => setActiveTab(id)}
-                className={`flex items-center gap-2 px-6 py-4 font-display text-xs font-black tracking-[0.2em] uppercase transition-all border-b-2 ${
-                  activeTab === id
-                    ? 'border-naranja text-naranja'
-                    : 'border-transparent text-blanco-muted hover:text-blanco-suave hover:border-blanco-muted/20'
-                }`}
-              >
-                <Icon size={15} /> {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Contenido */}
+      {/* ═══ CONTENIDO ═══ */}
       <main className="flex-1 overflow-auto pb-20 md:pb-0">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 8 }}
+          <motion.div key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-          >
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16 }}>
             {tabContent[activeTab]}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      {/* Mobile bottom nav */}
-      <nav className={`md:hidden fixed bottom-0 left-0 right-0 bg-violeta-medio border-t border-violeta-borde flex z-50 ${rol === 'empleado' ? 'justify-center' : ''}`}>
-        {visibleTabs.map(({ id, label, Icon }) => (
-          <button
-            key={id}
-            onClick={() => setActiveTab(id)}
-            className={`flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-all ${
-              activeTab === id ? 'text-naranja' : 'text-blanco-muted'
-            }`}
-          >
-            <Icon size={20} />
-            <span className="text-[9px] font-display font-black tracking-widest uppercase">{label}</span>
-          </button>
-        ))}
+      {/* ═══ MOBILE BOTTOM NAV ═══ */}
+      <nav className={`md:hidden fixed bottom-0 left-0 right-0 z-50 flex ${rol === 'empleado' ? 'justify-center' : ''}`}
+        style={{ background: 'var(--color-violeta-medio)', borderTop: '1px solid var(--color-violeta-borde)' }}>
+        {visibleTabs.map(({ id, label, emoji, Icon }) => {
+          const active = activeTab === id;
+          return (
+            <button key={id} onClick={() => setActiveTab(id)}
+              className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 transition-all relative"
+              style={{ color: active ? 'var(--color-naranja)' : 'var(--color-blanco-muted)' }}>
+              {active && (
+                <motion.div layoutId="mobile-indicator"
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full"
+                  style={{ background: 'var(--color-naranja)' }} />
+              )}
+              <span className="text-base leading-none">{emoji}</span>
+              <Icon size={0} className="hidden" />
+              <span className="text-[9px] font-display font-black tracking-widest uppercase">{label}</span>
+            </button>
+          );
+        })}
       </nav>
     </div>
   );

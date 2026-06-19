@@ -144,31 +144,43 @@ export default function TabCaja() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-violeta-card border border-violeta-borde rounded-xl p-5">
-          <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-3">Ingresos</div>
-          <div className="flex items-center gap-1.5">
-            <TrendingUp size={16} className="text-verde-ok flex-shrink-0" />
-            <span className="text-2xl font-bold tabular-nums text-verde-ok">{fmt(ingresos)}</span>
+        <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: 'var(--color-violeta-card)', border: '1px solid var(--color-verde-ok)20' }}>
+          <div className="absolute top-0 left-0 w-1 h-full rounded-l-2xl" style={{ background: 'var(--color-verde-ok)' }} />
+          <div className="flex items-start justify-between mb-3 pl-2">
+            <span className="text-[9px] font-display tracking-[0.3em] text-blanco-muted uppercase">💚 Ingresos</span>
           </div>
+          <span className="text-2xl font-bold tabular-nums pl-2" style={{ color: 'var(--color-verde-ok)' }}>{fmt(ingresos)}</span>
         </div>
-        <div className="bg-violeta-card border border-violeta-borde rounded-xl p-5">
-          <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-3">Egresos</div>
-          <div className="flex items-center gap-1.5">
-            <TrendingDown size={16} className="text-rojo-error flex-shrink-0" />
-            <span className="text-2xl font-bold tabular-nums text-rojo-error">{fmt(egresos)}</span>
+        <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: 'var(--color-violeta-card)', border: '1px solid var(--color-rojo-error)20' }}>
+          <div className="absolute top-0 left-0 w-1 h-full rounded-l-2xl" style={{ background: 'var(--color-rojo-error)' }} />
+          <div className="flex items-start justify-between mb-3 pl-2">
+            <span className="text-[9px] font-display tracking-[0.3em] text-blanco-muted uppercase">🔴 Egresos</span>
           </div>
+          <span className="text-2xl font-bold tabular-nums pl-2" style={{ color: 'var(--color-rojo-error)' }}>{fmt(egresos)}</span>
         </div>
-        <div className="bg-violeta-card border border-violeta-borde rounded-xl p-5 md:col-span-1">
-          <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-3">Profit neto</div>
-          <span className={`text-2xl font-bold tabular-nums ${profit >= 0 ? 'text-verde-ok' : 'text-rojo-error'}`}>
-            {profit >= 0 ? '' : '−'}{fmt(Math.abs(profit))}
+        <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: 'var(--color-violeta-card)', border: `1px solid ${profit >= 0 ? 'var(--color-verde-ok)' : 'var(--color-rojo-error)'}25` }}>
+          <div className="absolute top-0 left-0 w-1 h-full rounded-l-2xl" style={{ background: profit >= 0 ? 'var(--color-naranja)' : 'var(--color-rojo-error)' }} />
+          <div className="flex items-start justify-between mb-3 pl-2">
+            <span className="text-[9px] font-display tracking-[0.3em] text-blanco-muted uppercase">💸 Profit</span>
+          </div>
+          <span className="text-2xl font-bold tabular-nums pl-2" style={{
+            color: profit >= 0 ? 'var(--color-verde-ok)' : 'var(--color-rojo-error)',
+            textShadow: profit >= 0 ? '0 0 20px var(--color-verde-ok)50' : 'none',
+          }}>
+            {profit >= 0 ? '+' : '−'}{fmt(Math.abs(profit))}
           </span>
         </div>
-        <div className="bg-violeta-card border border-violeta-borde rounded-xl p-5">
-          <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-3">Margen</div>
-          <span className={`text-2xl font-bold tabular-nums ${margen >= 50 ? 'text-verde-ok' : 'text-amarillo-alerta'}`}>
+        <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: 'var(--color-violeta-card)', border: '1px solid var(--color-violeta-borde)' }}>
+          <div className="absolute top-0 left-0 w-1 h-full rounded-l-2xl" style={{ background: margen >= 50 ? 'var(--color-naranja)' : 'var(--color-amarillo-alerta)' }} />
+          <div className="flex items-start justify-between mb-3 pl-2">
+            <span className="text-[9px] font-display tracking-[0.3em] text-blanco-muted uppercase">📊 Margen</span>
+          </div>
+          <span className="text-2xl font-bold tabular-nums pl-2" style={{ color: margen >= 50 ? 'var(--color-naranja)' : 'var(--color-amarillo-alerta)' }}>
             {margen}%
           </span>
+          <div className="mt-2 h-1 rounded-full overflow-hidden pl-2" style={{ background: 'var(--color-violeta)' }}>
+            <div className="h-full rounded-full transition-all" style={{ width: `${Math.min(margen, 100)}%`, background: margen >= 50 ? 'var(--color-naranja)' : 'var(--color-amarillo-alerta)' }} />
+          </div>
         </div>
       </div>
 

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Crown, ChevronDown, ChevronUp, Phone, Mail, X } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, Phone, Mail, X } from 'lucide-react';
 import { getMockData } from '../../data/mockIndex';
 import { Cliente } from '../../types/admin.types';
 
-const NIVEL_STYLES: Record<Cliente['nivel'], { bg: string; text: string; border: string }> = {
-  VIP:       { bg: 'bg-verde-ok/10',    text: 'text-verde-ok',    border: 'border-verde-ok/30' },
-  Frecuente: { bg: 'bg-naranja/10',     text: 'text-naranja',     border: 'border-naranja/30' },
-  Nuevo:     { bg: 'bg-blanco-muted/10', text: 'text-blanco-muted', border: 'border-blanco-muted/20' },
+const NIVEL_STYLES: Record<Cliente['nivel'], { bg: string; text: string; border: string; emoji: string }> = {
+  VIP:       { bg: 'bg-verde-ok/10',     text: 'text-verde-ok',      border: 'border-verde-ok/30',      emoji: '👑' },
+  Frecuente: { bg: 'bg-naranja/10',      text: 'text-naranja',        border: 'border-naranja/30',       emoji: '⭐' },
+  Nuevo:     { bg: 'bg-blanco-muted/10', text: 'text-blanco-muted',   border: 'border-blanco-muted/20',  emoji: '🆕' },
 };
 
 function formatMonto(n: number) {
@@ -40,8 +40,8 @@ function ClienteModal({ c, onClose }: { c: Cliente; onClose: () => void }) {
         <div className="flex items-start justify-between mb-6">
           <div>
             <div className="font-bold text-blanco-suave text-lg mb-1">{c.nombre}</div>
-            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded border text-[10px] font-display font-black tracking-widest uppercase ${s.bg} ${s.text} ${s.border}`}>
-              {c.nivel === 'VIP' && <Crown size={10} />} {c.nivel}
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[10px] font-display font-black tracking-widest uppercase ${s.bg} ${s.text} ${s.border}`}>
+              {s.emoji} {c.nivel}
             </span>
           </div>
           <button onClick={onClose} className="p-2 rounded text-blanco-muted hover:text-rojo-error hover:bg-rojo-error/10 transition-all">
@@ -115,13 +115,16 @@ export default function TabClientes() {
       {/* KPIs */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label: 'Clientes totales', value: totales },
-          { label: 'Clientes VIP',     value: vips, color: 'text-verde-ok' },
-          { label: 'Ticket promedio',  value: formatMonto(ticketProm), color: 'text-naranja' },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="bg-violeta-card border border-violeta-borde rounded-xl p-5">
-            <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-3">{label}</div>
-            <div className={`text-2xl font-bold tabular-nums ${color ?? 'text-blanco-suave'}`}>{value}</div>
+          { label: 'Clientes',     value: totales,               color: 'var(--color-blanco-suave)', emoji: '👥' },
+          { label: 'VIP',          value: vips,                  color: 'var(--color-verde-ok)',      emoji: '👑' },
+          { label: 'Ticket prom.', value: formatMonto(ticketProm), color: 'var(--color-naranja)',    emoji: '💳' },
+        ].map(({ label, value, color, emoji }) => (
+          <div key={label} className="rounded-2xl p-5" style={{ background: 'var(--color-violeta-card)', border: '1px solid var(--color-violeta-borde)' }}>
+            <div className="flex items-start justify-between mb-3">
+              <span className="text-[9px] font-display tracking-[0.3em] text-blanco-muted uppercase">{label}</span>
+              <span className="text-lg leading-none opacity-60">{emoji}</span>
+            </div>
+            <div className="text-2xl font-bold tabular-nums" style={{ color }}>{value}</div>
           </div>
         ))}
       </div>
@@ -174,7 +177,7 @@ export default function TabClientes() {
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className={`flex items-center gap-1 px-2 py-0.5 rounded border text-[9px] font-display font-black ${s.bg} ${s.text} ${s.border}`}>
-                        {c.nivel === 'VIP' && <Crown size={9} />} {c.nivel}
+                        {s.emoji} {c.nivel}
                       </span>
                       <span className="text-sm font-bold text-verde-ok">{formatMonto(c.gastoTotal)}</span>
                       {isExp ? <ChevronUp size={15} className="text-blanco-muted" /> : <ChevronDown size={15} className="text-blanco-muted" />}
@@ -189,7 +192,7 @@ export default function TabClientes() {
                     </div>
                     <div className="col-span-2">
                       <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded border text-[9px] font-display font-black ${s.bg} ${s.text} ${s.border}`}>
-                        {c.nivel === 'VIP' && <Crown size={9} />} {c.nivel}
+                        {s.emoji} {c.nivel}
                       </span>
                     </div>
                     <div className="col-span-1 text-center text-sm font-bold text-blanco-suave tabular-nums">{c.visitas}</div>

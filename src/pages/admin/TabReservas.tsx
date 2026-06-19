@@ -6,15 +6,19 @@ import { supabase, supabaseEnabled } from '../../lib/supabase';
 import { getMockData } from '../../data/mockIndex';
 import { Reserva, ReservaEstado, DateFilter } from '../../types/admin.types';
 
+const ESTADO_CONFIG: Record<ReservaEstado, { emoji: string; label: string; bg: string; text: string; border: string }> = {
+  pendiente:  { emoji: '⏳', label: 'Pendiente',  bg: 'bg-amarillo-alerta/10', text: 'text-amarillo-alerta', border: 'border-amarillo-alerta/30' },
+  confirmada: { emoji: '✅', label: 'Confirmada', bg: 'bg-verde-ok/10',         text: 'text-verde-ok',         border: 'border-verde-ok/30' },
+  cancelada:  { emoji: '❌', label: 'Cancelada',  bg: 'bg-rojo-error/10',       text: 'text-rojo-error',       border: 'border-rojo-error/30' },
+};
+
+// Keep aliases for backward compat within file
 const ESTADO_STYLES: Record<ReservaEstado, string> = {
   pendiente:  'bg-amarillo-alerta/10 text-amarillo-alerta border-amarillo-alerta/30',
   confirmada: 'bg-verde-ok/10 text-verde-ok border-verde-ok/30',
   cancelada:  'bg-rojo-error/10 text-rojo-error border-rojo-error/30',
 };
-
-const ESTADO_LABELS: Record<ReservaEstado, string> = {
-  pendiente: 'Pendiente', confirmada: 'Confirmada', cancelada: 'Cancelada',
-};
+const ESTADO_LABELS = Object.fromEntries(Object.entries(ESTADO_CONFIG).map(([k, v]) => [k, v.emoji + ' ' + v.label])) as Record<ReservaEstado, string>;
 
 const EstadoIcon = ({ estado }: { estado: ReservaEstado }) => {
   if (estado === 'confirmada') return <CheckCircle size={11} />;
@@ -50,19 +54,22 @@ function parseFecha(s: string): Date | null {
   return isNaN(d.getTime()) ? null : d;
 }
 
-function KpiCard({ label, value, sub, trend }: { label: string; value: string | number; sub?: string; trend?: 'up' | 'down' | null }) {
+function KpiCard({ label, value, sub, trend, emoji }: { label: string; value: string | number; sub?: string; trend?: 'up' | 'down' | null; emoji?: string }) {
   return (
-    <div className="bg-violeta-card border border-violeta-borde rounded-xl p-5">
-      <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-3">{label}</div>
+    <div className="rounded-2xl p-5 relative overflow-hidden" style={{ background: 'var(--color-violeta-card)', border: '1px solid var(--color-violeta-borde)' }}>
+      <div className="flex items-start justify-between mb-3">
+        <span className="text-[9px] font-display tracking-[0.3em] text-blanco-muted uppercase">{label}</span>
+        {emoji && <span className="text-lg leading-none opacity-60">{emoji}</span>}
+      </div>
       <div className="flex items-end gap-2">
         <span className="text-3xl font-bold tabular-nums text-blanco-suave">{value}</span>
         {trend && (
-          <span className={`flex items-center gap-0.5 text-xs font-semibold mb-0.5 ${trend === 'up' ? 'text-verde-ok' : 'text-rojo-error'}`}>
-            {trend === 'up' ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
+          <span className={`flex items-center gap-0.5 text-xs font-semibold mb-1 ${trend === 'up' ? 'text-verde-ok' : 'text-rojo-error'}`}>
+            {trend === 'up' ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
           </span>
         )}
       </div>
-      {sub && <div className="text-[11px] text-blanco-muted mt-1">{sub}</div>}
+      {sub && <div className="text-[11px] text-blanco-muted mt-1.5">{sub}</div>}
     </div>
   );
 }
@@ -130,9 +137,9 @@ export default function TabReservas() {
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
       {/* KPIs */}
       <div className="grid grid-cols-3 gap-4 mb-8">
-        <KpiCard label="Reservas"   value={filtered.length}  sub="en el período" trend={filtered.length > 0 ? 'up' : null} />
-        <KpiCard label="Personas"   value={personas}          sub="esperadas" />
-        <KpiCard label="Confirmadas" value={`${confirmadas} de ${filtered.length}`} sub={`${pctConfirm}% confirmado`} trend={pctConfirm >= 50 ? 'up' : 'down'} />
+        <KpiCard label="Reservas"    value={filtered.length}  sub="en el período" trend={filtered.length > 0 ? 'up' : null} emoji="📋" />
+        <KpiCard label="Personas"    value={personas}          sub="esperadas"                                                emoji="👥" />
+        <KpiCard label="Confirmadas" value={`${confirmadas} de ${filtered.length}`} sub={`${pctConfirm}% confirmado`} trend={pctConfirm >= 50 ? 'up' : 'down'} emoji="✅" />
       </div>
 
       {/* Filtros + acciones */}
@@ -208,8 +215,8 @@ export default function TabReservas() {
 
                 {/* Estado + acciones */}
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[10px] font-display font-black tracking-widest uppercase ${ESTADO_STYLES[r.estado]}`}>
-                    <EstadoIcon estado={r.estado} /> {ESTADO_LABELS[r.estado]}
+                  <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[10px] font-display font-black tracking-wider uppercase ${ESTADO_STYLES[r.estado]}`}>
+                    {ESTADO_CONFIG[r.estado].emoji} {ESTADO_CONFIG[r.estado].label}
                   </span>
                   <button
                     onClick={() => updateEstado(r.id, 'confirmada')}
