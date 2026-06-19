@@ -7,7 +7,7 @@ https://bar-restaurante-arg.vercel.app
 - `/?t=cielo` → Cielo Rooftop
 
 ## Última actualización
-2026-06-11
+2026-06-18
 
 ## Quién soy
 Tobias Maldonado — Control.Evo. Vendo sistemas para bares, cervecerías y rooftops en Argentina.
@@ -20,7 +20,7 @@ se personaliza en <3 horas y se vende a múltiples clientes.
 
 ## Tenants activos
 - isla: Isla Bar Cultural (demo, live en isla-bar-cultural.vercel.app)
-- cuarta: Nos Trajo la Cuarta (cervecería, template)
+- cuarta: Nos Trajo la Tercera (cervecería, template) ← renombrado 18/06
 - cielo: Cielo Rooftop (rooftop premium, template)
 
 ## Precios
@@ -57,6 +57,24 @@ Reemplazar G-XXXXXXXXXX en index.html con el ID real de Google Analytics.
 - Deploy siempre: npx vercel --yes --prod
 - No tocar el diseño visual sin revisar este archivo primero
 - Cada cliente nuevo = rama nueva o fork nuevo del repo
+
+## CRM Panel Admin — completado (18/06/2026)
+7 archivos creados en src/pages/admin/ + src/types/ + src/data/:
+- `src/types/admin.types.ts` — interfaces AdminUser, Reserva, Cliente, MovimientoCaja
+- `src/data/mockClientes.ts` — 15 clientes demo argentinos
+- `src/data/mockMovimientosCaja.ts` — 21 movimientos últimos 7 días
+- `src/pages/admin/AdminLogin.tsx` — numpad 4 dígitos, 2 roles
+- `src/pages/admin/AdminLayout.tsx` — header + tabs desktop + bottom nav mobile
+- `src/pages/admin/TabReservas.tsx` — KPIs + tabla + filtros + acciones
+- `src/pages/admin/TabClientes.tsx` — KPIs + búsqueda + lista expandible + modal
+- `src/pages/admin/TabCaja.tsx` — KPIs + gráfico recharts + movimientos + FAB form
+
+PINs por tenant:
+- isla: dueño=`1234`, empleado=`5678`
+- cielo: dueño=`9999`, empleado=`1111`
+- cuarta: dueño=`4444`, empleado=`2222`
+
+Pendiente único: `vercel login` → `npx vercel --yes --prod`
 
 ## Demo de 3 minutos (qué mostrar primero)
 1. StatusIndicator — punto verde "ABIERTO AHORA"
