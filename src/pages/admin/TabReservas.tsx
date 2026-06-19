@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Calendar, Users, CheckCircle, Clock, XCircle, Check, X, TrendingUp, TrendingDown, RefreshCcw, Trash2 } from 'lucide-react';
+import { Calendar, Users, Check, X, TrendingUp, TrendingDown, RefreshCcw, Trash2 } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { supabase, supabaseEnabled } from '../../lib/supabase';
 import { getMockData } from '../../data/mockIndex';
@@ -12,18 +12,10 @@ const ESTADO_CONFIG: Record<ReservaEstado, { emoji: string; label: string; bg: s
   cancelada:  { emoji: '❌', label: 'Cancelada',  bg: 'bg-rojo-error/10',       text: 'text-rojo-error',       border: 'border-rojo-error/30' },
 };
 
-// Keep aliases for backward compat within file
 const ESTADO_STYLES: Record<ReservaEstado, string> = {
   pendiente:  'bg-amarillo-alerta/10 text-amarillo-alerta border-amarillo-alerta/30',
   confirmada: 'bg-verde-ok/10 text-verde-ok border-verde-ok/30',
   cancelada:  'bg-rojo-error/10 text-rojo-error border-rojo-error/30',
-};
-const ESTADO_LABELS = Object.fromEntries(Object.entries(ESTADO_CONFIG).map(([k, v]) => [k, v.emoji + ' ' + v.label])) as Record<ReservaEstado, string>;
-
-const EstadoIcon = ({ estado }: { estado: ReservaEstado }) => {
-  if (estado === 'confirmada') return <CheckCircle size={11} />;
-  if (estado === 'cancelada')  return <XCircle size={11} />;
-  return <Clock size={11} />;
 };
 
 function getDateRange(f: DateFilter): { from: Date; to: Date } {

@@ -67,6 +67,23 @@ const fc = tenantConfig as any;
 root.style.setProperty('--font-titulo',  fc.fontTitulo  || "'Inter', sans-serif");
 root.style.setProperty('--font-display', fc.fontDisplay || "'Inter', sans-serif");
 
+// Dynamic meta tags per tenant
+document.title = `${tenantConfig.nombre} — ${tenantConfig.tagline}`;
+document.querySelector('meta[name="description"]')?.setAttribute('content', `${tenantConfig.nombre} — ${tenantConfig.tagline}`);
+document.querySelector('meta[property="og:title"]')?.setAttribute('content', tenantConfig.nombre);
+document.querySelector('meta[property="og:description"]')?.setAttribute('content', tenantConfig.tagline);
+if (tenantConfig.logo) {
+  document.querySelector('meta[property="og:image"]')?.setAttribute('content', tenantConfig.logo);
+}
+
+// Favicon per tenant
+const TENANT_EMOJI: Record<string, string> = { isla: '🎵', cielo: '🥂', cuarta: '🍺' };
+const faviconEmoji = TENANT_EMOJI[tenantId] || '🍸';
+const favicon = document.getElementById('fav') as HTMLLinkElement | null;
+if (favicon) {
+  favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${faviconEmoji}</text></svg>`;
+}
+
 // Dot pattern color per tenant accent
 const dotColor = `${tema.acento}10`;
 document.body.style.backgroundImage = `radial-gradient(circle, ${dotColor} 1px, transparent 1px)`;

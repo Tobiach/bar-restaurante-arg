@@ -7,6 +7,7 @@ import {
   Wine, Calendar, Package, Users, Plus, X, TrendingUp, TrendingDown,
   CreditCard, Banknote, ArrowUpRight,
 } from 'lucide-react';
+import { getConfig } from '../../config/active';
 import { getMockData } from '../../data/mockIndex';
 import { MovimientoCaja, TipoMovimiento, MetodoPago } from '../../types/admin.types';
 
@@ -92,8 +93,15 @@ interface FormNuevo {
 const FORM_INIT: FormNuevo = { tipo: 'ingreso', categoria: 'Reservas', descripcion: '', monto: '', metodo: 'Efectivo' };
 
 export default function TabCaja() {
+  const LOCAL_KEY = `panel-caja-${getConfig().nombre}`;
   const [periodo, setPeriodo] = useState<Periodo>('semana');
-  const [movimientos, setMovimientos] = useState<MovimientoCaja[]>(() => getMockData().movimientos);
+  const [movimientos, setMovimientos] = useState<MovimientoCaja[]>(() => {
+    try {
+      const raw = localStorage.getItem(LOCAL_KEY);
+      const local: MovimientoCaja[] = raw ? JSON.parse(raw) : [];
+      return local.length > 0 ? local : getMockData().movimientos;
+    } catch { return getMockData().movimientos; }
+  });
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<FormNuevo>(FORM_INIT);
 
@@ -116,7 +124,9 @@ export default function TabCaja() {
       metodo:      form.metodo,
     };
     // TODO: reemplazar por insert a Supabase cuando se conecte
-    setMovimientos(prev => [nuevo, ...prev]);
+    const updated = [nuevo, ...movimientos];
+    setMovimientos(updated);
+    try { localStorage.setItem(LOCAL_KEY, JSON.stringify(updated)); } catch { /* skip */ }
     setForm(FORM_INIT);
     setShowForm(false);
   };
