@@ -3,6 +3,10 @@ export const cieloConfig = {
   tagline: "Buenos Aires desde arriba. Cocktails de autor.",
   logo: "",
   adminPin: "9999",
+  adminUsers: [
+    { rol: 'dueno',   pin: '9999', nombre: 'Administrador' },
+    { rol: 'empleado', pin: '1111', nombre: 'Encargado de turno' },
+  ],
 
   telefono: "+54 9 11 9999-8888",
   whatsapp: "5491199998888",

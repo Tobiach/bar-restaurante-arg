@@ -3,6 +3,10 @@
   tagline: "Cerveza artesanal. Buena charla. Sin apuro.",
   logo: "",
   adminPin: "4444",
+  adminUsers: [
+    { rol: 'dueno',   pin: '4444', nombre: 'Administrador' },
+    { rol: 'empleado', pin: '2222', nombre: 'Encargado de turno' },
+  ],
 
   telefono: "+54 9 11 5555-4444",
   whatsapp: "5491155554444",
