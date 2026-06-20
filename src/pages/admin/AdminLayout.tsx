@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CalendarDays, Users, DollarSign, LogOut, Sparkles } from 'lucide-react';
 import { getConfig } from '../../config/active';
@@ -37,9 +37,16 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
     resumen:  <TabResumenIA />,
   };
 
-  const now = new Date();
-  const hora = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
-  const diaCompleto = now.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const [hora, setHora] = useState(() =>
+    new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+  );
+  useEffect(() => {
+    const tick = setInterval(() =>
+      setHora(new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }))
+    , 30000);
+    return () => clearInterval(tick);
+  }, []);
+  const diaCompleto = new Date().toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-violeta)' }}>

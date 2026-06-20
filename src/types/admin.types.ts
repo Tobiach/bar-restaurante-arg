@@ -19,7 +19,6 @@ export interface Reserva {
   nombre: string;
   telefono?: string;
   personas: number;
-  obs?: string;
   observaciones?: string;
   estado: ReservaEstado;
   timestamp: string;

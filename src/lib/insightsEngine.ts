@@ -1,7 +1,10 @@
 import { Reserva, Cliente, MovimientoCaja, ItemVendido, InsightIA, ResumenSemanal } from '../types/admin.types';
 
 function isoDate(d: Date): string {
-  return d.toISOString().slice(0, 10);
+  const y  = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, '0');
+  const da = String(d.getDate()).padStart(2, '0');
+  return `${y}-${mo}-${da}`;
 }
 
 function parseDate(s: string): Date | null {

@@ -61,7 +61,7 @@ export function useReservation(confettiColors?: string[]) {
       tipo: form.tipo,
       nombre: form.nombre,
       personas: form.personas,
-      obs: form.obs,
+      observaciones: form.obs,
       estado: 'pendiente',
       timestamp: new Date().toISOString(),
     };

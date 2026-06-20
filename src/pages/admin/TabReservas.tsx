@@ -201,7 +201,7 @@ export default function TabReservas() {
                   <div className="text-[11px] text-blanco-muted/60 flex flex-wrap gap-3">
                     {r.telefono && <span className="font-mono">{r.telefono}</span>}
                     {r.fecha && <span>{r.fecha}</span>}
-                    {(r.obs || r.observaciones) && <span className="italic truncate max-w-xs">"{r.obs || r.observaciones}"</span>}
+                    {r.observaciones && <span className="italic truncate max-w-xs">"{r.observaciones}"</span>}
                   </div>
                 </div>
 
