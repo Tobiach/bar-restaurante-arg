@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Diamond } from 'lucide-react';
-import { getActiveData } from '../../../config/active';
+import { getActiveData, getConfig } from '../../../config/active';
 
 export default function CieloMenu() {
   const data = getActiveData();
-  const allItems: any[] = data?.menu || [];
+  const tc = getConfig();
+  const localRaw = localStorage.getItem(`panel-carta-${tc.nombre}`);
+  const allItems: any[] = localRaw
+    ? (JSON.parse(localRaw) as any[]).filter((i: any) => i.activo !== false)
+    : (data?.menu || []);
   const categories = [...new Set(allItems.map((i: any) => i.cat as string))];
   const [activeTab, setActiveTab] = useState(categories[0] || '');
 

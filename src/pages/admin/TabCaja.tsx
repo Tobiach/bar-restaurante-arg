@@ -10,6 +10,7 @@ import {
 import { getConfig } from '../../config/active';
 import { getMockData } from '../../data/mockIndex';
 import { MovimientoCaja, TipoMovimiento, MetodoPago } from '../../types/admin.types';
+import { logAudit } from '../../lib/auditLogger';
 
 type Periodo = 'hoy' | 'semana' | 'mes';
 
@@ -123,10 +124,16 @@ export default function TabCaja() {
       monto:       Number(form.monto),
       metodo:      form.metodo,
     };
-    // TODO: reemplazar por insert a Supabase cuando se conecte
     const updated = [nuevo, ...movimientos];
     setMovimientos(updated);
     try { localStorage.setItem(LOCAL_KEY, JSON.stringify(updated)); } catch { /* skip */ }
+    logAudit(getConfig().nombre, {
+      usuario: sessionStorage.getItem('admin-nombre') || 'Desconocido',
+      rol:     sessionStorage.getItem('admin-rol')    || 'empleado',
+      accion:  'nuevo_movimiento',
+      entidad: 'caja',
+      detalle: `${nuevo.tipo === 'ingreso' ? '+' : '−'}$${nuevo.monto.toLocaleString('es-AR')} — ${nuevo.descripcion}`,
+    });
     setForm(FORM_INIT);
     setShowForm(false);
   };

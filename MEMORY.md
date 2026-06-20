@@ -7,7 +7,7 @@ https://bar-restaurante-arg.vercel.app
 - `/?t=cielo` → Cielo Rooftop
 
 ## Última actualización
-2026-06-18
+2026-06-20
 
 ## Quién soy
 Tobias Maldonado — Control.Evo. Vendo sistemas para bares, cervecerías y rooftops en Argentina.
@@ -33,7 +33,8 @@ se personaliza en <3 horas y se vende a múltiples clientes.
 ## Arquitectura clave
 - Switch de tenant: /?t=isla / /?t=cuarta / /?t=cielo
 - Personalizar cliente nuevo: editar src/config/tenants/[nombre].ts + src/constants.[nombre].ts
-- Deploy: npx vercel --yes --prod desde C:\Users\Tobia\bar-restaurante-arg\
+- Deploy: npx vercel --yes --prod desde C:\Users\Tobia\bar-restaurante-arg\ (PC madre) o C:\Users\estudiante\bar-restaurante-arg\ (PC B)
+- PC B (estudiante): hacer git push → deploy desde PC madre con Vercel ya logueado
 
 ## Supabase (pendiente)
 1. Crear proyecto en supabase.com
@@ -47,10 +48,11 @@ Reemplazar G-XXXXXXXXXX en index.html con el ID real de Google Analytics.
 
 ## Pending tasks ordenadas por impacto
 1. Conectar Supabase (reservas persistentes) — ALTA
-2. Sistema de puntos real con auth — MEDIA
-3. Panel admin multi-día con analytics — MEDIA
-4. PWA + push notifications — BAJA
-5. MercadoPago seña en shows — BAJA
+2. Deploy Vercel desde PC madre (git pull → npx vercel --yes --prod) — ALTA
+3. GA4: reemplazar G-XXXXXXXXXX en index.html — MEDIA
+4. Sistema de puntos real con auth — MEDIA
+5. PWA + push notifications — BAJA
+6. MercadoPago seña en shows — BAJA
 
 ## Reglas de desarrollo
 - npm run lint debe dar 0 errores antes de cada push
@@ -58,23 +60,20 @@ Reemplazar G-XXXXXXXXXX en index.html con el ID real de Google Analytics.
 - No tocar el diseño visual sin revisar este archivo primero
 - Cada cliente nuevo = rama nueva o fork nuevo del repo
 
-## CRM Panel Admin — completado (18/06/2026)
-7 archivos creados en src/pages/admin/ + src/types/ + src/data/:
-- `src/types/admin.types.ts` — interfaces AdminUser, Reserva, Cliente, MovimientoCaja
-- `src/data/mockClientes.ts` — 15 clientes demo argentinos
-- `src/data/mockMovimientosCaja.ts` — 21 movimientos últimos 7 días
-- `src/pages/admin/AdminLogin.tsx` — numpad 4 dígitos, 2 roles
-- `src/pages/admin/AdminLayout.tsx` — header + tabs desktop + bottom nav mobile
-- `src/pages/admin/TabReservas.tsx` — KPIs + tabla + filtros + acciones
-- `src/pages/admin/TabClientes.tsx` — KPIs + búsqueda + lista expandible + modal
-- `src/pages/admin/TabCaja.tsx` — KPIs + gráfico recharts + movimientos + FAB form
+## CRM Panel Admin — completado (20/06/2026)
+Tabs disponibles (solo dueño excepto Reservas):
+- Reservas · Clientes · Caja · Carta · Galería · Log · IA
+Seguridad: rate limiting 5 intentos → bloqueo 15min (AdminLogin.tsx)
+Auditoria: cada cambio de estado reserva y movimiento de caja queda logueado en localStorage
 
 PINs por tenant:
 - isla: dueño=`1234`, empleado=`5678`
 - cielo: dueño=`9999`, empleado=`1111`
 - cuarta: dueño=`4444`, empleado=`2222`
 
-Pendiente único: `vercel login` → `npx vercel --yes --prod`
+localStorage keys por tenant (panel-*):
+- `panel-reservas-${nombre}` · `panel-caja-${nombre}` · `panel-carta-${nombre}`
+- `panel-galeria-${nombre}` · `panel-auditoria-${nombre}` · `pin-lock-${nombre}`
 
 ## Demo de 3 minutos (qué mostrar primero)
 1. StatusIndicator — punto verde "ABIERTO AHORA"

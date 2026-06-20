@@ -5,6 +5,7 @@ import { getConfig } from '../../config/active';
 import { supabase, supabaseEnabled } from '../../lib/supabase';
 import { getMockData } from '../../data/mockIndex';
 import { Reserva, ReservaEstado, DateFilter } from '../../types/admin.types';
+import { logAudit } from '../../lib/auditLogger';
 
 const ESTADO_CONFIG: Record<ReservaEstado, { emoji: string; label: string; bg: string; text: string; border: string }> = {
   pendiente:  { emoji: '⏳', label: 'Pendiente',  bg: 'bg-amarillo-alerta/10', text: 'text-amarillo-alerta', border: 'border-amarillo-alerta/30' },
@@ -86,6 +87,7 @@ export default function TabReservas() {
   };
 
   const updateEstado = async (id: number, estado: ReservaEstado) => {
+    const reserva = reservas.find(r => r.id === id);
     const updated = reservas.map(r => r.id === id ? { ...r, estado } : r);
     setReservas(updated);
     if (supabaseEnabled && supabase) {
@@ -93,6 +95,13 @@ export default function TabReservas() {
     } else {
       try { localStorage.setItem(LOCAL_KEY, JSON.stringify(updated)); } catch { /* skip */ }
     }
+    logAudit(tc.nombre, {
+      usuario: sessionStorage.getItem('admin-nombre') || 'Desconocido',
+      rol:     sessionStorage.getItem('admin-rol')    || 'empleado',
+      accion:  'cambio_estado',
+      entidad: 'reserva',
+      detalle: `${reserva?.nombre || `#${id}`} → ${estado}`,
+    });
   };
 
   useEffect(() => {

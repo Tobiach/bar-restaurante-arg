@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CalendarDays, Users, DollarSign, LogOut, Sparkles } from 'lucide-react';
+import { CalendarDays, Users, DollarSign, LogOut, Sparkles, UtensilsCrossed, Image, ClipboardList } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { AdminRol } from '../../types/admin.types';
 import TabReservas from './TabReservas';
 import TabClientes from './TabClientes';
 import TabCaja from './TabCaja';
 import TabResumenIA from './TabResumenIA';
+import TabCarta from './TabCarta';
+import TabGaleria from './TabGaleria';
+import TabAuditoria from './TabAuditoria';
 
-type Tab = 'reservas' | 'clientes' | 'caja' | 'resumen';
+type Tab = 'reservas' | 'clientes' | 'caja' | 'carta' | 'galeria' | 'auditoria' | 'resumen';
 type IconEl = (props: { size?: number; className?: string }) => React.ReactElement | null;
 
-const TABS: { id: Tab; label: string; emoji: string; Icon: IconEl }[] = [
-  { id: 'reservas', label: 'Reservas', emoji: '📅', Icon: CalendarDays },
-  { id: 'clientes', label: 'Clientes', emoji: '👥', Icon: Users },
-  { id: 'caja',     label: 'Caja',     emoji: '💰', Icon: DollarSign },
-  { id: 'resumen',  label: 'IA',       emoji: '🧠', Icon: Sparkles },
+const TABS: { id: Tab; label: string; emoji: string; Icon: IconEl; mobileHide?: boolean }[] = [
+  { id: 'reservas',  label: 'Reservas', emoji: '📅', Icon: CalendarDays },
+  { id: 'clientes',  label: 'Clientes', emoji: '👥', Icon: Users },
+  { id: 'caja',      label: 'Caja',     emoji: '💰', Icon: DollarSign },
+  { id: 'carta',     label: 'Carta',    emoji: '📝', Icon: UtensilsCrossed },
+  { id: 'galeria',   label: 'Galería',  emoji: '🖼️', Icon: Image,         mobileHide: true },
+  { id: 'auditoria', label: 'Log',      emoji: '📋', Icon: ClipboardList, mobileHide: true },
+  { id: 'resumen',   label: 'IA',       emoji: '🧠', Icon: Sparkles },
 ];
 
 interface Props {
@@ -29,12 +35,16 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('reservas');
 
   const visibleTabs = rol === 'dueno' ? TABS : TABS.filter(t => t.id === 'reservas');
+  const mobileTabs  = visibleTabs.filter(t => !t.mobileHide);
 
   const tabContent: Record<Tab, React.ReactElement> = {
-    reservas: <TabReservas />,
-    clientes: <TabClientes />,
-    caja:     <TabCaja />,
-    resumen:  <TabResumenIA />,
+    reservas:  <TabReservas />,
+    clientes:  <TabClientes />,
+    caja:      <TabCaja />,
+    carta:     <TabCarta />,
+    galeria:   <TabGaleria />,
+    auditoria: <TabAuditoria />,
+    resumen:   <TabResumenIA />,
   };
 
   const [hora, setHora] = useState(() =>
@@ -154,7 +164,7 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
       {/* ═══ MOBILE BOTTOM NAV ═══ */}
       <nav className={`md:hidden fixed bottom-0 left-0 right-0 z-50 flex ${rol === 'empleado' ? 'justify-center' : ''}`}
         style={{ background: 'var(--color-violeta-medio)', borderTop: '1px solid var(--color-violeta-borde)' }}>
-        {visibleTabs.map(({ id, label, emoji, Icon }) => {
+        {mobileTabs.map(({ id, label, emoji, Icon }) => {
           const active = activeTab === id;
           return (
             <button key={id} onClick={() => setActiveTab(id)}

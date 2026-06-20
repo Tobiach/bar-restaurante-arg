@@ -26,7 +26,10 @@ export default function CuartaMenu() {
   const tc = getConfig();
   const data = getActiveData();
   const { showToast } = useToast();
-  const all: any[] = data?.menu || [];
+  const localRaw = localStorage.getItem(`panel-carta-${tc.nombre}`);
+  const all: any[] = localRaw
+    ? (JSON.parse(localRaw) as any[]).filter((i: any) => i.activo !== false)
+    : (data?.menu || []);
   const cats = [...new Set(all.map((i: any) => i.cat as string))];
   const [tab, setTab] = useState(cats[0] || '');
   const [cart, setCart] = useState<CartItem[]>(() => {

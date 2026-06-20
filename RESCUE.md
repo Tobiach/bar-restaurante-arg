@@ -161,4 +161,10 @@ a3bb713  docs: registrar CRM panel admin completado
 
 ---
 
-*Última actualización: 2026-06-19 — PC B (estudiante)*
+*Última actualización: 2026-06-20 — PC B (estudiante)*
+
+## 🔑 localStorage keys por tenant
+```
+panel-reservas-${nombre}   panel-caja-${nombre}       panel-carta-${nombre}
+panel-galeria-${nombre}    panel-auditoria-${nombre}  pin-lock-${nombre}
+```

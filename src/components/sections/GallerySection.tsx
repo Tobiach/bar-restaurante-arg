@@ -6,7 +6,8 @@ import { getConfig, getActiveData } from '../../config/active';
 export default function GallerySection() {
   const tenantConfig = getConfig();
   const data = getActiveData();
-  const galeria: any[] = data?.galeria || [];
+  const localRaw = localStorage.getItem(`panel-galeria-${tenantConfig.nombre}`);
+  const galeria: any[] = localRaw ? JSON.parse(localRaw) : (data?.galeria || []);
   const labels = tenantConfig.labels || {};
 
   const allCats = ['TODOS', ...Array.from(new Set(galeria.map((i: any) => i.cat as string)))];

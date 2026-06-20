@@ -42,7 +42,10 @@ export default function MenuSection() {
   const data = getActiveData();
   const { showToast } = useToast();
 
-  const allItems: any[] = data?.menu || [];
+  const localRaw = localStorage.getItem(`panel-carta-${tenantConfig.nombre}`);
+  const allItems: any[] = localRaw
+    ? (JSON.parse(localRaw) as any[]).filter((i: any) => i.activo !== false)
+    : (data?.menu || []);
   const categories = [...new Set(allItems.map((i: any) => i.cat as string))];
 
   const [activeTab, setActiveTab] = useState(categories[0] || '');
