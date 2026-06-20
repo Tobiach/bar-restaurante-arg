@@ -66,10 +66,12 @@ Tabs disponibles (solo dueño excepto Reservas):
 Seguridad: rate limiting 5 intentos → bloqueo 15min (AdminLogin.tsx)
 Auditoria: cada cambio de estado reserva y movimiento de caja queda logueado en localStorage
 
-PINs por tenant:
-- isla: dueño=`1234`, empleado=`5678`
-- cielo: dueño=`9999`, empleado=`1111`
-- cuarta: dueño=`4444`, empleado=`2222`
+PINs (todos los tenants demo):
+- dueño=`2580` · empleado=`1470` (patrón numpad, fácil de recordar)
+- Al entregar cliente real: cambiar en src/config/tenants/[nombre].ts
+
+URL default: cielo (rooftop, neutro para demos — no expone datos de cliente real)
+URL isla: solo accesible via /?t=isla (cliente real, no usar como demo)
 
 localStorage keys por tenant (panel-*):
 - `panel-reservas-${nombre}` · `panel-caja-${nombre}` · `panel-carta-${nombre}`

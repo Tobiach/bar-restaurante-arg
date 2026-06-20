@@ -2,10 +2,10 @@ export const cieloConfig = {
   nombre: "Cielo Rooftop",
   tagline: "Buenos Aires desde arriba. Cocktails de autor.",
   logo: "",
-  adminPin: "9999",
+  adminPin: "2580",
   adminUsers: [
-    { rol: 'dueno',   pin: '9999', nombre: 'Administrador' },
-    { rol: 'empleado', pin: '1111', nombre: 'Encargado de turno' },
+    { rol: 'dueno',   pin: '2580', nombre: 'Administrador' },
+    { rol: 'empleado', pin: '1470', nombre: 'Encargado de turno' },
   ],
 
   telefono: "+54 9 11 9999-8888",

@@ -2,10 +2,10 @@
   nombre: "Nos Trajo la Tercera",
   tagline: "Cerveza artesanal. Buena charla. Sin apuro.",
   logo: "",
-  adminPin: "4444",
+  adminPin: "2580",
   adminUsers: [
-    { rol: 'dueno',   pin: '4444', nombre: 'Administrador' },
-    { rol: 'empleado', pin: '2222', nombre: 'Encargado de turno' },
+    { rol: 'dueno',   pin: '2580', nombre: 'Administrador' },
+    { rol: 'empleado', pin: '1470', nombre: 'Encargado de turno' },
   ],
 
   telefono: "+54 9 11 5555-4444",

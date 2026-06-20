@@ -96,9 +96,12 @@ npx vercel --yes --prod
 
 | Tenant | URL | Dueño | Empleado |
 |--------|-----|-------|----------|
-| Isla | `/?t=isla` → `/admin` | `1234` | `5678` |
-| Cielo | `/?t=cielo` → `/admin` | `9999` | `1111` |
-| Cuarta | `/?t=cuarta` → `/admin` | `4444` | `2222` |
+| Isla | `/?t=isla` → `/admin` | `2580` | `1470` |
+| Cielo | `/?t=cielo` → `/admin` | `2580` | `1470` |
+| Cuarta | `/?t=cuarta` → `/admin` | `2580` | `1470` |
+
+Patrón numpad: dueño = columna del medio (↓), empleado = columna izquierda (↓)
+Al entregar a cliente real: cambiar en `src/config/tenants/[nombre].ts` → `adminPin` y `adminUsers`.
 
 ---
 

@@ -11,7 +11,7 @@ import './index.css';
 
 // Tenant selection via ?t= query param
 const params = new URLSearchParams(window.location.search);
-const tenantId = params.get('t') || 'isla';
+const tenantId = params.get('t') || 'cielo';
 const tenantConfig = configs[tenantId] || configs['isla'];
 
 // Data selection

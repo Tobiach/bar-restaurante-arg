@@ -2,10 +2,10 @@ export const islaConfig = {
   nombre: "Isla Bar Cultural",
   tagline: "El lugar donde la noche cobra vida",
   logo: "https://lh3.googleusercontent.com/d/1lnU5jbBog4lqleTtxfAL_mQepyhORyDE",
-  adminPin: "1234",
+  adminPin: "2580",
   adminUsers: [
-    { rol: 'dueno',   pin: '1234', nombre: 'Administrador' },
-    { rol: 'empleado', pin: '5678', nombre: 'Encargado de turno' },
+    { rol: 'dueno',   pin: '2580', nombre: 'Administrador' },
+    { rol: 'empleado', pin: '1470', nombre: 'Encargado de turno' },
   ],
 
   telefono: "+54 9 11 6789-0123",
