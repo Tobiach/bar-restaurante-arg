@@ -134,7 +134,12 @@ export default function MenuSection() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-1">
                     <h3 className="font-titulo text-lg font-bold">{item.nombre}</h3>
-                    <span className="text-naranja font-display font-bold">{formatPrice(item.precio)}</span>
+                    <div className="text-right flex-shrink-0 ml-2">
+                      <span className="text-naranja font-display font-bold block">{formatPrice(item.precio)}</span>
+                      {item.precio > 0 && (
+                        <span className="text-[9px] font-display tracking-widest text-naranja/40 block">🌟 {Math.floor(item.precio / 500)} pts</span>
+                      )}
+                    </div>
                   </div>
                   <p className="text-sm text-blanco-muted mb-3 h-10 overflow-hidden line-clamp-2">{item.desc || item.descripcion || ''}</p>
                   <div className="flex flex-wrap gap-2 mb-4">

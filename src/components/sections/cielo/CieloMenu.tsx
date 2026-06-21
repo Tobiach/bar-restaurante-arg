@@ -85,8 +85,15 @@ export default function CieloMenu() {
                     {item.desc || item.descripcion || ''}
                   </p>
                 </div>
-                <div className="font-titulo text-base font-light shrink-0" style={{ color: '#B8966E' }}>
-                  {item.precio ? `$${item.precio.toLocaleString()}` : '—'}
+                <div className="shrink-0 text-right">
+                  <div className="font-titulo text-base font-light" style={{ color: '#B8966E' }}>
+                    {item.precio ? `$${item.precio.toLocaleString()}` : '—'}
+                  </div>
+                  {item.precio > 0 && (
+                    <div className="font-display text-[9px] tracking-widest mt-0.5" style={{ color: 'rgba(184,150,110,0.55)' }}>
+                      🌟 {Math.floor(item.precio / 500)} pts
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

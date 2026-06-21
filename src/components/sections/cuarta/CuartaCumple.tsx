@@ -83,11 +83,16 @@ export default function CuartaCumple() {
               </ul>
 
               {/* Price */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '24px' }}>
-                <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '40px', color: '#C8A96E', letterSpacing: '0.04em', lineHeight: 1 }}>
-                  {pack.price}
-                </span>
-                <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', color: '#9E8E7A', textTransform: 'uppercase', letterSpacing: '0.15em' }}>/ por grupo</span>
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '40px', color: '#C8A96E', letterSpacing: '0.04em', lineHeight: 1 }}>
+                    {pack.price}
+                  </span>
+                  <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', color: '#9E8E7A', textTransform: 'uppercase', letterSpacing: '0.15em' }}>/ por grupo</span>
+                </div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.2em', color: 'rgba(200,169,110,0.5)', textTransform: 'uppercase', marginTop: '4px' }}>
+                  🌟 {Math.floor((parseInt((pack.price as string).replace(/\D/g, ''), 10) || 0) / 500)} pts al reservar
+                </div>
               </div>
 
               <button

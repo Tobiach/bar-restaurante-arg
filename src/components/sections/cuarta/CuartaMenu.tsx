@@ -146,9 +146,16 @@ export default function CuartaMenu() {
                       {item.nombre}
                     </h3>
                   </div>
-                  <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '20px', color: '#C8A96E', letterSpacing: '0.04em', flexShrink: 0, marginLeft: '12px' }}>
-                    {formatPrice(item.precio)}
-                  </span>
+                  <div style={{ flexShrink: 0, marginLeft: '12px', textAlign: 'right' }}>
+                    <span style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '20px', color: '#C8A96E', letterSpacing: '0.04em', display: 'block' }}>
+                      {formatPrice(item.precio)}
+                    </span>
+                    {item.precio > 0 && (
+                      <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '0.2em', color: 'rgba(200,169,110,0.5)', textTransform: 'uppercase' }}>
+                        🌟 {Math.floor(item.precio / 500)} pts
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <p style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', color: '#9E8E7A', marginBottom: '16px', lineHeight: 1.5, minHeight: '42px' }}>

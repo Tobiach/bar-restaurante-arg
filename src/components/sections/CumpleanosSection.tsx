@@ -52,7 +52,10 @@ export default function CumpleanosSection() {
                 ))}
               </ul>
               <div className="mt-auto">
-                <div className="text-3xl font-display font-black text-naranja mb-6">{p.price}</div>
+                <div className="text-3xl font-display font-black text-naranja mb-1">{p.price}</div>
+                <div className="text-[10px] font-display tracking-widest text-naranja/50 mb-5">
+                  🌟 {Math.floor((parseInt((p.price as string).replace(/\D/g, ''), 10) || 0) / 500)} pts al reservar
+                </div>
                 <button
                   onClick={() => handleReservarPack(p.title)}
                   className={`w-full py-3 text-sm font-display tracking-widest rounded-xl transition-all ${p.featured ? 'btn-primary' : 'btn-secondary'}`}
