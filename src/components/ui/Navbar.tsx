@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ChevronRight, Calendar, Phone, MapPin, Instagram } from 'lucide-react';
+import { Menu, X, ChevronRight, Calendar, Phone, MapPin, Instagram, User } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import StatusIndicator from './StatusIndicator';
 
@@ -91,6 +91,13 @@ export default function Navbar() {
                 {link.name.toUpperCase()}
               </a>
             ))}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-perfil'))}
+              className="p-2 text-blanco-muted hover:text-naranja transition-colors"
+              title="Mi Perfil"
+            >
+              <User size={20} />
+            </button>
             <a href="#sec-reservas" className="btn-primary py-2 px-6">RESERVAR →</a>
           </div>
         )}
@@ -124,6 +131,14 @@ export default function Navbar() {
                   <MapPin size={10} className="text-naranja" /> {tenantConfig.direccion}
                 </p>
               </div>
+
+              <button
+                onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-perfil')); }}
+                className="font-titulo text-2xl font-bold hover:text-naranja transition-colors w-full flex items-center justify-between p-2 border-b border-white/5"
+              >
+                <span className="flex items-center gap-3"><User size={20} className="text-naranja" />Mi Perfil</span>
+                <ChevronRight size={20} className="text-naranja" />
+              </button>
 
               {links.map(link => (
                 <a

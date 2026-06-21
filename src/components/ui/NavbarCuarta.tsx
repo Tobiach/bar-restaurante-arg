@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Beer, MessageCircle } from 'lucide-react';
+import { Menu, X, Beer, MessageCircle, User } from 'lucide-react';
 import { getConfig } from '../../config/active';
 
 export default function NavbarCuarta() {
@@ -77,6 +77,16 @@ export default function NavbarCuarta() {
               RESERVAR
             </a>
             <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-perfil'))}
+              className="hidden md:flex"
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9E8E7A', padding: '4px', transition: 'color 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9E8E7A'; }}
+              title="Mi Perfil"
+            >
+              <User size={20} />
+            </button>
+            <button
               onClick={() => setOpen(!open)}
               className="md:hidden"
               style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#E8DCC8', padding: '4px' }}
@@ -102,6 +112,15 @@ export default function NavbarCuarta() {
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '32px',
             }}
           >
+            <motion.button
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0 }}
+              onClick={() => { setOpen(false); window.dispatchEvent(new CustomEvent('open-perfil')); }}
+              style={{ fontFamily: "'Bebas Neue', cursive", fontSize: '42px', letterSpacing: '0.08em', color: '#9E8E7A', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', transition: 'color 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A96E'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9E8E7A'; }}
+            >
+              <User size={30} /> MI PERFIL
+            </motion.button>
             {links.map((l, i) => (
               <motion.a
                 key={l.label}

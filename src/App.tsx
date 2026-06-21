@@ -18,6 +18,7 @@ import ReviewSection from './components/sections/ReviewSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/sections/Footer';
 import CarritoFlotante from './components/sections/CarritoFlotante';
+import PerfilDrawer from './components/sections/PerfilDrawer';
 
 // Cielo-specific components
 import CieloHero from './components/sections/cielo/CieloHero';
@@ -83,6 +84,7 @@ export default function App() {
           <CuartaContacto />
           <CuartaFooter />
           <CarritoFlotante />
+          <PerfilDrawer />
         </BaseLayout>
       </ToastProvider>
     );
@@ -106,6 +108,7 @@ export default function App() {
           <CieloGaleria />
           <CieloFooter />
           <CarritoFlotante />
+          <PerfilDrawer />
         </BaseLayout>
       </ToastProvider>
     );
@@ -162,6 +165,7 @@ export default function App() {
 
         <Footer />
         <CarritoFlotante />
+        <PerfilDrawer />
       </BaseLayout>
     </ToastProvider>
   );

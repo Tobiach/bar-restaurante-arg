@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Diamond, Instagram, Phone } from 'lucide-react';
+import { Menu, X, Diamond, Instagram, Phone, User } from 'lucide-react';
 import { getConfig } from '../../config/active';
 
 const LINKS = [
@@ -49,6 +49,13 @@ export default function NavbarCielo() {
               {l.name}
             </a>
           ))}
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-perfil'))}
+            className="text-blanco-muted hover:text-naranja transition-colors duration-200 p-2"
+            title="Mi Perfil"
+          >
+            <User size={19} />
+          </button>
           <a
             href="#cielo-reservas"
             className="font-display text-xs tracking-[0.25em] uppercase px-6 py-2.5 border border-naranja text-naranja hover:bg-naranja hover:text-[#0E0C09] transition-all duration-300"
@@ -82,6 +89,12 @@ export default function NavbarCielo() {
             </div>
 
             <div className="flex flex-col gap-8 items-center flex-1 justify-center">
+              <button
+                onClick={() => { setOpen(false); window.dispatchEvent(new CustomEvent('open-perfil')); }}
+                className="font-titulo text-3xl font-light tracking-wide text-blanco-muted hover:text-naranja transition-colors flex items-center gap-3"
+              >
+                <User size={24} /> Mi Perfil
+              </button>
               {LINKS.map(l => (
                 <a
                   key={l.href}
