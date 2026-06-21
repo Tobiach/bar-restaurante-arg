@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CalendarDays, Users, DollarSign, LogOut, Sparkles, UtensilsCrossed, Image, ClipboardList } from 'lucide-react';
+import { CalendarDays, Users, DollarSign, LogOut, Sparkles, UtensilsCrossed, Image, ClipboardList, ClipboardPen } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { AdminRol } from '../../types/admin.types';
 import TabReservas from './TabReservas';
@@ -10,18 +10,20 @@ import TabResumenIA from './TabResumenIA';
 import TabCarta from './TabCarta';
 import TabGaleria from './TabGaleria';
 import TabAuditoria from './TabAuditoria';
+import TabComandas from './TabComandas';
 
-type Tab = 'reservas' | 'clientes' | 'caja' | 'carta' | 'galeria' | 'auditoria' | 'resumen';
+type Tab = 'reservas' | 'clientes' | 'caja' | 'carta' | 'galeria' | 'auditoria' | 'resumen' | 'comandas';
 type IconEl = (props: { size?: number; className?: string }) => React.ReactElement | null;
 
-const TABS: { id: Tab; label: string; emoji: string; Icon: IconEl; mobileHide?: boolean }[] = [
+const TABS: { id: Tab; label: string; emoji: string; Icon: IconEl; mobileHide?: boolean; roles?: AdminRol[] }[] = [
   { id: 'reservas',  label: 'Reservas', emoji: '📅', Icon: CalendarDays },
-  { id: 'clientes',  label: 'Clientes', emoji: '👥', Icon: Users },
+  { id: 'comandas',  label: 'Pedidos',  emoji: '🧾', Icon: ClipboardPen },
   { id: 'caja',      label: 'Caja',     emoji: '💰', Icon: DollarSign },
-  { id: 'carta',     label: 'Carta',    emoji: '📝', Icon: UtensilsCrossed },
-  { id: 'galeria',   label: 'Galería',  emoji: '🖼️', Icon: Image,         mobileHide: true },
-  { id: 'auditoria', label: 'Log',      emoji: '📋', Icon: ClipboardList, mobileHide: true },
-  { id: 'resumen',   label: 'IA',       emoji: '🧠', Icon: Sparkles },
+  { id: 'clientes',  label: 'Clientes', emoji: '👥', Icon: Users,         roles: ['dueno'] },
+  { id: 'carta',     label: 'Carta',    emoji: '📝', Icon: UtensilsCrossed, roles: ['dueno'] },
+  { id: 'galeria',   label: 'Galería',  emoji: '🖼️', Icon: Image,         mobileHide: true, roles: ['dueno'] },
+  { id: 'auditoria', label: 'Log',      emoji: '📋', Icon: ClipboardList, mobileHide: true, roles: ['dueno'] },
+  { id: 'resumen',   label: 'IA',       emoji: '🧠', Icon: Sparkles,      roles: ['dueno'] },
 ];
 
 interface Props {
@@ -34,7 +36,7 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
   const tc = getConfig();
   const [activeTab, setActiveTab] = useState<Tab>('reservas');
 
-  const visibleTabs = rol === 'dueno' ? TABS : TABS.filter(t => t.id === 'reservas');
+  const visibleTabs = TABS.filter(t => !t.roles || t.roles.includes(rol));
   const mobileTabs  = visibleTabs.filter(t => !t.mobileHide);
 
   const tabContent: Record<Tab, React.ReactElement> = {
@@ -45,6 +47,7 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
     galeria:   <TabGaleria />,
     auditoria: <TabAuditoria />,
     resumen:   <TabResumenIA />,
+    comandas:  <TabComandas />,
   };
 
   const [hora, setHora] = useState(() =>
@@ -113,39 +116,26 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
           </div>
         </div>
 
-        {/* ── Desktop tabs (dueño only) ── */}
-        {rol === 'dueno' && (
-          <div className="max-w-6xl mx-auto px-8 hidden md:flex gap-1 pb-0">
-            {TABS.map(({ id, label, emoji }) => {
-              const active = activeTab === id;
-              return (
-                <button key={id} onClick={() => setActiveTab(id)}
-                  className="relative px-5 py-3 font-display text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-200"
-                  style={{ color: active ? 'var(--color-naranja)' : 'var(--color-blanco-muted)' }}
-                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-suave)'; }}
-                  onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-muted)'; }}
-                >
-                  <span className="mr-1.5">{emoji}</span>{label}
-                  {active && (
-                    <motion.div layoutId="tab-indicator" className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
-                      style={{ background: 'var(--color-naranja)' }} />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Empleado: solo muestra qué tab está activa */}
-        {rol === 'empleado' && (
-          <div className="max-w-6xl mx-auto px-8 hidden md:flex pb-0">
-            <div className="px-5 py-3 font-display text-[11px] font-black tracking-[0.2em] uppercase relative"
-              style={{ color: 'var(--color-naranja)' }}>
-              📅 Reservas
-              <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ background: 'var(--color-naranja)' }} />
-            </div>
-          </div>
-        )}
+        {/* ── Desktop tabs ── */}
+        <div className="max-w-6xl mx-auto px-8 hidden md:flex gap-1 pb-0">
+          {visibleTabs.map(({ id, label, emoji }) => {
+            const active = activeTab === id;
+            return (
+              <button key={id} onClick={() => setActiveTab(id)}
+                className="relative px-5 py-3 font-display text-[11px] font-black tracking-[0.2em] uppercase transition-all duration-200"
+                style={{ color: active ? 'var(--color-naranja)' : 'var(--color-blanco-muted)' }}
+                onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-suave)'; }}
+                onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-muted)'; }}
+              >
+                <span className="mr-1.5">{emoji}</span>{label}
+                {active && (
+                  <motion.div layoutId="tab-indicator" className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
+                    style={{ background: 'var(--color-naranja)' }} />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </header>
 
       {/* ═══ CONTENIDO ═══ */}

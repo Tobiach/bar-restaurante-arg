@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ChevronDown, ChevronUp, Phone, Mail, X } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, Phone, Mail, X, Star } from 'lucide-react';
 import { getMockData } from '../../data/mockIndex';
+import { getConfig } from '../../config/active';
 import { Cliente } from '../../types/admin.types';
 
 const NIVEL_STYLES: Record<Cliente['nivel'], { bg: string; text: string; border: string; emoji: string }> = {
@@ -92,12 +93,32 @@ function ClienteModal({ c, onClose }: { c: Cliente; onClose: () => void }) {
   );
 }
 
+const PUNTOS_KEY = (nombre: string) => `panel-puntos-${nombre}`;
+
 export default function TabClientes() {
+  const tc = getConfig();
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<Cliente | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [addingPuntos, setAddingPuntos] = useState<string | null>(null);
+  const [puntosInput, setPuntosInput] = useState('');
+  const [extraPuntos, setExtraPuntos] = useState<Record<string, number>>(() => {
+    try { return JSON.parse(localStorage.getItem(PUNTOS_KEY(tc.nombre)) || '{}'); } catch { return {}; }
+  });
 
   const clientes = getMockData().clientes;
+
+  const totalPuntos = (c: Cliente) => c.puntos + (extraPuntos[c.id] || 0);
+
+  const agregarPuntos = (id: string) => {
+    const pts = parseInt(puntosInput);
+    if (!pts || pts <= 0) return;
+    const updated = { ...extraPuntos, [id]: (extraPuntos[id] || 0) + pts };
+    setExtraPuntos(updated);
+    try { localStorage.setItem(PUNTOS_KEY(tc.nombre), JSON.stringify(updated)); } catch { /* skip */ }
+    setPuntosInput('');
+    setAddingPuntos(null);
+  };
 
   const filtered = clientes.filter(c =>
     c.nombre.toLowerCase().includes(query.toLowerCase()) ||
@@ -218,7 +239,6 @@ export default function TabClientes() {
                         <div className="flex gap-4 text-[11px]">
                           {[
                             { label: 'Ticket prom.', value: formatMonto(c.ticketPromedio) },
-                            { label: 'Puntos', value: `${c.puntos} pts` },
                             { label: 'Email', value: c.email || '—' },
                           ].map(({ label, value }) => (
                             <div key={label}>
@@ -226,6 +246,10 @@ export default function TabClientes() {
                               <div className="text-blanco-suave font-semibold">{value}</div>
                             </div>
                           ))}
+                          <div>
+                            <div className="text-[9px] text-blanco-muted font-display tracking-widest uppercase mb-1">Puntos</div>
+                            <div className="text-naranja font-bold">{totalPuntos(c)} pts</div>
+                          </div>
                         </div>
                         {c.notas && (
                           <div className="text-[11px]">
@@ -233,12 +257,45 @@ export default function TabClientes() {
                             <div className="text-blanco-suave">{c.notas}</div>
                           </div>
                         )}
-                        <button
-                          onClick={e => { e.stopPropagation(); setSelected(c); }}
-                          className="ml-auto px-4 py-2 bg-naranja text-violeta text-[10px] font-display font-black tracking-widest uppercase rounded-lg hover:bg-naranja-claro transition-all"
-                        >
-                          VER PERFIL COMPLETO
-                        </button>
+
+                        {/* Agregar puntos inline */}
+                        {addingPuntos === c.id ? (
+                          <div className="flex items-center gap-2 ml-auto" onClick={e => e.stopPropagation()}>
+                            <input
+                              type="number"
+                              placeholder="Puntos"
+                              value={puntosInput}
+                              onChange={e => setPuntosInput(e.target.value)}
+                              onKeyDown={e => { if (e.key === 'Enter') agregarPuntos(c.id); if (e.key === 'Escape') setAddingPuntos(null); }}
+                              autoFocus
+                              className="w-24 bg-violeta border border-naranja/40 rounded-lg px-3 py-1.5 text-sm text-blanco-suave outline-none focus:border-naranja/70"
+                            />
+                            <button onClick={() => agregarPuntos(c.id)}
+                              className="px-3 py-1.5 bg-naranja text-violeta text-[10px] font-display font-black tracking-widest uppercase rounded-lg transition-all">
+                              OK
+                            </button>
+                            <button onClick={() => { setAddingPuntos(null); setPuntosInput(''); }}
+                              className="p-1.5 text-blanco-muted hover:text-rojo-error transition-colors">
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="ml-auto flex gap-2">
+                            <button
+                              onClick={e => { e.stopPropagation(); setAddingPuntos(c.id); }}
+                              className="px-4 py-2 text-[10px] font-display font-black tracking-widest uppercase rounded-lg transition-all flex items-center gap-1.5"
+                              style={{ background: 'var(--color-naranja)18', color: 'var(--color-naranja)', border: '1px solid var(--color-naranja)35' }}
+                            >
+                              <Star size={11} /> + Puntos
+                            </button>
+                            <button
+                              onClick={e => { e.stopPropagation(); setSelected(c); }}
+                              className="px-4 py-2 bg-naranja text-violeta text-[10px] font-display font-black tracking-widest uppercase rounded-lg hover:bg-naranja-claro transition-all"
+                            >
+                              VER PERFIL
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   )}

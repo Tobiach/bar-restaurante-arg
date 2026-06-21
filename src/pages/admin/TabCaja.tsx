@@ -95,7 +95,8 @@ const FORM_INIT: FormNuevo = { tipo: 'ingreso', categoria: 'Reservas', descripci
 
 export default function TabCaja() {
   const LOCAL_KEY = `panel-caja-${getConfig().nombre}`;
-  const [periodo, setPeriodo] = useState<Periodo>('semana');
+  const esEmpleado = sessionStorage.getItem('admin-rol') === 'empleado';
+  const [periodo, setPeriodo] = useState<Periodo>(esEmpleado ? 'hoy' : 'semana');
   const [movimientos, setMovimientos] = useState<MovimientoCaja[]>(() => {
     try {
       const raw = localStorage.getItem(LOCAL_KEY);
@@ -144,20 +145,28 @@ export default function TabCaja() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 relative">
-      {/* Selector de período */}
-      <div className="flex gap-1 bg-violeta-card border border-violeta-borde rounded-lg p-1 w-fit mb-8">
-        {PERIODOS.map(p => (
-          <button
-            key={p.id}
-            onClick={() => setPeriodo(p.id)}
-            className={`px-5 py-1.5 rounded text-[11px] font-display font-black tracking-widest uppercase transition-all ${
-              periodo === p.id ? 'bg-naranja text-violeta' : 'text-blanco-muted hover:text-blanco-suave'
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
+      {/* Selector de período — solo para dueño */}
+      {!esEmpleado && (
+        <div className="flex gap-1 bg-violeta-card border border-violeta-borde rounded-lg p-1 w-fit mb-8">
+          {PERIODOS.map(p => (
+            <button
+              key={p.id}
+              onClick={() => setPeriodo(p.id)}
+              className={`px-5 py-1.5 rounded text-[11px] font-display font-black tracking-widest uppercase transition-all ${
+                periodo === p.id ? 'bg-naranja text-violeta' : 'text-blanco-muted hover:text-blanco-suave'
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {esEmpleado && (
+        <div className="mb-6 text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase">
+          Movimientos de hoy
+        </div>
+      )}
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -201,8 +210,8 @@ export default function TabCaja() {
         </div>
       </div>
 
-      {/* Gráfico */}
-      {chartData.length > 0 && (
+      {/* Gráfico — solo para dueño */}
+      {!esEmpleado && chartData.length > 0 && (
         <div className="bg-violeta-card border border-violeta-borde rounded-xl p-6 mb-8">
           <div className="text-[10px] font-display tracking-[0.3em] text-blanco-muted uppercase mb-5">
             Ingresos vs Egresos — {periodo === 'hoy' ? 'hoy' : periodo === 'semana' ? 'últimos 7 días' : 'este mes'}
