@@ -2,18 +2,21 @@ import { ShowBadge } from './constants';
 
 export const cieloData = {
   menu: [
-    { id: "co1", cat: "COCKTAILS", nombre: "Buenos Aires Sour", desc: "Whisky, limón, clara de huevo y espuma de Malbec. El emblema de la carta.", precio: 6500, badges: ["RECOMENDADO"] },
-    { id: "co2", cat: "COCKTAILS", nombre: "Cielo Negroni", desc: "Gin premium, vermouth rosso, Campari y twist de naranja flameada.", precio: 7200, badges: ["MÁS PEDIDO"] },
-    { id: "co3", cat: "COCKTAILS", nombre: "Palermo Spritz", desc: "Aperol, prosecco, soda y naranja fresca. Vista de la ciudad incluida.", precio: 5800 },
-    { id: "co4", cat: "COCKTAILS", nombre: "Rooftop Mule", desc: "Vodka artesanal, jengibre fresco, lima y ginger beer premium.", precio: 6200 },
-    { id: "co5", cat: "COCKTAILS", nombre: "Sin Altura", desc: "Mocktail de pepino, menta, limón y agua con gas. Refrescante y elegante.", precio: 4500, badges: ["VEGANO"] },
-    { id: "v1", cat: "VINOS", nombre: "Malbec Gran Reserva", desc: "Mendoza. Notas a frutos rojos, tabaco y chocolate. Copa o botella.", precio: 4200, badges: ["RECOMENDADO"] },
-    { id: "v2", cat: "VINOS", nombre: "Torrontés Seco", desc: "Salta. Floral, fresco, ideal para el verano en el rooftop.", precio: 3800 },
-    { id: "v3", cat: "VINOS", nombre: "Champagne Nacional", desc: "Brut rosé, burbuja fina. Bienvenida perfecta.", precio: 8500 },
-    { id: "t1", cat: "TAPAS", nombre: "Burrata con Tomates Cherry", desc: "Burrata fresca, tomates cherry asados, albahaca y aceite de oliva premium.", precio: 7800, badges: ["RECOMENDADO"] },
-    { id: "t2", cat: "TAPAS", nombre: "Tabla Ibérica", desc: "Jamón ibérico, chorizo español, queso manchego y membrillo.", precio: 12500, badges: ["MÁS PEDIDO"] },
-    { id: "t3", cat: "TAPAS", nombre: "Ceviche de Lenguado", desc: "Lenguado fresco, leche de tigre, maíz tostado y cilantro.", precio: 9200 },
-    { id: "t4", cat: "TAPAS", nombre: "Sushi Roll Cielo", desc: "4 piezas de roll de salmón con palta y salsa de la casa.", precio: 8800 },
+    { id: "co1", cat: "COCKTAILS", nombre: "Buenos Aires Sour", desc: "Whisky, limón, clara de huevo y espuma de Malbec. El emblema de la carta.", precio: 14500, badges: ["RECOMENDADO"] },
+    { id: "co2", cat: "COCKTAILS", nombre: "Cielo Negroni", desc: "Gin premium, vermouth rosso, Campari y twist de naranja flameada.", precio: 15000, badges: ["MÁS PEDIDO"] },
+    { id: "co3", cat: "COCKTAILS", nombre: "Palermo Spritz", desc: "Aperol, prosecco, soda y naranja fresca. Vista de la ciudad incluida.", precio: 12500 },
+    { id: "co4", cat: "COCKTAILS", nombre: "Rooftop Mule", desc: "Vodka artesanal, jengibre fresco, lima y ginger beer premium.", precio: 13800 },
+    { id: "co5", cat: "COCKTAILS", nombre: "Sin Altura", desc: "Mocktail de pepino, menta, limón y agua con gas. Refrescante y elegante.", precio: 7500, badges: ["VEGANO"] },
+    { id: "v1", cat: "VINOS", nombre: "Malbec Gran Reserva", desc: "Mendoza. Notas a frutos rojos, tabaco y chocolate. Copa o botella.", precio: 6500, badges: ["RECOMENDADO"] },
+    { id: "v2", cat: "VINOS", nombre: "Torrontés Seco", desc: "Salta. Floral, fresco, ideal para el verano en el rooftop.", precio: 5800 },
+    { id: "v3", cat: "VINOS", nombre: "Champagne Nacional", desc: "Brut rosé, burbuja fina. Bienvenida perfecta.", precio: 9500 },
+    { id: "t1", cat: "TAPAS", nombre: "Burrata con Tomates Cherry", desc: "Burrata fresca, tomates cherry asados, albahaca y aceite de oliva premium.", precio: 11500, badges: ["RECOMENDADO"] },
+    { id: "t2", cat: "TAPAS", nombre: "Tabla Ibérica", desc: "Jamón ibérico, chorizo español, queso manchego y membrillo.", precio: 18500, badges: ["MÁS PEDIDO"] },
+    { id: "t3", cat: "TAPAS", nombre: "Ceviche de Lenguado", desc: "Lenguado fresco, leche de tigre, maíz tostado y cilantro.", precio: 13800 },
+    { id: "t4", cat: "TAPAS", nombre: "Sushi Roll Cielo", desc: "4 piezas de roll de salmón con palta y salsa de la casa.", precio: 12900 },
+    { id: "sa1", cat: "SIN ALCOHOL", nombre: "Agua mineral premium", desc: "500ml. Importada o nacional premium.", precio: 2500 },
+    { id: "sa2", cat: "SIN ALCOHOL", nombre: "Gaseosa línea premium", desc: "Lata 350ml.", precio: 3000 },
+    { id: "sa3", cat: "SIN ALCOHOL", nombre: "Jugo natural exprimido", desc: "Naranja o pomelo. Exprimido al momento.", precio: 4200 },
   ],
   shows: [
     {
