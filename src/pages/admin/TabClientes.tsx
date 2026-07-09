@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, ChevronDown, ChevronUp, Phone, Mail, X, Star } from 'lucide-react';
 import { getMockData } from '../../data/mockIndex';
-import { getConfig } from '../../config/active';
 import { Cliente } from '../../types/admin.types';
+import { puntosService } from '../../lib/puntosService';
 
 const NIVEL_STYLES: Record<Cliente['nivel'], { bg: string; text: string; border: string; emoji: string }> = {
   VIP:       { bg: 'bg-verde-ok/10',     text: 'text-verde-ok',      border: 'border-verde-ok/30',      emoji: '👑' },
@@ -22,6 +22,11 @@ function diasDesde(iso: string) {
   if (diff === 0) return 'hoy';
   if (diff === 1) return 'ayer';
   return `hace ${diff} días`;
+}
+
+const DIAS_INACTIVO = 20;
+function esInactivo(iso: string): boolean {
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000) > DIAS_INACTIVO;
 }
 
 function ClienteModal({ c, onClose }: { c: Cliente; onClose: () => void }) {
@@ -93,29 +98,27 @@ function ClienteModal({ c, onClose }: { c: Cliente; onClose: () => void }) {
   );
 }
 
-const PUNTOS_KEY = (nombre: string) => `panel-puntos-${nombre}`;
-
 export default function TabClientes() {
-  const tc = getConfig();
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<Cliente | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [addingPuntos, setAddingPuntos] = useState<string | null>(null);
   const [puntosInput, setPuntosInput] = useState('');
-  const [extraPuntos, setExtraPuntos] = useState<Record<string, number>>(() => {
-    try { return JSON.parse(localStorage.getItem(PUNTOS_KEY(tc.nombre)) || '{}'); } catch { return {}; }
-  });
+  const [refreshTick, setRefreshTick] = useState(0);
 
   const clientes = getMockData().clientes;
 
-  const totalPuntos = (c: Cliente) => c.puntos + (extraPuntos[c.id] || 0);
+  // Puntos reales acreditados por teléfono (mismo documento único que usa Caja y Perfil del cliente)
+  const totalPuntos = (c: Cliente) => {
+    void refreshTick;
+    return c.puntos + (puntosService.get(c.telefono)?.puntos || 0);
+  };
 
-  const agregarPuntos = (id: string) => {
+  const agregarPuntos = (c: Cliente) => {
     const pts = parseInt(puntosInput);
     if (!pts || pts <= 0) return;
-    const updated = { ...extraPuntos, [id]: (extraPuntos[id] || 0) + pts };
-    setExtraPuntos(updated);
-    try { localStorage.setItem(PUNTOS_KEY(tc.nombre), JSON.stringify(updated)); } catch { /* skip */ }
+    puntosService.addPuntos(c.telefono, c.nombre, 'Ajuste manual del dueño', pts);
+    setRefreshTick(t => t + 1);
     setPuntosInput('');
     setAddingPuntos(null);
   };
@@ -195,6 +198,11 @@ export default function TabClientes() {
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold text-blanco-suave text-sm mb-1">{c.nombre}</div>
                       <div className="text-[11px] text-blanco-muted font-mono">{c.telefono}</div>
+                      {esInactivo(c.ultimaVisita) && (
+                        <span className="inline-block mt-1 px-2 py-0.5 rounded text-[9px] font-display font-black tracking-widest uppercase bg-rojo-error/10 text-rojo-error border border-rojo-error/30">
+                          ⚠️ Inactivo
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className={`flex items-center gap-1 px-2 py-0.5 rounded border text-[9px] font-display font-black ${s.bg} ${s.text} ${s.border}`}>
@@ -217,7 +225,11 @@ export default function TabClientes() {
                       </span>
                     </div>
                     <div className="col-span-1 text-center text-sm font-bold text-blanco-suave tabular-nums">{c.visitas}</div>
-                    <div className="col-span-2 text-[11px] text-blanco-muted">{diasDesde(c.ultimaVisita)}</div>
+                    <div className="col-span-2 text-[11px]">
+                      {esInactivo(c.ultimaVisita)
+                        ? <span className="px-1.5 py-0.5 rounded text-rojo-error bg-rojo-error/10 border border-rojo-error/30 font-semibold">⚠️ {diasDesde(c.ultimaVisita)}</span>
+                        : <span className="text-blanco-muted">{diasDesde(c.ultimaVisita)}</span>}
+                    </div>
                     <div className="col-span-2 text-right font-bold text-verde-ok tabular-nums">{formatMonto(c.gastoTotal)}</div>
                     <div className="col-span-1 text-right">
                       {isExp ? <ChevronUp size={14} className="ml-auto text-blanco-muted" /> : <ChevronDown size={14} className="ml-auto text-blanco-muted" />}
@@ -266,11 +278,11 @@ export default function TabClientes() {
                               placeholder="Puntos"
                               value={puntosInput}
                               onChange={e => setPuntosInput(e.target.value)}
-                              onKeyDown={e => { if (e.key === 'Enter') agregarPuntos(c.id); if (e.key === 'Escape') setAddingPuntos(null); }}
+                              onKeyDown={e => { if (e.key === 'Enter') agregarPuntos(c); if (e.key === 'Escape') setAddingPuntos(null); }}
                               autoFocus
                               className="w-24 bg-violeta border border-naranja/40 rounded-lg px-3 py-1.5 text-sm text-blanco-suave outline-none focus:border-naranja/70"
                             />
-                            <button onClick={() => agregarPuntos(c.id)}
+                            <button onClick={() => agregarPuntos(c)}
                               className="px-3 py-1.5 bg-naranja text-violeta text-[10px] font-display font-black tracking-widest uppercase rounded-lg transition-all">
                               OK
                             </button>

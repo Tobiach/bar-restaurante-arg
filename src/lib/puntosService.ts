@@ -33,6 +33,19 @@ function sanitize(phone: string): string {
   return phone.replace(/\D/g, '').slice(-10);
 }
 
+// Teléfono normalizado = documento único de cliente en todo el sistema
+// (Caja, Clientes y Perfil del cliente leen/escriben puntos por esta misma clave)
+export function normalizePhone(phone: string): string {
+  return sanitize(phone);
+}
+
+// 1 punto cada $100 gastados — usado para acreditar puntos automáticamente desde Caja
+export const PUNTOS_POR_MONTO = 100;
+
+export function calcularPuntosPorMonto(monto: number): number {
+  return Math.floor(monto / PUNTOS_POR_MONTO);
+}
+
 function key(phone: string): string {
   return `hpts_${sanitize(phone)}`;
 }

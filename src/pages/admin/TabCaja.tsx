@@ -5,12 +5,13 @@ import {
 } from 'recharts';
 import {
   Wine, Calendar, Package, Users, Plus, X, TrendingUp, TrendingDown,
-  CreditCard, Banknote, ArrowUpRight,
+  CreditCard, Banknote, ArrowUpRight, Star,
 } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { getMockData } from '../../data/mockIndex';
 import { MovimientoCaja, TipoMovimiento, MetodoPago } from '../../types/admin.types';
 import { logAudit } from '../../lib/auditLogger';
+import { puntosService, normalizePhone, calcularPuntosPorMonto } from '../../lib/puntosService';
 
 type Periodo = 'hoy' | 'semana' | 'mes';
 
@@ -88,13 +89,14 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 interface FormNuevo {
   tipo: TipoMovimiento; categoria: string; descripcion: string;
-  monto: string; metodo: MetodoPago;
+  monto: string; metodo: MetodoPago; clienteTel: string;
 }
 
-const FORM_INIT: FormNuevo = { tipo: 'ingreso', categoria: 'Reservas', descripcion: '', monto: '', metodo: 'Efectivo' };
+const FORM_INIT: FormNuevo = { tipo: 'ingreso', categoria: 'Reservas', descripcion: '', monto: '', metodo: 'Efectivo', clienteTel: '' };
 
 export default function TabCaja() {
-  const LOCAL_KEY = `panel-caja-${getConfig().nombre}`;
+  const tc = getConfig();
+  const LOCAL_KEY = `panel-caja-${tc.nombre}`;
   const esEmpleado = sessionStorage.getItem('admin-rol') === 'empleado';
   const [periodo, setPeriodo] = useState<Periodo>(esEmpleado ? 'hoy' : 'semana');
   const [movimientos, setMovimientos] = useState<MovimientoCaja[]>(() => {
@@ -116,28 +118,59 @@ export default function TabCaja() {
 
   const guardarMovimiento = () => {
     if (!form.descripcion || !form.monto) return;
+    const monto = Number(form.monto);
     const nuevo: MovimientoCaja = {
       id:          `m${Date.now()}`,
       fecha:       new Date().toISOString().slice(0, 10),
       tipo:        form.tipo,
       categoria:   form.categoria,
       descripcion: form.descripcion,
-      monto:       Number(form.monto),
+      monto,
       metodo:      form.metodo,
     };
     const updated = [nuevo, ...movimientos];
     setMovimientos(updated);
     try { localStorage.setItem(LOCAL_KEY, JSON.stringify(updated)); } catch { /* skip */ }
-    logAudit(getConfig().nombre, {
+    logAudit(tc.nombre, {
       usuario: sessionStorage.getItem('admin-nombre') || 'Desconocido',
       rol:     sessionStorage.getItem('admin-rol')    || 'empleado',
       accion:  'nuevo_movimiento',
       entidad: 'caja',
       detalle: `${nuevo.tipo === 'ingreso' ? '+' : '−'}$${nuevo.monto.toLocaleString('es-AR')} — ${nuevo.descripcion}`,
     });
+
+    // Puntos automáticos: si es un ingreso y se cargó el teléfono del cliente,
+    // se acreditan solos — sin paso manual aparte (documento único = teléfono)
+    if (form.tipo === 'ingreso' && form.clienteTel.trim()) {
+      const pts = calcularPuntosPorMonto(monto);
+      if (pts > 0) {
+        puntosService.addPuntos(form.clienteTel, '', `Compra: ${form.descripcion}`, pts);
+        logAudit(tc.nombre, {
+          usuario: sessionStorage.getItem('admin-nombre') || 'Desconocido',
+          rol:     sessionStorage.getItem('admin-rol')    || 'empleado',
+          accion:  'puntos_automaticos',
+          entidad: 'puntos',
+          detalle: `+${pts} pts a ${normalizePhone(form.clienteTel)} por $${monto.toLocaleString('es-AR')}`,
+        });
+      }
+    }
+
     setForm(FORM_INIT);
     setShowForm(false);
   };
+
+  // Vista previa en vivo mientras se carga el teléfono: puntos que va a ganar
+  // y cuánto le falta para el próximo premio del club (upsell en el momento del cobro)
+  const preview = (() => {
+    if (form.tipo !== 'ingreso' || !form.clienteTel.trim() || !form.monto) return null;
+    const monto = Number(form.monto) || 0;
+    const nuevosPts = calcularPuntosPorMonto(monto);
+    const existente = puntosService.get(form.clienteTel);
+    const totalPts = (existente?.puntos || 0) + nuevosPts;
+    const recompensas = (tc as any).club?.recompensas as { pts: number; gift: string }[] | undefined;
+    const proxima = recompensas?.find(r => r.pts > totalPts);
+    return { nuevosPts, totalPts, proxima };
+  })();
 
   const PERIODOS: { id: Periodo; label: string }[] = [
     { id: 'hoy', label: 'Hoy' }, { id: 'semana', label: 'Semana' }, { id: 'mes', label: 'Mes' },
@@ -377,6 +410,26 @@ export default function TabCaja() {
                     <option key={m} value={m} style={{ background: '#1A1A1A' }}>{m}</option>
                   ))}
                 </select>
+
+                {form.tipo === 'ingreso' && (
+                  <input
+                    type="text"
+                    placeholder="Teléfono del cliente (opcional — suma puntos solo)"
+                    value={form.clienteTel}
+                    onChange={e => setForm(f => ({ ...f, clienteTel: e.target.value }))}
+                    className="w-full bg-violeta border border-violeta-borde rounded-xl px-4 py-3 text-sm text-blanco-suave placeholder:text-blanco-muted/40 outline-none focus:border-naranja/50"
+                  />
+                )}
+
+                {preview && (
+                  <div className="rounded-xl p-3 flex items-center gap-2 text-[11px]" style={{ background: 'var(--color-naranja)10', border: '1px solid var(--color-naranja)25' }}>
+                    <Star size={13} className="text-naranja flex-shrink-0" />
+                    <span className="text-blanco-suave">
+                      +{preview.nuevosPts} pts ({preview.totalPts} pts en total)
+                      {preview.proxima && <> — le faltan <b>{preview.proxima.pts - preview.totalPts}</b> para "{preview.proxima.gift}"</>}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <button

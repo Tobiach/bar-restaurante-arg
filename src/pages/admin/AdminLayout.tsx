@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CalendarDays, Users, DollarSign, LogOut, Sparkles, UtensilsCrossed, Image, ClipboardList, ClipboardPen } from 'lucide-react';
+import { CalendarDays, Users, DollarSign, LogOut, Sparkles, UtensilsCrossed, Image, ClipboardList, ClipboardPen, Download } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { AdminRol } from '../../types/admin.types';
+import { exportarRespaldo } from '../../lib/backup';
 import TabReservas from './TabReservas';
 import TabClientes from './TabClientes';
 import TabCaja from './TabCaja';
@@ -104,6 +105,17 @@ export default function AdminLayout({ rol, nombre, onLogout }: Props) {
                 </span>
               </div>
             </div>
+
+            {rol === 'dueno' && (
+              <button onClick={() => exportarRespaldo(tc.nombre)}
+                className="p-2 rounded-xl transition-all"
+                style={{ color: 'var(--color-blanco-muted)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-naranja)'; (e.currentTarget as HTMLElement).style.background = 'var(--color-naranja)12'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-blanco-muted)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                title="Exportar respaldo (.json)">
+                <Download size={15} />
+              </button>
+            )}
 
             <button onClick={onLogout}
               className="p-2 rounded-xl transition-all"

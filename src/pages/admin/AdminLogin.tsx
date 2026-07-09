@@ -24,6 +24,7 @@ interface Props {
 export default function AdminLogin({ onAuth }: Props) {
   const tc = getConfig();
   const LOCK_KEY = `pin-lock-${tc.nombre}`;
+  const congelado = (tc as any).congelado === true;
 
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
@@ -80,6 +81,22 @@ export default function AdminLogin({ onAuth }: Props) {
   };
 
   const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, null, 0, 'del'] as const;
+
+  if (congelado) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'var(--color-violeta)' }}>
+        <div className="w-full max-w-xs text-center rounded-3xl p-7" style={{ background: 'var(--color-violeta-card)', border: '1px solid var(--color-violeta-borde)' }}>
+          <Lock size={28} className="mx-auto mb-4" style={{ color: 'var(--color-blanco-muted)' }} />
+          <p className="font-display text-xs font-black tracking-[0.3em] uppercase mb-2" style={{ color: 'var(--color-blanco-suave)' }}>
+            Panel suspendido
+          </p>
+          <p className="text-[11px]" style={{ color: 'var(--color-blanco-muted)' }}>
+            Contactá a Control.Evo para reactivarlo.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ background: 'var(--color-violeta)' }}>

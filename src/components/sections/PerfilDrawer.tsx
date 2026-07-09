@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, User, Star, Calendar, LogOut, Eye, EyeOff, ChevronRight } from 'lucide-react';
 import { getConfig } from '../../config/active';
 import { getMockData } from '../../data/mockIndex';
+import { puntosService } from '../../lib/puntosService';
 
 interface UsuarioRegistrado {
   id: string;
@@ -14,7 +15,6 @@ interface UsuarioRegistrado {
 
 const USER_KEY    = (n: string) => `usuarios-${n}`;
 const SESSION_KEY = (n: string) => `usuario-sesion-${n}`;
-const PUNTOS_KEY  = (n: string) => `panel-puntos-${n}`;
 
 function getUsuarios(n: string): UsuarioRegistrado[] {
   try { return JSON.parse(localStorage.getItem(USER_KEY(n)) || '[]'); } catch { return []; }
@@ -37,6 +37,11 @@ const NIVEL_STYLES = {
   Frecuente: { bg: 'bg-naranja/10',      text: 'text-naranja',     border: 'border-naranja/30',     emoji: '⭐' },
   Nuevo:     { bg: 'bg-blanco-muted/10', text: 'text-blanco-muted',border: 'border-blanco-muted/20',emoji: '🆕' },
 } as const;
+
+async function hashPw(pw: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 function fmt(n: number) { return '$' + n.toLocaleString('es-AR'); }
 function diasDesde(iso: string) {
@@ -73,12 +78,19 @@ export default function PerfilDrawer() {
     return () => window.removeEventListener('open-perfil', handler);
   }, [session]);
 
-  const login = () => {
+  const login = async () => {
     setError('');
     const users = getUsuarios(tc.nombre);
     const user = users.find(u => u.identificador.toLowerCase() === fId.trim().toLowerCase());
     if (!user) { setError('Usuario no encontrado'); return; }
-    if (user.pwHash !== btoa(fPw)) { setError('Contraseña incorrecta'); return; }
+    const hash = await hashPw(fPw);
+    let ok = user.pwHash === hash;
+    if (!ok && user.pwHash === btoa(fPw)) {
+      // Cuenta creada antes de reforzar el hash — migrar en este login exitoso
+      ok = true;
+      saveUsuarios(tc.nombre, users.map(u => u.id === user.id ? { ...u, pwHash: hash } : u));
+    }
+    if (!ok) { setError('Contraseña incorrecta'); return; }
     const ses = { id: user.id, nombre: user.nombre };
     saveSession(tc.nombre, ses);
     setSession(ses);
@@ -86,7 +98,7 @@ export default function PerfilDrawer() {
     reset();
   };
 
-  const register = () => {
+  const register = async () => {
     setError('');
     if (!fNombre.trim() || !fId.trim() || !fPw.trim()) { setError('Completá todos los campos'); return; }
     if (fPw.length < 6) { setError('La contraseña debe tener al menos 6 caracteres'); return; }
@@ -98,7 +110,7 @@ export default function PerfilDrawer() {
       id: `u${Date.now()}`,
       nombre: fNombre.trim(),
       identificador: fId.trim(),
-      pwHash: btoa(fPw),
+      pwHash: await hashPw(fPw),
       fechaRegistro: new Date().toISOString().slice(0, 10),
     };
     saveUsuarios(tc.nombre, [nu, ...users]);
@@ -116,26 +128,24 @@ export default function PerfilDrawer() {
     reset();
   };
 
-  // Match session user against mockClientes
+  // Match session user against mockClientes — teléfono es el documento único entre
+  // el cliente mock del admin, la cuenta del sitio y los puntos acreditados en Caja
   const clientes = getMockData().clientes;
-  const extraPuntos: Record<string, number> = (() => {
-    try { return JSON.parse(localStorage.getItem(PUNTOS_KEY(tc.nombre)) || '{}'); } catch { return {}; }
-  })();
   const currentUser = session ? getUsuarios(tc.nombre).find(u => u.id === session.id) : null;
+  const telNorm = currentUser ? currentUser.identificador.replace(/\D/g, '') : '';
   const clienteMatch = currentUser
     ? clientes.find(c => {
         const idNorm = currentUser.identificador.toLowerCase();
-        const telNorm = currentUser.identificador.replace(/\D/g, '');
         return (c.email && c.email.toLowerCase() === idNorm) ||
                (telNorm.length > 5 && c.telefono.replace(/\D/g, '').includes(telNorm));
       })
     : null;
+  const telefonoCliente = clienteMatch?.telefono || (telNorm.length > 5 ? telNorm : '');
+  const puntosReales = telefonoCliente ? puntosService.get(telefonoCliente)?.puntos ?? 0 : 0;
 
   const nivelKey = (clienteMatch?.nivel ?? 'Nuevo') as keyof typeof NIVEL_STYLES;
   const nivelStyle = NIVEL_STYLES[nivelKey];
-  const puntosTotales = clienteMatch
-    ? clienteMatch.puntos + (extraPuntos[clienteMatch.id] || 0)
-    : 0;
+  const puntosTotales = (clienteMatch?.puntos ?? 0) + puntosReales;
 
   return (
     <AnimatePresence>

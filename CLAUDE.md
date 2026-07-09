@@ -24,7 +24,7 @@ Cada sugerencia debe responder: ¿genera dinero ahora o después?
 **Control.Evo Hospitality Engine** — SaaS white-label para bares, cervecerías y rooftops en Argentina.
 No es el sitio de un bar. Es un template que se vende, se personaliza en menos de 3 horas y se deployea.
 
-**Live demo:** https://isla-bar-cultural.vercel.app
+**Live demo:** https://bar-restaurante-arg.vercel.app
 **Repo:** https://github.com/Tobiach/bar-restaurante-arg.git
 **Deploy siempre:** `npx vercel --yes --prod` desde `C:\Users\Tobia\bar-restaurante-arg\`
 
@@ -96,7 +96,7 @@ Sin env vars: sistema funciona con sessionStorage como fallback.
 3. `src/config/tenants.ts` → agregar al mapa
 4. `src/main.tsx` → agregar al dataMap
 5. `npx vercel --yes --prod`
-6. URL del cliente: `isla-bar-cultural.vercel.app/?t=[nombre]`
+6. URL del cliente: `bar-restaurante-arg.vercel.app/?t=[nombre]`
 
 ---
 
