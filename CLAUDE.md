@@ -122,6 +122,26 @@ Sin env vars: sistema funciona con sessionStorage como fallback.
 
 ---
 
+## PENDIENTES REALES (auditado contra código, 2026-07-14)
+
+> Reemplaza cualquier auditoría vieja en Google Docs — esa quedó desactualizada por el
+> refactor multi-tenant y del panel admin. Esta lista está verificada línea por línea.
+
+| Ítem | Prioridad | Detalle |
+|---|---|---|
+| Puntos: lectura no lee Supabase | **ALTA** | `puntosService.get()` (src/lib/puntosService.ts) solo lee `localStorage`. `addPuntos()` sí hace upsert a Supabase. Si el cliente cambia de dispositivo o borra caché, ve saldo $0 aunque tenga puntos reales guardados. Fix: hacer `get()` async, `select` a Supabase primero, fallback a localStorage solo si `!supabaseEnabled`. |
+| GA4 sin ID real | MEDIA | `index.html` tiene el tag de gtag.js con `G-XXXXXXXXXX` placeholder — no está midiendo nada hasta cargar el Measurement ID real. |
+| Newsletter fake | BAJA | Footer.tsx: solo toast + reset del form, no conecta a ningún servicio. |
+| Reseñas no persisten | BAJA | ReviewSection.tsx: el botón "Publicar" envía por WhatsApp pero no guarda en Supabase; el carrusel sigue mostrando reseñas estáticas. |
+| Sin auth real de clientes | BAJA (decisión previa) | Sistema de puntos identifica por teléfono, sin `supabase.auth`. No es un bug nuevo, fue diseño explícito de esta sesión — revisar solo si se quiere multi-dispositivo con login real. |
+
+**Ya resuelto (no repetir trabajo):** calendario de reservas (días reales del mes), panel admin
+refactorizado (AdminLogin+AdminLayout+tabs, ya no el AdminPanel monolítico viejo), reservas
+con insert+realtime a Supabase, mapa real en ContactSection, ShowSection con ícono Lucide en
+vez de emoji fallback, `.animate-shimmer`, formulario de Karaoke vía WhatsApp, meta tags OG.
+
+---
+
 ## LO QUE NO HACER NUNCA
 
 - Usar `import { tenantConfig } from '../config/tenant.config'` en componentes (archivo legacy)
